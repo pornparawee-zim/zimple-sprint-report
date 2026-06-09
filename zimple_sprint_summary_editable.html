@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zimple Solution — Sprint Effort Summary</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --omni:#6C5CE7;--omni-light:#EEF0FF;--ai:#D63384;--ai-light:#FCE8F3;
+    --text:#1a1a2e;--text-muted:#6b7280;--text-faint:#9ca3af;
+    --bg:#f9f9fb;--surface:#fff;--border:#e5e7eb;--border-strong:#d1d5db;
+    --warn-bg:#fffbeb;--warn-text:#92400e;--radius:10px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:2.5rem 2rem}
+  .page{max-width:980px;margin:0 auto}
+
+  /* Edit toolbar */
+  #toolbar{
+    position:sticky;top:0;z-index:100;
+    background:#1a1a2e;color:#fff;
+    padding:.6rem 1.2rem;
+    border-radius:var(--radius);
+    margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    box-shadow:0 2px 12px rgba(0,0,0,.15);
+  }
+  #toolbar span{font-size:.72rem;color:#a5b4fc;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+  .tb-btn{
+    padding:5px 14px;border-radius:6px;border:none;cursor:pointer;
+    font-size:.75rem;font-weight:600;font-family:'DM Sans',sans-serif;
+    transition:all .15s;
+  }
+  .tb-edit{background:#6C5CE7;color:#fff}
+  .tb-edit:hover{background:#5a4dd4}
+  .tb-done{background:#10b981;color:#fff;display:none}
+  .tb-done:hover{background:#059669}
+  .tb-hint{font-size:.7rem;color:#94a3b8;margin-left:4px}
+  .editing-badge{
+    display:none;padding:3px 10px;border-radius:20px;
+    background:#fef08a;color:#713f12;font-size:.7rem;font-weight:600
+  }
+
+  /* Editable cells */
+  [contenteditable="true"]{
+    outline:2px dashed #6C5CE7;
+    border-radius:3px;
+    padding:1px 3px;
+    cursor:text;
+    background:rgba(108,92,231,.05);
+  }
+  [contenteditable="true"]:focus{
+    outline:2px solid #6C5CE7;
+    background:rgba(108,92,231,.1);
+  }
+
+  /* Header */
+  .title{font-size:1.75rem;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+  .title span{color:var(--omni)}
+  .subtitle{font-size:.85rem;color:var(--text-muted);margin-top:.3rem}
+  .product-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+  .pill{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:500;border:1px solid transparent}
+  .pill-omni{background:var(--omni-light);color:var(--omni);border-color:#c7d2fe}
+  .pill-ai{background:var(--ai-light);color:var(--ai);border-color:#f9a8d4}
+  .pill-ecom{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+  .pill-team{background:#f0fdf4;color:#166534;border-color:#bbf7d0}
+
+  /* KPI */
+  .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:1.5rem 0}
+  .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem}
+  .kpi-label{font-size:.7rem;color:var(--text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+  .kpi-val{font-size:1.6rem;font-weight:600;letter-spacing:-.03em;line-height:1}
+  .kpi-val.omni{color:var(--omni)}
+  .kpi-val.ai{color:var(--ai)}
+  .kpi-sub{font-size:.7rem;color:var(--text-faint);margin-top:4px;font-family:'DM Mono',monospace}
+
+  /* Section */
+  .section-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+  .section-title{font-size:.95rem;font-weight:600}
+  .legend{display:flex;gap:14px;margin-left:auto;align-items:center;flex-wrap:wrap}
+  .legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text-muted)}
+  .legend-dot{width:10px;height:10px;border-radius:2px}
+
+  /* Table */
+  .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem}
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  thead tr{background:#f8f8fc;border-bottom:1px solid var(--border-strong)}
+  th{padding:10px 12px;text-align:right;font-size:.7rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+  th.l{text-align:left}
+  td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--border);vertical-align:middle}
+  td.l{text-align:left}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:#fafafa}
+  tr.total td{background:#f8f8fc;font-weight:600;border-top:1.5px solid var(--border-strong);border-bottom:none}
+
+  .avatar{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;margin-right:7px;vertical-align:middle;flex-shrink:0}
+  .name-cell{display:flex;align-items:center}
+  .sp-omni{color:var(--omni);font-weight:600;font-family:'DM Mono',monospace}
+  .sp-ai{color:var(--ai);font-weight:600;font-family:'DM Mono',monospace}
+  .sp-total{font-weight:600;font-family:'DM Mono',monospace}
+  .sp-zero{color:var(--text-faint);font-family:'DM Mono',monospace}
+  .pct{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--text-muted)}
+  .note-tag{font-size:.72rem;color:var(--text-muted);line-height:1.4;max-width:150px}
+  .note-tag b{color:var(--text);font-weight:600}
+
+  /* Bar */
+  .bar-wrap{display:flex;align-items:center;gap:8px}
+  .bar-bg{width:110px;height:8px;background:var(--border);border-radius:4px;overflow:hidden;display:flex;flex-shrink:0}
+  .bar-omni{background:var(--omni);height:100%}
+  .bar-ai{background:var(--ai);height:100%;border-radius:0 4px 4px 0}
+
+  /* Sprint cards */
+  .sprint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem}
+  .sprint-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem}
+  .sprint-card-title{font-size:.8rem;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between}
+  .sprint-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:.78rem}
+  .sprint-row:last-child{border-bottom:none}
+  .sprint-name{color:var(--text-muted)}
+  .sprint-sp{font-family:'DM Mono',monospace;font-weight:600}
+  .sprint-desc{font-size:.7rem;color:var(--text-faint)}
+
+  /* Bottom */
+  .bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1rem}
+  .bottom-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1rem}
+  .bottom-card-label{font-size:.72rem;color:var(--text-muted);font-weight:500;margin-bottom:5px;line-height:1.3}
+  .bottom-card-val{font-size:1.5rem;font-weight:600;letter-spacing:-.03em;line-height:1}
+  .bottom-card-sub{font-size:.68rem;color:var(--text-faint);margin-top:5px;line-height:1.4}
+
+  .warn-box{background:var(--warn-bg);border:1px solid #fde68a;border-radius:6px;padding:.6rem 1rem;font-size:.75rem;color:var(--warn-text);margin-bottom:.75rem;line-height:1.5}
+  .footnote{font-size:.68rem;color:var(--text-faint);line-height:1.8}
+  .divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+  .header{margin-bottom:1.5rem}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Toolbar -->
+<div id="toolbar">
+  <span>✏️ Edit mode</span>
+  <button class="tb-btn tb-edit" onclick="enableEdit()">แก้ไขข้อความ</button>
+  <button class="tb-btn tb-done" onclick="disableEdit()">✓ เสร็จแล้ว</button>
+  <span class="editing-badge" id="badge">กำลังแก้ไข — คลิกที่ข้อความใดก็ได้</span>
+  <span class="tb-hint" id="hint">คลิก "แก้ไขข้อความ" เพื่อเริ่มแก้ได้เลย</span>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="title">Zimple <span>Solution</span> — <span class="editable-text">Sprint Effort Summary</span></div>
+  <div class="subtitle">Zimple Omni (SP4–SP6) &amp; Zimple AI (SP.1–SP.2) &nbsp;·&nbsp; Dev Team: 6 คน</div>
+  <div class="product-pills">
+    <span class="pill pill-omni">Zimple Omni — Omnichannel Platform</span>
+    <span class="pill pill-ai">Zimple AI — AI Agent Platform</span>
+    <span class="pill pill-ecom">Zimple Ecom — Ecommerce Platform</span>
+    <span class="pill pill-team">Team: Q · Wick · Griang · Tan · Top · Toy</span>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">Total SP รวม</div>
+    <div class="kpi-val">206</div>
+    <div class="kpi-sub">Omni 146 + AI 60</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">เฉลี่ย Omni / sprint</div>
+    <div class="kpi-val omni">48.67</div>
+    <div class="kpi-sub">146 ÷ 3 sprints</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">เฉลี่ย AI / sprint</div>
+    <div class="kpi-val ai">30</div>
+    <div class="kpi-sub">60 ÷ 2 sprints</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">เฉลี่ย Combined / sprint</div>
+    <div class="kpi-val">41.2</div>
+    <div class="kpi-sub">206 ÷ 5 sprints รวม</div>
+  </div>
+</div>
+
+<!-- Sprint breakdown -->
+<div class="sprint-grid">
+  <div class="sprint-card">
+    <div class="sprint-card-title">
+      <span style="color:var(--omni)">Zimple Omni</span>
+      <span style="font-size:.7rem;color:var(--text-faint);font-weight:400">3 sprints · Total 146 SP</span>
+    </div>
+    <div class="sprint-row">
+      <div><div class="sprint-name">Sprint 4</div><div class="sprint-desc">RBAC + Settings &amp; Configuration</div></div>
+      <div class="sprint-sp" style="color:var(--omni)">60 SP</div>
+    </div>
+    <div class="sprint-row">
+      <div><div class="sprint-name">Sprint 5</div><div class="sprint-desc">Login Security</div></div>
+      <div class="sprint-sp" style="color:var(--omni)">24 SP</div>
+    </div>
+    <div class="sprint-row">
+      <div><div class="sprint-name">Sprint 6</div><div class="sprint-desc">Login Security + SLA Management</div></div>
+      <div class="sprint-sp" style="color:var(--omni)">62 SP</div>
+    </div>
+  </div>
+  <div class="sprint-card">
+    <div class="sprint-card-title">
+      <span style="color:var(--ai)">Zimple AI</span>
+      <span style="font-size:.7rem;color:var(--text-faint);font-weight:400">2 sprints · Total 60 SP</span>
+    </div>
+    <div class="sprint-row">
+      <div><div class="sprint-name">SP.1</div><div class="sprint-desc">Knowledge Ingestion + Program Setup</div></div>
+      <div class="sprint-sp" style="color:var(--ai)">26 SP</div>
+    </div>
+    <div class="sprint-row">
+      <div><div class="sprint-name">SP.2</div><div class="sprint-desc">Vault Injection + Auth + Sign Up + Login + Workspace</div></div>
+      <div class="sprint-sp" style="color:var(--ai)">34 SP</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- Main table -->
+<div class="section-header">
+  <div class="section-title">SP Allocation รายคน — รวม 2 Projects</div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--omni)"></div>Zimple Omni</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--ai)"></div>Zimple AI</div>
+    <div style="font-size:.68rem;color:var(--text-faint);margin-left:4px">| เฉลี่ย/sprint คำนวณแยกตาม sprint จริงของแต่ละ project</div>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="l" style="width:12%">คน</th>
+        <th style="width:9%">Omni SP<br><span style="font-weight:400;font-size:.65rem;text-transform:none">(3 sprints)</span></th>
+        <th style="width:9%">เฉลี่ย<br>Omni/sp</th>
+        <th style="width:9%">AI SP<br><span style="font-weight:400;font-size:.65rem;text-transform:none">(2 sprints)</span></th>
+        <th style="width:9%">เฉลี่ย<br>AI/sp</th>
+        <th style="width:8%">รวม SP</th>
+        <th style="width:8%">% of 206</th>
+        <th style="width:16%">Effort bar</th>
+        <th class="l" style="width:20%">หมายเหตุ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="l"><div class="name-cell"><div class="avatar" style="background:#fce8f3;color:#9d174d">W</div>Wick</div></td>
+        <td><span class="sp-omni">16</span></td>
+        <td><span class="sp-omni">5.33</span></td>
+        <td><span class="sp-ai">56</span></td>
+        <td><span class="sp-ai">28</span></td>
+        <td><span class="sp-total">72</span></td>
+        <td><span class="pct">34.9%</span></td>
+        <td><div class="bar-wrap"><div class="bar-bg"><div class="bar-omni" style="width:22%"></div><div class="bar-ai" style="width:78%"></div></div></div></td>
+        <td class="l"><div class="note-tag">Split 2 projects</div></td>
+      </tr>
+      <tr>
+        <td class="l"><div class="name-cell"><div class="avatar" style="background:#ede9fe;color:#5b21b6">Q</div>Q</div></td>
+        <td><span class="sp-omni">40.67</span></td>
+        <td><span class="sp-omni">13.56</span></td>
+        <td><span class="sp-ai">1</span></td>
+        <td><span class="sp-ai">0.5</span></td>
+        <td><span class="sp-total">41.67</span></td>
+        <td><span class="pct">20.2%</span></td>
+        <td><div class="bar-wrap"><div class="bar-bg"><div class="bar-omni" style="width:97%"></div><div class="bar-ai" style="width:3%"></div></div></div></td>
+        <td class="l"><div class="note-tag">Core dev Omni</div></td>
+      </tr>
+      <tr>
+        <td class="l"><div class="name-cell"><div class="avatar" style="background:#d1fae5;color:#065f46">G</div>Griang</div></td>
+        <td><span class="sp-omni">40</span></td>
+        <td><span class="sp-omni">13.33</span></td>
+        <td><span class="sp-zero">0</span></td>
+        <td><span class="sp-zero">0</span></td>
+        <td><span class="sp-total">40</span></td>
+        <td><span class="pct">19.4%</span></td>
+        <td><div class="bar-wrap"><div class="bar-bg"><div class="bar-omni" style="width:100%;border-radius:4px"></div></div></div></td>
+        <td class="l"><div class="note-tag">Core dev Omni เท่านั้น</div></td>
+      </tr>
+      <tr>
+        <td class="l"><div class="name-cell"><div class="avatar" style="background:#fef3c7;color:#92400e">Ty</div>Toy</div></td>
+        <td><span class="sp-omni">34.67</span></td>
+        <td><span class="sp-omni">11.56</span></td>
+        <td><span class="sp-ai">1</span></td>
+        <td><span class="sp-ai">0.5</span></td>
+        <td><span class="sp-total">35.67</span></td>
+        <td><span class="pct">17.3%</span></td>
+        <td><div class="bar-wrap"><div class="bar-bg"><div class="bar-omni" style="width:97%"></div><div class="bar-ai" style="width:3%"></div></div></div></td>
+        <td class="l"><div class="note-tag">Core dev Omni</div></td>
+      </tr>
+      <tr>
+        <td class="l"><div class="name-cell"><div class="avatar" style="background:#dbeafe;color:#1e40af">Tp</div>Top</div></td>
+        <td><span class="sp-omni">9.67</span></td>
+        <td><span class="sp-omni">3.22</span></td>
+        <td><span class="sp-ai">1</span></td>
+        <td><span class="sp-ai">0.5</span></td>
+        <td><span class="sp-total">10.67</span></td>
+        <td><span class="pct">5.2%</span></td>
+        <td><div class="bar-wrap"><div class="bar-bg"><div class="bar-omni" style="width:91%"></div><div class="bar-ai" style="width:9%"></div></div></div></td>
+        <td class="l"><div class="note-tag">Split กับ project นอก<br><span style="color:#ef4444;font-size:.68rem">(อาจออก full-time)</span></div></td>
+      </tr>
+      <tr>
+        <td class="l"><div class="name-cell"><div class="avatar" style="background:#f3f4f6;color:#374151">Tn</div>Tan</div></td>
+        <td><span class="sp-omni">5</span></td>
+        <td><span class="sp-omni">1.67</span></td>
+        <td><span class="sp-ai">1</span></td>
+        <td><span class="sp-ai">0.5</span></td>
+        <td><span class="sp-total">6</span></td>
+        <td><span class="pct">2.9%</span></td>
+        <td><div class="bar-wrap"><div class="bar-bg"><div class="bar-omni" style="width:83%"></div><div class="bar-ai" style="width:17%"></div></div></div></td>
+        <td class="l"><div class="note-tag"><b>Dev Lead</b> — manage ทีม</div></td>
+      </tr>
+      <tr class="total">
+        <td class="l" style="color:var(--text-muted)">รวม</td>
+        <td><span class="sp-omni">146</span></td>
+        <td><span class="sp-omni">48.67</span></td>
+        <td><span class="sp-ai">60</span></td>
+        <td><span class="sp-ai">30</span></td>
+        <td><span class="sp-total">206</span></td>
+        <td><span class="pct">100%</span></td>
+        <td></td><td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Bottom KPIs -->
+<div class="bottom-grid">
+  <div class="bottom-card">
+    <div class="bottom-card-label">เฉลี่ย Omni ที่ทีมรับได้ / sprint</div>
+    <div class="bottom-card-val" style="color:var(--omni)">48.67 SP</div>
+    <div class="bottom-card-sub">core dev จริง: Q+Griang+Toy (38.56/sprint รวมกัน)</div>
+  </div>
+  <div class="bottom-card">
+    <div class="bottom-card-label">เฉลี่ย AI ที่ทีมรับได้ / sprint</div>
+    <div class="bottom-card-val" style="color:var(--ai)">30 SP</div>
+    <div class="bottom-card-sub">Wick แบกเกือบทั้งหมด (28/sprint)</div>
+  </div>
+  <div class="bottom-card">
+    <div class="bottom-card-label">เฉลี่ยรวมทั้ง 2 projects / sprint</div>
+    <div class="bottom-card-val">41.2 SP</div>
+    <div class="bottom-card-sub">206 ÷ 5 sprints (รวมทุก sprint ทุก project)</div>
+  </div>
+</div>
+
+<div class="warn-box">⚠ ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้</div>
+<div class="footnote">
+  * Omni: SP4–SP6 (3 sprints) | AI: SP.1–SP.2 (2 sprints) — จำนวน sprint ต่างกัน จึงคำนวณเฉลี่ยแยกกัน<br>
+  * tasks ที่มีหลาย owner: split SP เท่ากันทุกคน<br>
+  * Bar width = สัดส่วนเทียบกับ max effort รวมของทีม (Wick 72 SP) | สีม่วง = Omni, สีชมพู = AI
+</div>
+
+</div>
+
+<script>
+function enableEdit() {
+  // Make all text nodes editable
+  const targets = document.querySelectorAll(
+    '.kpi-label,.kpi-val,.kpi-sub,.sprint-name,.sprint-desc,.sprint-sp,' +
+    '.sp-omni,.sp-ai,.sp-total,.sp-zero,.pct,.note-tag,.bottom-card-label,' +
+    '.bottom-card-val,.bottom-card-sub,.warn-box,.footnote,.section-title,' +
+    '.title,.subtitle,.pill,.legend-item,.sprint-card-title span'
+  );
+  targets.forEach(el => {
+    el.setAttribute('contenteditable', 'true');
+    el.setAttribute('spellcheck', 'false');
+  });
+  document.querySelector('.tb-edit').style.display = 'none';
+  document.querySelector('.tb-done').style.display = 'inline-block';
+  document.getElementById('badge').style.display = 'inline-block';
+  document.getElementById('hint').style.display = 'none';
+}
+
+function disableEdit() {
+  const targets = document.querySelectorAll('[contenteditable="true"]');
+  targets.forEach(el => el.removeAttribute('contenteditable'));
+  document.querySelector('.tb-edit').style.display = 'inline-block';
+  document.querySelector('.tb-done').style.display = 'none';
+  document.getElementById('badge').style.display = 'none';
+  document.getElementById('hint').style.display = 'inline';
+  document.getElementById('hint').textContent = '✓ บันทึกแล้ว — คลิก "แก้ไขข้อความ" เพื่อแก้ต่อ';
+}
+</script>
+</body>
+</html>
