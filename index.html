@@ -411,6 +411,20 @@ function render(d) {
   document.title = 'Zimple Sprint Report — ' + d._updated;
 }
 
+function addFootnote(){
+  const d = currentData;
+  if((d.footnotes||[]).length >= 5) return;
+  if(!d.footnotes) d.footnotes = [];
+  d.footnotes.push('');
+  openEditor();
+}
+
+function removeFootnote(idx){
+  const d = currentData;
+  d.footnotes.splice(idx, 1);
+  openEditor();
+}
+
 function toggleWorkload(){
   const t=document.getElementById('workload-section');
   const b=document.getElementById('toggle-workload-btn');
@@ -437,10 +451,14 @@ function openEditor(){
     html+=`<div class="ed-section"><div class="ed-sec-title" style="color:${p.color}">${p.name} — Sprints</div>`;
     if(p.sprints.length===0){html+=`<div style="font-size:.75rem;color:var(--text-faint);padding:.5rem 0;font-style:italic">ยังไม่มี sprint (จะแสดงเมื่อเพิ่มข้อมูล)</div>`;}
     p.sprints.forEach((s,si)=>{
-      html+=`<div class="sp-item"><div class="sp-item-title">${s.name} — รอบที่ ${s.cycle||'-'}</div>
+      html+=`<div class="sp-item"><div class="sp-item-title">รอบที่ ${s.cycle||'-'}</div>
+        <div class="ed-row c2" style="margin-bottom:6px">
+          <div><div class="ed-label">ชื่อ Sprint</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.name" value="${s.name}"></div>
+          <div><div class="ed-label">SP</div><input class="ed-input" type="number" data-path="projects.${pi}.sprints.${si}.sp" value="${s.sp}"></div>
+        </div>
         <div class="ed-row c4">
           <div><div class="ed-label">Description</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.desc" value="${s.desc}"></div>
-          <div><div class="ed-label">SP</div><input class="ed-input" type="number" data-path="projects.${pi}.sprints.${si}.sp" value="${s.sp}"></div>
+          <div></div>
           <div><div class="ed-label">วันเริ่ม</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.date_start" value="${s.date_start||''}"></div>
           <div><div class="ed-label">วันจบ</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.date_end" value="${s.date_end||''}"></div>
         </div></div>`;
@@ -459,8 +477,16 @@ function openEditor(){
   <div class="ed-section"><div class="ed-sec-title">ข้อความเตือน</div>
     <input class="ed-input" data-path="warn_text" value="${d.warn_text||''}">
   </div>
-  <div class="ed-section"><div class="ed-sec-title">Footnotes</div>
-    ${(d.footnotes||[]).map((f,fi)=>`<div style="margin-bottom:6px"><input class="ed-input" data-path="footnotes.${fi}" value="${f}"></div>`).join('')}
+  <div class="ed-section">
+    <div class="ed-sec-title">Footnotes <span style="font-size:.65rem;font-weight:400;color:var(--text-faint)">(สูงสุด 5 บรรทัด)</span></div>
+    <div id="footnotes-list">
+      ${(d.footnotes||[]).map((f,fi)=>`
+        <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center" id="fn-row-${fi}">
+          <input class="ed-input" data-path="footnotes.${fi}" value="${f}" style="flex:1">
+          <button type="button" onclick="removeFootnote(${fi})" style="padding:4px 10px;border:0.5px solid #fca5a5;border-radius:6px;background:#fff;color:#ef4444;font-size:.75rem;cursor:pointer;flex-shrink:0">ลบ</button>
+        </div>`).join('')}
+    </div>
+    ${(d.footnotes||[]).length < 5 ? `<button type="button" onclick="addFootnote()" id="add-fn-btn" style="margin-top:4px;padding:5px 14px;border:0.5px solid var(--border-strong);border-radius:6px;background:#fff;color:var(--text-muted);font-size:.75rem;font-weight:500;cursor:pointer">+ เพิ่ม footnote</button>` : ''}
   </div>
   <div class="ed-section"><div class="ed-sec-title">วันที่อัปเดต</div>
     <div style="max-width:200px"><input class="ed-input" data-path="_updated" value="${d._updated}"></div>
@@ -473,11 +499,18 @@ function closeEditor(){ document.getElementById('editor-overlay').style.display=
 
 async function applyEdits(){
   const newData=JSON.parse(JSON.stringify(currentData));
+  // rebuild footnotes from inputs before processing
+  const fnInputs = document.querySelectorAll('#editor-body [data-path^="footnotes."]');
+  if(fnInputs.length > 0){
+    newData.footnotes = Array.from(fnInputs).map(i => i.value.trim()).filter(v => v !== '');
+  }
   document.querySelectorAll('#editor-body [data-path]').forEach(input=>{
-    const path=input.getAttribute('data-path').split('.');
+    const path=input.getAttribute('data-path');
+    if(path.startsWith('footnotes.')) return; // handled above
+    const parts=path.split('.');
     let obj=newData;
-    for(let i=0;i<path.length-1;i++) obj=obj[path[i]];
-    const key=path[path.length-1];
+    for(let i=0;i<parts.length-1;i++) obj=obj[parts[i]];
+    const key=parts[parts.length-1];
     obj[key]=input.type==='number'?+input.value:(input.value.trim()===''?null:input.value.trim());
   });
   currentData=newData;
