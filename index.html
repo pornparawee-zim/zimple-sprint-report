@@ -98,9 +98,9 @@
   .cavg span{font-size:.62rem;font-weight:400;color:var(--text-faint)}
 
   /* Collapse table */
-  .collapse-btn{display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;font-size:.72rem;font-weight:600;color:var(--text-muted);padding:0;letter-spacing:.06em;text-transform:uppercase}
-  .collapse-btn i{font-size:14px;transition:transform .2s}
-  .collapse-btn.open i{transform:rotate(180deg)}
+  .collapse-btn{display:flex;align-items:center;gap:6px;background:var(--surface);border:0.5px solid var(--border-strong);border-radius:20px;cursor:pointer;font-size:.68rem;font-weight:600;color:var(--text-muted);padding:4px 12px;letter-spacing:.04em;text-transform:uppercase;transition:all .15s;white-space:nowrap}
+  .collapse-btn:hover{background:var(--bg);color:var(--text);border-color:var(--omni)}
+  .collapse-btn i{font-size:13px;transition:transform .2s}
 
   .table-wrap{margin-top:.75rem;border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
   table{width:100%;border-collapse:collapse;font-size:.78rem;table-layout:fixed}
@@ -361,16 +361,21 @@ function render(d) {
     <div class="cycle-grid">${cycleCards}</div>
 
     <div class="sec-div">
-      <span class="sec-label">Workload รายคน</span>
+      <button class="collapse-btn open" id="toggle-workload-btn" onclick="toggleWorkload()">
+        Workload รายคน
+        <span id="toggle-workload-icon" style="font-size:.8rem;transition:transform .2s;display:inline-block;transform:rotate(180deg)">▼</span>
+      </button>
       <div class="sec-line"></div>
       <div class="sec-legend">${legend}<span style="font-size:.65rem;color:var(--text-faint)">SP รวม | เฉลี่ย/cycle</span></div>
     </div>
+    <div id="workload-section">
     <div class="chart-card">${chartRows}</div>
+    </div>
 
     <div class="sec-div">
       <button class="collapse-btn" id="toggle-btn" onclick="toggleTable()">
         ตารางละเอียด
-        <i class="ti ti-chevron-down" aria-hidden="true"></i>
+        <span id="toggle-icon" style="font-size:.8rem;transition:transform .2s;display:inline-block">▼</span>
       </button>
       <div class="sec-line"></div>
       <div class="sec-legend">${legend}</div>
@@ -406,12 +411,24 @@ function render(d) {
   document.title = 'Zimple Sprint Report — ' + d._updated;
 }
 
-function toggleTable(){
-  const t=document.getElementById('detail-table');
-  const b=document.getElementById('toggle-btn');
+function toggleWorkload(){
+  const t=document.getElementById('workload-section');
+  const b=document.getElementById('toggle-workload-btn');
+  const icon=document.getElementById('toggle-workload-icon');
   const v=t.style.display!=='none';
   t.style.display=v?'none':'block';
   b.classList.toggle('open',!v);
+  icon.style.transform=v?'rotate(0deg)':'rotate(180deg)';
+}
+
+function toggleTable(){
+  const t=document.getElementById('detail-table');
+  const b=document.getElementById('toggle-btn');
+  const icon=document.getElementById('toggle-icon');
+  const v=t.style.display!=='none';
+  t.style.display=v?'none':'block';
+  b.classList.toggle('open',!v);
+  icon.style.transform=v?'rotate(0deg)':'rotate(180deg)';
 }
 
 function openEditor(){
