@@ -21,11 +21,36 @@
   .tb-title{font-size:.72rem;color:#a5b4fc;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
   .tb-btn{padding:5px 14px;border-radius:6px;border:none;cursor:pointer;font-size:.75rem;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s}
   .tb-edit{background:#6C5CE7;color:#fff}.tb-edit:hover{background:#5a4dd4}
+  .tb-data{background:#0ea5e9;color:#fff}.tb-data:hover{background:#0284c7}
   .tb-done{background:#10b981;color:#fff;display:none}.tb-done:hover{background:#059669}
   .tb-hint{font-size:.7rem;color:#64748b;margin-left:auto}
   .tb-badge{display:none;padding:3px 10px;border-radius:20px;background:#fef08a;color:#713f12;font-size:.7rem;font-weight:600}
   [contenteditable="true"]{outline:2px dashed #6C5CE7;border-radius:3px;padding:1px 3px;cursor:text;background:rgba(108,92,231,.05)}
   [contenteditable="true"]:focus{outline:2px solid #6C5CE7;background:rgba(108,92,231,.08)}
+
+  /* Data Editor Modal */
+  #editor-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;overflow-y:auto;padding:2rem 1rem}
+  #editor-modal{background:#fff;border-radius:14px;max-width:720px;margin:0 auto;padding:1.5rem;box-shadow:0 8px 40px rgba(0,0,0,.2)}
+  .editor-title{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between}
+  .editor-close{background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-muted);padding:2px 6px;border-radius:4px}
+  .editor-close:hover{background:var(--bg)}
+  .editor-section{margin-bottom:1.25rem}
+  .editor-section-title{font-size:.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+  .editor-row{display:grid;gap:8px;margin-bottom:8px}
+  .editor-row.cols-2{grid-template-columns:1fr 1fr}
+  .editor-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+  .editor-row.cols-4{grid-template-columns:2fr 1fr 1fr 1fr}
+  .editor-label{font-size:.7rem;color:var(--text-muted);font-weight:500;margin-bottom:2px}
+  .editor-input{width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:.8rem;font-family:'DM Sans',sans-serif;color:var(--text);background:#fff}
+  .editor-input:focus{outline:none;border-color:var(--omni);box-shadow:0 0 0 2px rgba(108,92,231,.1)}
+  .editor-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
+  .btn-cancel{padding:7px 18px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text-muted);font-size:.8rem;font-weight:500;cursor:pointer}
+  .btn-apply{padding:7px 18px;border:none;border-radius:6px;background:var(--omni);color:#fff;font-size:.8rem;font-weight:600;cursor:pointer}
+  .btn-apply:hover{background:#5a4dd4}
+  .sprint-item{background:var(--bg);border-radius:8px;padding:.75rem;margin-bottom:.5rem}
+  .sprint-item-title{font-size:.72rem;font-weight:500;color:var(--text-muted);margin-bottom:.5rem}
+  .member-row{display:grid;grid-template-columns:80px 1fr;gap:8px;align-items:start;margin-bottom:.5rem}
+  .member-name-tag{font-size:.78rem;font-weight:600;color:var(--text);padding-top:6px}
 
   /* Layout */
   .title{font-size:1.75rem;font-weight:600;letter-spacing:-.02em;line-height:1.2;margin-bottom:.3rem}
@@ -34,15 +59,11 @@
   .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:.85rem;margin-bottom:1.5rem}
   .pill{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:500;border:1px solid transparent}
   .updated-badge{display:inline-block;padding:3px 10px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;font-size:.7rem;font-weight:500}
-
-  /* KPI */
   .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.5rem}
   .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem}
   .kpi-label{font-size:.68rem;color:var(--text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
   .kpi-val{font-size:1.55rem;font-weight:600;letter-spacing:-.03em;line-height:1}
   .kpi-sub{font-size:.68rem;color:var(--text-faint);margin-top:4px;font-family:'DM Mono',monospace}
-
-  /* Sprint cards */
   .sprint-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:1.5rem}
   .sprint-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem}
   .sprint-card-title{font-size:.8rem;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between}
@@ -51,16 +72,12 @@
   .sprint-name{color:var(--text-muted);font-weight:500}
   .sprint-sp{font-family:'DM Mono',monospace;font-weight:600}
   .sprint-desc{font-size:.69rem;color:var(--text-faint);margin-top:1px}
-
-  /* Section */
   .divider{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
   .section-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
   .section-title{font-size:.93rem;font-weight:600}
   .legend{display:flex;gap:12px;margin-left:auto;align-items:center;flex-wrap:wrap}
   .legend-item{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text-muted)}
   .legend-dot{width:10px;height:10px;border-radius:2px}
-
-  /* Chart */
   .chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.25rem}
   .chart-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
   .chart-row:last-child{margin-bottom:0}
@@ -74,8 +91,6 @@
   .chart-sep{font-size:.68rem;color:var(--text-faint);min-width:8px;text-align:center}
   .chart-avg{font-size:.75rem;font-weight:600;font-family:'DM Mono',monospace;min-width:52px;color:var(--text)}
   .chart-avg span{font-size:.62rem;font-weight:400;color:var(--text-faint)}
-
-  /* Table */
   .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.25rem}
   table{width:100%;border-collapse:collapse;font-size:.82rem;table-layout:fixed}
   thead tr{background:#f8f8fc;border-bottom:1px solid var(--border-strong)}
@@ -93,8 +108,6 @@
   .zero{color:var(--text-faint);font-family:'DM Mono',monospace}
   .note-tag{font-size:.7rem;color:var(--text-muted);line-height:1.4;max-width:150px}
   .note-warn{color:#ef4444;font-size:.67rem}
-
-  /* Footer */
   .bottom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:1rem}
   .bottom-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem}
   .bottom-label{font-size:.7rem;color:var(--text-muted);font-weight:500;margin-bottom:5px;line-height:1.3}
@@ -109,9 +122,25 @@
 <div id="toolbar">
   <span class="tb-title">✏️ Edit mode</span>
   <button class="tb-btn tb-edit" onclick="enableEdit()">แก้ไขข้อความ</button>
+  <button class="tb-btn tb-data" onclick="openEditor()">📊 แก้ไขข้อมูล</button>
   <button class="tb-btn tb-done" onclick="disableEdit()">✓ เสร็จแล้ว</button>
   <span class="tb-badge" id="badge">กำลังแก้ไข — คลิกที่ข้อความใดก็ได้</span>
-  <span class="tb-hint" id="hint">คลิก "แก้ไขข้อความ" เพื่อแก้ได้เลย</span>
+  <span class="tb-hint" id="hint">แก้ text → "แก้ไขข้อความ" | แก้ข้อมูล/ตัวเลข → "แก้ไขข้อมูล"</span>
+</div>
+
+<!-- Data Editor Modal -->
+<div id="editor-overlay">
+  <div id="editor-modal">
+    <div class="editor-title">
+      📊 แก้ไขข้อมูล Report
+      <button class="editor-close" onclick="closeEditor()">✕</button>
+    </div>
+    <div id="editor-body"></div>
+    <div class="editor-actions">
+      <button class="btn-cancel" onclick="closeEditor()">ยกเลิก</button>
+      <button class="btn-apply" onclick="applyEdits()">✓ Apply & Render ใหม่</button>
+    </div>
+  </div>
 </div>
 
 <div class="page" id="app"></div>
@@ -133,18 +162,18 @@ const DATA = {
     {
       id: "ai", name: "Zimple AI", color: "#D63384", color_light: "#FCE8F3",
       sprints: [
-        { name: "SP.1", sp: 26, desc: "Knowledge Ingestion + Program Setup",                     date_start: "5 May 26",  date_end: "18 May 26" },
-        { name: "SP.2", sp: 34, desc: "Vault Injection + Auth + Sign Up + Login + Workspace",    date_start: "18 May 26", date_end: "6 Jun 26" }
+        { name: "SP.1", sp: 26, desc: "Knowledge Ingestion + Program Setup",                  date_start: "5 May 26",  date_end: "18 May 26" },
+        { name: "SP.2", sp: 34, desc: "Vault Injection + Auth + Sign Up + Login + Workspace", date_start: "18 May 26", date_end: "6 Jun 26" }
       ]
     }
   ],
   members: [
-    { name:"Wick",  avatar_bg:"#fce8f3", avatar_color:"#9d174d", note:"Split 2 projects",        note_warning:null,              sp_by_project:{ omni:16,    ai:56 } },
-    { name:"Q",     avatar_bg:"#ede9fe", avatar_color:"#5b21b6", note:"Core dev Omni",            note_warning:null,              sp_by_project:{ omni:40.67, ai:1  } },
-    { name:"Griang",avatar_bg:"#d1fae5", avatar_color:"#065f46", note:"Core dev Omni เท่านั้น",  note_warning:null,              sp_by_project:{ omni:40,    ai:0  } },
-    { name:"Toy",   avatar_bg:"#fef3c7", avatar_color:"#92400e", note:"Core dev Omni",            note_warning:null,              sp_by_project:{ omni:34.67, ai:1  } },
-    { name:"Top",   avatar_bg:"#dbeafe", avatar_color:"#1e40af", note:"Split กับ project นอก",   note_warning:"อาจออก full-time", sp_by_project:{ omni:9.67, ai:1  } },
-    { name:"Tan",   avatar_bg:"#f3f4f6", avatar_color:"#374151", note:"Dev Lead — manage ทีม",   note_warning:null,              sp_by_project:{ omni:5,     ai:1  } }
+    { name:"Wick",  avatar_bg:"#fce8f3", avatar_color:"#9d174d", note:"Split 2 projects",        note_warning:null,               sp_by_project:{ omni:16,    ai:56 } },
+    { name:"Q",     avatar_bg:"#ede9fe", avatar_color:"#5b21b6", note:"Core dev Omni",            note_warning:null,               sp_by_project:{ omni:40.67, ai:1  } },
+    { name:"Griang",avatar_bg:"#d1fae5", avatar_color:"#065f46", note:"Core dev Omni เท่านั้น",  note_warning:null,               sp_by_project:{ omni:40,    ai:0  } },
+    { name:"Toy",   avatar_bg:"#fef3c7", avatar_color:"#92400e", note:"Core dev Omni",            note_warning:null,               sp_by_project:{ omni:34.67, ai:1  } },
+    { name:"Top",   avatar_bg:"#dbeafe", avatar_color:"#1e40af", note:"Split กับ project นอก",   note_warning:"อาจออก full-time", sp_by_project:{ omni:9.67,  ai:1  } },
+    { name:"Tan",   avatar_bg:"#f3f4f6", avatar_color:"#374151", note:"Dev Lead — manage ทีม",   note_warning:null,               sp_by_project:{ omni:5,     ai:1  } }
   ],
   footnotes: [
     "tasks ที่มีหลาย owner: split SP เท่ากันทุกคน",
@@ -153,7 +182,9 @@ const DATA = {
 };
 
 const TOTAL_CYCLES = 3;
+let currentData = JSON.parse(JSON.stringify(DATA));
 
+// =================== RENDER ===================
 function render(d) {
   const pMap = {};
   d.projects.forEach(p => {
@@ -169,27 +200,20 @@ function render(d) {
     return {...m, total};
   });
   const maxTotal = Math.max(...members.map(m => m.total));
-
   const sprintRange = d.projects.map(p => `${p.name} (${p.sprints.map(s=>s.name).join(', ')})`).join(' & ');
   const legend = d.projects.map(p =>
     `<div class="legend-item"><div class="legend-dot" style="background:${p.color}"></div>${p.name}</div>`
   ).join('');
-
-  // Pills
   const pills = [
     ...d.projects.map(p => `<span class="pill" style="background:${p.color_light};color:${p.color};border-color:${p.color}44">${p.name}</span>`),
     `<span class="pill" style="background:#fff7ed;color:#c2410c;border-color:#fed7aa">Zimple Ecom</span>`,
     `<span class="pill" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0">Team: ${d.team.join(' · ')}</span>`
   ].join('');
-
-  // KPI cards
   const kpis = [
     { label:'Total SP รวม', val:grandTotal, color:'', sub: d.projects.map(p=>`${p.name.replace('Zimple ','')} ${pMap[p.id].total}`).join(' + ') },
     ...d.projects.map(p => ({ label:`เฉลี่ย ${p.name.replace('Zimple ','')} / sprint`, val:pMap[p.id].avg, color:p.color, sub:`${pMap[p.id].total} ÷ ${p.sprints.length} sprints` })),
     { label:'เฉลี่ย Combined / sprint', val:combinedAvg, color:'', sub:`${grandTotal} ÷ ${totalSprints} sprints รวม` }
   ].map(k => `<div class="kpi-card"><div class="kpi-label">${k.label}</div><div class="kpi-val" style="color:${k.color||'var(--text)'}">${k.val}</div><div class="kpi-sub">${k.sub}</div></div>`).join('');
-
-  // Sprint breakdown cards
   const sprintCards = d.projects.map(p => `
     <div class="sprint-card">
       <div class="sprint-card-title">
@@ -205,8 +229,6 @@ function render(d) {
           <div class="sprint-sp" style="color:${p.color}">${s.sp} SP</div>
         </div>`).join('')}
     </div>`).join('');
-
-  // Chart: stacked + avg/sprint
   const sortedMembers = [...members].sort((a,b) => b.total - a.total);
   const chartRows = sortedMembers.map(m => {
     const omniSP = m.sp_by_project['omni'] || 0;
@@ -214,28 +236,23 @@ function render(d) {
     const omniW  = maxTotal > 0 ? (omniSP / maxTotal * 100).toFixed(1) : 0;
     const aiW    = maxTotal > 0 ? (aiSP   / maxTotal * 100).toFixed(1) : 0;
     const avg    = +(m.total / TOTAL_CYCLES).toFixed(2);
-    const omniLabel = omniSP > 5 ? `${omniSP}` : '';
-    const aiLabel   = aiSP   > 5 ? `${aiSP}`   : '';
     return `
       <div class="chart-row">
         <div class="chart-avatar" style="background:${m.avatar_bg};color:${m.avatar_color}">${m.name.substring(0,2)}</div>
         <div class="chart-name">${m.name}</div>
         <div class="chart-bar-bg">
-          ${omniSP > 0 ? `<div class="chart-seg omni" style="width:${omniW}%">${omniLabel}</div>` : ''}
-          ${aiSP   > 0 ? `<div class="chart-seg ai"   style="width:${aiW}%">${aiLabel}</div>`   : ''}
+          ${omniSP > 0 ? `<div class="chart-seg omni" style="width:${omniW}%">${omniSP > 5 ? omniSP : ''}</div>` : ''}
+          ${aiSP   > 0 ? `<div class="chart-seg ai"   style="width:${aiW}%">${aiSP > 5 ? aiSP : ''}</div>` : ''}
         </div>
         <div class="chart-total">${m.total} SP</div>
         <div class="chart-sep">|</div>
         <div class="chart-avg">${avg} <span>SP/sp</span></div>
       </div>`;
   }).join('');
-
-  // Table
   const thCols = d.projects.map(p =>
     `<th style="width:9%">${p.name.replace('Zimple ','')} SP<br><span style="font-weight:400;font-size:.62rem;text-transform:none">(${p.sprints.length}sp)</span></th>
      <th style="width:9%">เฉลี่ย<br>${p.name.replace('Zimple ','')}/sp</th>`
   ).join('');
-
   const rows = members.map(m => {
     const pct = +((m.total/grandTotal)*100).toFixed(1);
     const spCells = d.projects.map(p => {
@@ -254,13 +271,10 @@ function render(d) {
       <td class="l"><div class="note-tag">${noteHtml}</div></td>
     </tr>`;
   }).join('');
-
   const totalCells = d.projects.map(p =>
     `<td><span class="mono" style="color:${p.color}">${pMap[p.id].total}</span></td>
      <td><span class="mono" style="color:${p.color}">${pMap[p.id].avg}</span></td>`
   ).join('');
-
-  // Bottom cards
   const bottomCards = [
     ...d.projects.map(p => {
       const top3 = members.filter(m=>(m.sp_by_project[p.id]||0)>5).sort((a,b)=>(b.sp_by_project[p.id]||0)-(a.sp_by_project[p.id]||0)).slice(0,3).map(m=>m.name).join('+');
@@ -312,12 +326,13 @@ function render(d) {
       </table>
     </div>
     <div class="bottom-grid">${bottomCards}</div>
-    <div class="warn-box">⚠ ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้</div>
+    <div class="warn-box">⚠ ${d.warn_text||'ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้'}</div>
     <div class="footnote">${d.footnotes.map(f=>'* '+f).join('<br>')}</div>
   `;
   document.title = d.report_title + ' — ' + d._updated;
 }
 
+// =================== EDIT MODE ===================
 function enableEdit() {
   document.querySelectorAll('#app *').forEach(el => {
     if (el.children.length === 0 && el.textContent.trim()) {
@@ -330,17 +345,109 @@ function enableEdit() {
   document.getElementById('badge').style.display = 'inline-block';
   document.getElementById('hint').style.display = 'none';
 }
-
 function disableEdit() {
   document.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
   document.querySelector('.tb-edit').style.display = 'inline-block';
   document.querySelector('.tb-done').style.display = 'none';
   document.getElementById('badge').style.display = 'none';
   document.getElementById('hint').style.display = 'inline';
-  document.getElementById('hint').textContent = '✓ บันทึกแล้ว — กดแก้ไขต่อได้เลย';
+  document.getElementById('hint').textContent = 'แก้ text → "แก้ไขข้อความ" | แก้ข้อมูล/ตัวเลข → "แก้ไขข้อมูล"';
 }
 
-render(DATA);
+// =================== DATA EDITOR ===================
+function openEditor() {
+  const d = currentData;
+  let html = '';
+
+  // Sprint sections
+  d.projects.forEach((p, pi) => {
+    html += `<div class="editor-section">
+      <div class="editor-section-title" style="color:${p.color}">${p.name} — Sprints</div>`;
+    p.sprints.forEach((s, si) => {
+      html += `<div class="sprint-item">
+        <div class="sprint-item-title">${s.name}</div>
+        <div class="editor-row cols-4">
+          <div><div class="editor-label">Description</div><input class="editor-input" data-path="projects.${pi}.sprints.${si}.desc" value="${s.desc}"></div>
+          <div><div class="editor-label">SP</div><input class="editor-input" type="number" data-path="projects.${pi}.sprints.${si}.sp" value="${s.sp}"></div>
+          <div><div class="editor-label">วันเริ่ม</div><input class="editor-input" data-path="projects.${pi}.sprints.${si}.date_start" value="${s.date_start||''}"></div>
+          <div><div class="editor-label">วันจบ</div><input class="editor-input" data-path="projects.${pi}.sprints.${si}.date_end" value="${s.date_end||''}"></div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  // Members section
+  html += `<div class="editor-section">
+    <div class="editor-section-title">หมายเหตุรายคน</div>`;
+  d.members.forEach((m, mi) => {
+    html += `<div class="member-row">
+      <div class="member-name-tag">${m.name}</div>
+      <div>
+        <div class="editor-row cols-2">
+          <div><div class="editor-label">หมายเหตุ</div><input class="editor-input" data-path="members.${mi}.note" value="${m.note||''}"></div>
+          <div><div class="editor-label">คำเตือน (สีแดง)</div><input class="editor-input" data-path="members.${mi}.note_warning" value="${m.note_warning||''}"></div>
+        </div>
+      </div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Warn box + Footnotes
+  html += `<div class="editor-section">
+    <div class="editor-section-title">ข้อความเตือน (กล่องสีเหลือง)</div>
+    <div class="editor-row">
+      <div><input class="editor-input" data-path="warn_text" value="${d.warn_text||'ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้'}"></div>
+    </div>
+  </div>`;
+
+  html += `<div class="editor-section">
+    <div class="editor-section-title">Footnotes (ด้านล่างสุด)</div>`;
+  (d.footnotes||[]).forEach((f, fi) => {
+    html += `<div class="editor-row" style="margin-bottom:6px">
+      <div><input class="editor-input" data-path="footnotes.${fi}" value="${f}"></div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Updated date
+  html += `<div class="editor-section">
+    <div class="editor-section-title">วันที่อัปเดต</div>
+    <div class="editor-row" style="max-width:200px">
+      <div><div class="editor-label">_updated</div><input class="editor-input" data-path="_updated" value="${d._updated}"></div>
+    </div>
+  </div>`;
+
+  document.getElementById('editor-body').innerHTML = html;
+  document.getElementById('editor-overlay').style.display = 'block';
+}
+
+function closeEditor() {
+  document.getElementById('editor-overlay').style.display = 'none';
+}
+
+function applyEdits() {
+  const inputs = document.querySelectorAll('#editor-body [data-path]');
+  const newData = JSON.parse(JSON.stringify(currentData));
+
+  inputs.forEach(input => {
+    const path = input.getAttribute('data-path').split('.');
+    let obj = newData;
+    for (let i = 0; i < path.length - 1; i++) {
+      obj = obj[path[i]];
+    }
+    const key = path[path.length - 1];
+    const val = input.type === 'number' ? +input.value : (input.value.trim() === '' ? null : input.value.trim());
+    obj[key] = val;
+  });
+
+  currentData = newData;
+  closeEditor();
+  render(currentData);
+}
+
+// Init
+render(currentData);
 </script>
 </body>
 </html>
