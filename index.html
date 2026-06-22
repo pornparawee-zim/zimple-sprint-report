@@ -2,529 +2,685 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zimple Solution — Sprint Effort Summary</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zimple Sprint Effort Summary</title>
 <style>
-  :root{
-    --omni:#6C5CE7;--omni-light:#EEF0FF;--omni-dark:#534AB7;
-    --ai:#D63384;--ai-light:#FCE8F3;--ai-dark:#993556;
-    --ecom:#E8890C;--ecom-light:#FEF3C7;--ecom-dark:#854F0B;
-    --text:#1a1a2e;--text-muted:#6b7280;--text-faint:#9ca3af;
-    --bg:#f9f9fb;--surface:#fff;--border:#e5e7eb;--border-strong:#d1d5db;
-    --warn-bg:#fffbeb;--warn-text:#92400e;--radius:10px;--radius-sm:6px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);padding:2rem 1.5rem}
-  .page{max-width:980px;margin:0 auto}
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root{--bg:#f4f6fb;--surface:#ffffff;--card:#f8fafc;--border:#dde3f0;--accent:#3b6fd4;--accent2:#6040b8;--green:#1e9e6e;--yellow:#c77c00;--red:#d63e4a;--orange:#c26000;--muted:#8892b0;--textdim:#4a5568;--text:#1a1f36;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans Thai',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh}
+/* Header */
+.topbar{background:#ffffff;border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.06);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.edit-badge{background:var(--accent2);color:#fff;border-radius:5px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:500;border:none;font-family:var(--sans)}
+.edit-hint{font-size:10px;color:#8892b0;margin-left:auto}
+/* Date badge */
+.date-badge{background:rgba(91,141,238,.12);color:var(--accent);border:1px solid rgba(91,141,238,.2);border-radius:5px;padding:3px 10px;font-size:11px;font-family:var(--mono)}
+/* Main */
+main{max-width:980px;margin:0 auto;padding:28px 20px}
+/* Title */
+.title-block{margin-bottom:20px}
+.title-block h1{font-size:26px;font-weight:600;margin-bottom:6px}
+.title-block h1 span{color:var(--accent)}
+.title-block .subtitle{font-size:13px;color:var(--textdim);margin-bottom:10px}
+.product-tags{display:flex;gap:8px;flex-wrap:wrap}
+.ptag{border:1px solid;border-radius:5px;padding:3px 10px;font-size:11px}
+.ptag-omni{border-color:rgba(91,141,238,.4);color:var(--accent)}
+.ptag-ai{border-color:rgba(232,121,249,.4);color:#7c35b8}
+.ptag-commerce{border-color:rgba(245,166,35,.4);color:var(--yellow)}
+.ptag-team{border-color:var(--border);color:var(--textdim)}
+/* KPI cards */
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.kpi-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:18px 20px}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px}
+.kpi-val{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.kpi-sub{font-size:11px;color:var(--textdim)}
+/* Sprint overview */
+.section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px}
+.cycles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.cycle-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:14px}
+.cycle-title{font-size:10px;color:var(--muted);margin-bottom:8px}
+.sprint-item{margin-bottom:8px}
+.sprint-name{font-size:14px;font-weight:600;color:var(--accent)}
+.sprint-sp{font-family:var(--mono);font-size:14px;font-weight:700;float:right}
+.sprint-sp.ai{color:#7c35b8}
+.sprint-sp.omni{color:var(--accent)}
+.sprint-desc{font-size:11px;color:var(--textdim);margin-top:2px;clear:both}
+.sprint-dates{font-size:10px;color:var(--muted);margin-top:2px}
+.sprint-empty{font-size:11px;color:var(--muted);font-style:italic;margin-top:6px}
+.sprint-divider{border:none;border-top:1px solid var(--border);margin:8px 0}
+/* Workload section */
+.workload-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.collapse-btn{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer;color:var(--textdim);font-family:var(--sans)}
+.legend-right{margin-left:auto;display:flex;gap:12px;font-size:10px;color:var(--textdim);align-items:center}
+.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+/* Workload bars */
+.workload-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:16px;margin-bottom:20px}
+.member-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.member-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.member-name{width:52px;font-size:12px;flex-shrink:0}
+.bar-wrap{flex:1;position:relative}
+.bar-bg{height:20px;border-radius:4px;overflow:hidden;display:flex}
+.bar-omni{background:var(--accent);height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
+.bar-ai{background:#8b44cc;height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
+.bar-right{font-size:11px;color:var(--textdim);white-space:nowrap;font-family:var(--mono);min-width:140px;text-align:right}
+/* Detail table */
+.detail-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.table-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;overflow:hidden;margin-bottom:20px}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(59,111,212,.06);padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+th,td{text-align:right}
+th:first-child,td:first-child{text-align:left}
+td{padding:9px 12px;border-bottom:1px solid rgba(42,48,72,.35);font-size:12px}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono)}
+.avg-col{color:var(--accent);font-weight:600;font-family:var(--mono)}
+.avg-ai{color:#7c35b8}
+.member-cell{display:flex;align-items:center;gap:8px}
+.m-avatar{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
+.pct-col{color:var(--textdim);font-family:var(--mono)}
+.note-col{font-size:11px;color:var(--textdim)}
+.note-col .hi{color:var(--red);font-size:10px}
+.total-row td{background:rgba(59,111,212,.08);font-weight:700;border-top:2px solid var(--border)!important}
+/* Bottom summary */
+.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.sum-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:16px 18px}
+.sum-label{font-size:11px;color:var(--muted);margin-bottom:6px}
+.sum-val{font-size:28px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.sum-val.omni{color:var(--accent)}
+.sum-val.ai{color:#7c35b8}
+.sum-val.total{color:var(--text)}
+.sum-sub{font-size:11px;color:var(--textdim)}
+/* Warning box */
+.warn-box{background:rgba(199,124,0,.05);border:1px solid rgba(199,124,0,.2);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:11px;color:var(--textdim)}
+.warn-box strong{color:var(--yellow)}
+/* Footnotes */
+.fn-list{list-style:none;padding:0;font-size:10px;color:var(--muted)}
+.fn-list li::before{content:'* '}
+/* Toast */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#0a1f0d;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
 
-  /* Toolbar */
-  #toolbar{position:sticky;top:0;z-index:100;background:#1a1a2e;color:#fff;padding:.55rem 1.2rem;border-radius:var(--radius);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 2px 12px rgba(0,0,0,.18)}
-  .tb-label{font-size:.68rem;color:#a5b4fc;font-weight:500;letter-spacing:.05em;text-transform:uppercase}
-  .tb-btn{padding:5px 14px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-size:.75rem;font-weight:600;font-family:'DM Sans',sans-serif;background:#6C5CE7;color:#fff;transition:all .15s}
-  .tb-btn:hover{background:#534AB7}
-  .tb-hint{font-size:.68rem;color:#475569;margin-left:auto}
-  .tb-status{font-size:.68rem;padding:3px 10px;border-radius:20px;display:none}
-  .tb-saving{background:#fef08a;color:#713f12}
-  .tb-saved{background:#d1fae5;color:#065f46}
-
-  /* Editor Modal */
-  #editor-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;overflow-y:auto;padding:2rem 1rem}
-  #editor-modal{background:#fff;border-radius:14px;max-width:720px;margin:0 auto;padding:1.5rem;box-shadow:0 8px 40px rgba(0,0,0,.2)}
-  .ed-title{font-size:1rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between}
-  .ed-close{background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--text-muted);padding:2px 6px;border-radius:4px}
-  .ed-section{margin-bottom:1.25rem}
-  .ed-sec-title{font-size:.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.6rem;padding-bottom:.35rem;border-bottom:1px solid var(--border)}
-  .ed-row{display:grid;gap:8px;margin-bottom:8px}
-  .ed-row.c2{grid-template-columns:1fr 1fr}
-  .ed-row.c4{grid-template-columns:2fr 1fr 1fr 1fr}
-  .ed-label{font-size:.68rem;color:var(--text-muted);font-weight:500;margin-bottom:2px}
-  .ed-input{width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.8rem;font-family:'DM Sans',sans-serif;color:var(--text)}
-  .ed-input:focus{outline:none;border-color:var(--omni);box-shadow:0 0 0 2px rgba(108,92,231,.1)}
-  .ed-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
-  .btn-cancel{padding:7px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;color:var(--text-muted);font-size:.8rem;font-weight:500;cursor:pointer}
-  .btn-apply{padding:7px 18px;border:none;border-radius:var(--radius-sm);background:var(--omni);color:#fff;font-size:.8rem;font-weight:600;cursor:pointer}
-  .sp-item{background:var(--bg);border-radius:8px;padding:.75rem;margin-bottom:.5rem}
-  .sp-item-title{font-size:.7rem;font-weight:500;color:var(--text-muted);margin-bottom:.5rem}
-  .mb-row{display:grid;grid-template-columns:72px 1fr;gap:8px;align-items:start;margin-bottom:.5rem}
-  .mb-name{font-size:.78rem;font-weight:600;padding-top:6px}
-
-  /* Layout */
-  .report-title{font-size:1.65rem;font-weight:600;letter-spacing:-.02em;line-height:1.2;margin-bottom:.25rem}
-  .report-title em{color:var(--omni);font-style:normal}
-  .subtitle{font-size:.82rem;color:var(--text-muted)}
-  .badge-date{font-size:.68rem;padding:3px 10px;border-radius:20px;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;font-weight:500;white-space:nowrap}
-  .pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:.75rem;margin-bottom:1.5rem}
-  .pill{padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:500;border:0.5px solid transparent}
-
-  /* KPI */
-  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
-  .kpi{background:var(--surface);border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:.75rem 1rem}
-  .kpi-label{font-size:.65rem;color:var(--text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
-  .kpi-val{font-size:1.5rem;font-weight:600;letter-spacing:-.03em;line-height:1}
-  .kpi-sub{font-size:.65rem;color:var(--text-faint);margin-top:3px;font-family:'DM Mono',monospace}
-
-  /* Section divider */
-  .sec-div{display:flex;align-items:center;gap:10px;margin:1.5rem 0 1rem}
-  .sec-label{font-size:.68rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
-  .sec-line{flex:1;height:.5px;background:var(--border)}
-  .sec-legend{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .leg{display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--text-muted)}
-  .leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
-
-  /* Cycle grid */
-  .cycle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1.5rem}
-  .cycle-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem}
-  .cycle-num{font-size:.65rem;font-weight:500;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
-  .cycle-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:.5px solid var(--border);font-size:.78rem}
-  .cycle-row:last-child{border-bottom:none}
-  .cycle-name{font-weight:500}
-  .cycle-sp{font-family:'DM Mono',monospace;font-weight:600;white-space:nowrap;flex-shrink:0}
-  .cycle-desc{font-size:.65rem;color:var(--text-faint);margin-top:1px}
-  .cycle-date{font-size:.65rem;color:var(--text-faint)}
-  .no-sprint{font-size:.68rem;color:var(--text-faint);padding:5px 0;font-style:italic}
-
-  /* Chart */
-  .chart-card{background:var(--surface);border:.5px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
-  .chart-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-  .chart-row:last-child{margin-bottom:0}
-  .av{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:600;flex-shrink:0}
-  .cname{font-size:.78rem;font-weight:500;min-width:48px;text-align:right;color:var(--text)}
-  .bar-bg{flex:1;height:22px;background:var(--bg);border-radius:4px;overflow:hidden;display:flex}
-  .seg{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:5px;font-size:.62rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;min-width:0}
-  .cval{font-size:.75rem;font-family:'DM Mono',monospace;font-weight:600;min-width:40px;text-align:right}
-  .csep{font-size:.65rem;color:var(--text-faint);min-width:6px;text-align:center}
-  .cavg{font-size:.75rem;font-family:'DM Mono',monospace;font-weight:600;min-width:52px}
-  .cavg span{font-size:.62rem;font-weight:400;color:var(--text-faint)}
-
-  /* Collapse table */
-  .collapse-btn{display:flex;align-items:center;gap:6px;background:var(--surface);border:0.5px solid var(--border-strong);border-radius:20px;cursor:pointer;font-size:.68rem;font-weight:600;color:var(--text-muted);padding:4px 12px;letter-spacing:.04em;text-transform:uppercase;transition:all .15s;white-space:nowrap}
-  .collapse-btn:hover{background:var(--bg);color:var(--text);border-color:var(--omni)}
-  .collapse-btn i{font-size:13px;transition:transform .2s}
-
-  .table-wrap{margin-top:.75rem;border:.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
-  table{width:100%;border-collapse:collapse;font-size:.78rem;table-layout:fixed}
-  thead tr{background:#f8f8fc}
-  th{padding:8px 10px;text-align:right;font-size:.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;border-bottom:.5px solid var(--border-strong);white-space:nowrap;line-height:1.4}
-  th.l{text-align:left}
-  td{padding:8px 10px;text-align:right;border-bottom:.5px solid var(--border);vertical-align:middle}
-  td.l{text-align:left}
-  tbody tr:last-child td{border-bottom:none}
-  tbody tr:hover{background:#fafafa}
-  tr.total-row td{background:#f8f8fc;font-weight:600;border-top:.5px solid var(--border-strong);border-bottom:none}
-  .mono{font-family:'DM Mono',monospace;font-weight:600}
-  .pct{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--text-muted)}
-  .zero{color:var(--text-faint);font-family:'DM Mono',monospace}
-  .note-sm{font-size:.68rem;color:var(--text-muted);line-height:1.4}
-  .note-warn{color:#ef4444;font-size:.65rem}
-  .inline-av{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;margin-right:5px;vertical-align:middle;flex-shrink:0}
-
-  /* Bottom */
-  .bottom-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:1rem;margin-top:1.25rem}
-  .bot-card{background:var(--surface);border:0.5px solid var(--border-strong);border-radius:var(--radius);padding:.7rem .9rem}
-  .bot-label{font-size:.68rem;color:var(--text-muted);font-weight:500;margin-bottom:4px;line-height:1.3}
-  .bot-val{font-size:1.35rem;font-weight:600;letter-spacing:-.02em;line-height:1}
-  .bot-sub{font-size:.65rem;color:var(--text-faint);margin-top:3px;line-height:1.4}
-
-  .warn-box{background:var(--warn-bg);border:0.5px solid #fde68a;border-radius:var(--radius-sm);padding:.55rem 1rem;font-size:.72rem;color:var(--warn-text);margin-bottom:.75rem;line-height:1.5}
-  .footnote{font-size:.65rem;color:var(--text-faint);line-height:1.9}
-  #loading{text-align:center;padding:3rem;color:var(--text-muted);font-size:.9rem}
+/* ── Edit Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal-box{background:#fff;border-radius:12px;width:100%;max-width:700px;box-shadow:0 8px 40px rgba(0,0,0,.15);overflow:hidden;margin:auto}
+.modal-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-header h2{font-size:14px;font-weight:600;flex:1}
+.modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:4px}
+.modal-close:hover{background:var(--bg)}
+.modal-body{padding:20px;max-height:70vh;overflow-y:auto}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:#fff}
+.ms-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.m-cycle-block{background:var(--bg);border-radius:8px;padding:12px;margin-bottom:10px}
+.m-cycle-label{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600}
+.m-field-row{display:flex;gap:8px;margin-bottom:6px}
+.m-field{display:flex;flex-direction:column;gap:3px;flex:1}
+.m-field-sm{max-width:110px}
+.m-field label{font-size:10px;color:var(--muted);font-weight:600}
+.m-field input,.m-field textarea{background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans);width:100%}
+.m-field input:focus,.m-field textarea:focus{outline:none;border-color:var(--accent)}
+.m-textarea{width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:12px;font-family:var(--sans);color:var(--text);resize:vertical;min-height:56px}
+.m-member-row{display:flex;align-items:flex-end;gap:10px;margin-bottom:10px}
+.m-member-name{font-size:12px;font-weight:600;width:52px;flex-shrink:0;padding-bottom:8px}
+.m-fn-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+.m-fn-row input{flex:1;background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans)}
+.m-fn-del{background:rgba(214,62,74,.08);color:var(--red);border:1px solid rgba(214,62,74,.2);border-radius:4px;padding:4px 8px;font-size:11px;cursor:pointer}
+.m-fn-add{background:rgba(59,111,212,.06);color:var(--accent);border:1px solid rgba(59,111,212,.2);border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;margin-top:4px}
+.btn-cancel{background:var(--bg);color:var(--textdim);border:1px solid var(--border);border-radius:6px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:var(--sans)}
+.btn-save{background:var(--accent2);color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.btn-save:hover{opacity:.9}
 </style>
 </head>
 <body>
 
-<div id="toolbar">
-  <span class="tb-label">edit</span>
-  <button class="tb-btn" onclick="openEditor()">📊 แก้ไขข้อมูล</button>
-  <span class="tb-status tb-saving" id="status-saving">💾 กำลังบันทึก...</span>
-  <span class="tb-status tb-saved"  id="status-saved">✓ บันทึกแล้ว</span>
-  <span class="tb-hint" id="hint">กด "แก้ไขข้อมูล" เพื่อแก้ข้อมูลและบันทึกถาวร</span>
+<div class="topbar" style="background:#fff">
+  <span style="font-size:11px;font-weight:600;color:#8892b0;text-transform:uppercase;letter-spacing:.5px">EDIT</span>
+  <button class="edit-badge" id="edit-btn" onclick="toggleEdit()">📊 แก้ไขข้อมูล</button>
+  <span class="edit-hint" id="edit-hint">กด 'แก้ไขข้อมูล' เพื่อแก้ไขและบันทึกการเปลี่ยนแปลง</span>
+  <span class="date-badge" id="date-badge">—</span>
 </div>
 
-<div id="editor-overlay">
-  <div id="editor-modal">
-    <div class="ed-title">📊 แก้ไขข้อมูล Report<button class="ed-close" onclick="closeEditor()">✕</button></div>
-    <div id="editor-body"></div>
-    <div class="ed-actions">
-      <button class="btn-cancel" onclick="closeEditor()">ยกเลิก</button>
-      <button class="btn-apply" onclick="applyEdits()">✓ บันทึกและ Render ใหม่</button>
-    </div>
-  </div>
-</div>
+<main>
+  <div id="root"></div>
+</main>
 
-<div id="loading">⏳ กำลังโหลดข้อมูล...</div>
-<div class="page" id="app" style="display:none"></div>
+<div id="toast"></div>
 
 <script>
-const SB_URL = 'https://qabbwvmazpdyjdjcvhrm.supabase.co';
-const SB_KEY = 'sb_publishable_18mSYWVH7Pcp5OaIwjQ7LQ_TtWWz_nj';
-const RECORD_ID = 'current';
-const TOTAL_CYCLES = 3;
+/* ═══════════════════════════════════
+   CONFIG & DATA
+═══════════════════════════════════ */
+const SUPA_URL = 'https://qabbwvmazpdyjdjcvhrm.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhYmJ3dm1henBkeWpkamN2aHJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5OTI2ODgsImV4cCI6MjA5NTU2ODY4OH0.g7J_kM2m4TqeXm3NxH5xJ-placeholder';
 
-const DEFAULT_DATA = {
-  _updated: "2026-06-08",
-  warn_text: "ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้",
-  team: ["Q", "Wick", "Griang", "Tan", "Top", "Toy"],
-  projects: [
+const INIT_DATA = {
+  _updated: '2026-06-22',
+  subtitle: 'Zimple Omni (Sprint 5, 6, 7) & Zimple AI (SP.1, SP.2, SP.3) · Dev Team: 5 คน',
+  members: ['Wick','Q','Griang','Toy','Tan'],
+  colors: {Wick:'#7c5bde',Q:'#5b8dee',Griang:'#3ecf8e',Toy:'#f5a623',Tan:'#6b7595'},
+  avatarBg: {Wick:'rgba(96,64,184,.1)',Q:'rgba(59,111,212,.1)',Griang:'rgba(30,158,110,.1)',Toy:'rgba(199,124,0,.1)',Tan:'rgba(136,146,176,.1)'},
+  notes: {
+    Wick: 'ควบ 2 projects',
+    Q: 'Core dev Omni',
+    Griang: 'Core dev Omni เท่านั้น',
+    Toy: 'Core dev Omni',
+    Tan: 'Dev Lead — manage ทีม'
+  },
+  cycles: [
     {
-      id:"omni", name:"Zimple Omni", color:"#6C5CE7", color_light:"#EEF0FF", color_dark:"#534AB7",
-      sprints:[
-        {name:"Sprint 4",sp:60,desc:"RBAC + Settings & Configuration",date_start:"16 Feb 26",date_end:"1 Mar 26",cycle:1},
-        {name:"Sprint 5",sp:24,desc:"Login Security",date_start:"2 Mar 26",date_end:"15 Mar 26",cycle:2},
-        {name:"Sprint 6",sp:62,desc:"Login Security + SLA Management",date_start:"16 Mar 26",date_end:"29 Mar 26",cycle:3}
-      ]
+      label: 'รอบที่ 1',
+      omni: {name:'Sprint 5 (มีวันหยุดยาว)', sp:24, desc:'Login Security', dates:'2 Mar 26 – 15 Mar 26'},
+      ai:   {name:'SP.1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
+      commerce: null
     },
     {
-      id:"ai", name:"Zimple AI", color:"#D63384", color_light:"#FCE8F3", color_dark:"#993556",
-      sprints:[
-        {name:"SP.1",sp:26,desc:"Knowledge Ingestion + Program Setup",date_start:"5 May 26",date_end:"18 May 26",cycle:2},
-        {name:"SP.2",sp:34,desc:"Vault Injection + Auth + Sign Up + Login + Workspace",date_start:"18 May 26",date_end:"6 Jun 26",cycle:3}
-      ]
+      label: 'รอบที่ 2',
+      omni: {name:'Sprint 6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
+      ai:   {name:'SP.2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
+      commerce: null
     },
     {
-      id:"ecom", name:"Zimple Ecom", color:"#E8890C", color_light:"#FEF3C7", color_dark:"#854F0B",
-      sprints:[]
+      label: 'รอบที่ 3',
+      omni: {name:'Sprint 7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
+      ai:   {name:'SP.3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'},
+      commerce: null
     }
   ],
-  members: [
-    {name:"Wick",  avatar_bg:"#fce8f3",avatar_color:"#9d174d",note:"Split 2 projects",        note_warning:null,              sp_by_project:{omni:16,   ai:56, ecom:0}},
-    {name:"Q",     avatar_bg:"#ede9fe",avatar_color:"#5b21b6",note:"Core dev Omni",            note_warning:null,              sp_by_project:{omni:40.67,ai:1,  ecom:0}},
-    {name:"Griang",avatar_bg:"#d1fae5",avatar_color:"#065f46",note:"Core dev Omni เท่านั้น",  note_warning:null,              sp_by_project:{omni:40,   ai:0,  ecom:0}},
-    {name:"Toy",   avatar_bg:"#fef3c7",avatar_color:"#92400e",note:"Core dev Omni",            note_warning:null,              sp_by_project:{omni:34.67,ai:1,  ecom:0}},
-    {name:"Top",   avatar_bg:"#dbeafe",avatar_color:"#1e40af",note:"Split กับ project นอก",   note_warning:"อาจออก full-time",sp_by_project:{omni:9.67, ai:1,  ecom:0}},
-    {name:"Tan",   avatar_bg:"#f3f4f6",avatar_color:"#374151",note:"Dev Lead — manage ทีม",   note_warning:null,              sp_by_project:{omni:5,    ai:1,  ecom:0}}
+  omni: {
+    sprints: [
+      {name:'SP5', sp:{Q:8,Griang:8,Toy:8}},
+      {name:'SP6', sp:{Q:17,Griang:21,Toy:13,Wick:8,Tan:3}},
+      {name:'SP7', sp:{Griang:21,Toy:18,Q:12,Top:5}}
+    ]
+  },
+  ai: {
+    sprints: [
+      {name:'SP1', sp:{Wick:26}},
+      {name:'SP2', sp:{Wick:30,Toy:1,Q:1,Top:1,Tan:1,Griang:1}},
+      {name:'SP3', sp:{Wick:36}}
+    ]
+  },
+  warnings: ['ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้'],
+  omniAllTime: [
+    {name:'SP1', sp:76, desc:'Program Setup + Channel Connectivity', dates:'16 Feb 26 – 6 Mar 26'},
+    {name:'SP2', sp:98, desc:'Channel Connectivity + Unified Inbox', dates:'9 Mar 26 – 23 Mar 26'},
+    {name:'SP3', sp:84, desc:'Unified Inbox + Agent Workflow + Contact Profile', dates:'26 Mar 26 – 30 Apr 26'},
+    {name:'SP4', sp:60, desc:'RBAC + Settings & Configuration', dates:'16 Feb 26 – 1 Mar 26'},
+    {name:'SP5', sp:24, desc:'Login Security (มีวันหยุดยาว)', dates:'2 Mar 26 – 15 Mar 26'},
+    {name:'SP6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
+    {name:'SP7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'}
   ],
-  footnotes:[
-    "tasks ที่มีหลาย owner: split SP เท่ากันทุกคน",
-    "ตัวเลข SP ไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้"
+  aiAllTime: [
+    {name:'SP.1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
+    {name:'SP.2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
+    {name:'SP.3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'}
+  ],
+  footnotes: [
+    'tasks ที่มีหลาย owner: split SP เท่ากันทุกคน',
+    'Top ออกจาก report ตั้งแต่ Sprint 7 เป็นต้นไป (ย้ายไป project นอกเต็มตัว)'
   ]
 };
 
-let currentData = null;
+let DATA = JSON.parse(JSON.stringify(INIT_DATA));
+let editMode = false;
+let showWorkload = true;
+let showDetail = true;
 
-async function sbFetch(method, body) {
-  const res = await fetch(`${SB_URL}/rest/v1/sprint_report?id=eq.${RECORD_ID}`, {
-    method,
-    headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':'return=minimal'},
-    body:body?JSON.stringify(body):undefined
-  });
-  if (!res.ok) throw new Error(`SB ${res.status}`);
-  return method==='GET'?res.json():res;
-}
-
-async function loadData() {
+/* ── Supabase ── */
+async function loadData(){
   try {
-    const rows = await sbFetch('GET');
-    if (rows.length>0 && rows[0].data && !rows[0].data._placeholder) return rows[0].data;
-    await saveData(DEFAULT_DATA);
-    return DEFAULT_DATA;
-  } catch(e) { return DEFAULT_DATA; }
-}
-
-async function saveData(data) {
-  try {
-    showStatus('saving');
-    await sbFetch('PATCH',{data,updated_at:new Date().toISOString()});
-    showStatus('saved');
-  } catch(e) { showStatus(null); alert('บันทึกไม่สำเร็จ'); }
-}
-
-function showStatus(s) {
-  document.getElementById('status-saving').style.display = s==='saving'?'inline-block':'none';
-  document.getElementById('status-saved').style.display  = s==='saved' ?'inline-block':'none';
-  if (s==='saved') setTimeout(()=>document.getElementById('status-saved').style.display='none',2000);
-}
-
-function render(d) {
-  const activeProjects = d.projects.filter(p => p.sprints.length > 0);
-  const ids = d.projects.map(p=>p.id);
-  const pMap = {};
-  d.projects.forEach(p => {
-    const total = p.sprints.reduce((s,x)=>s+x.sp,0);
-    pMap[p.id] = {...p, total, avg: p.sprints.length>0 ? +(total/p.sprints.length).toFixed(2) : 0};
-  });
-  const grandTotal = Object.values(pMap).reduce((s,p)=>s+p.total,0);
-  const totalSprints = d.projects.reduce((s,p)=>s+p.sprints.length,0);
-  const combinedAvg = totalSprints>0 ? +(grandTotal/totalSprints).toFixed(2) : 0;
-  const members = d.members.map(m => {
-    const total = +ids.reduce((s,id)=>s+(m.sp_by_project[id]||0),0).toFixed(2);
-    return {...m,total};
-  });
-  const maxTotal = Math.max(...members.map(m=>m.total),1);
-  const sprintRange = activeProjects.map(p=>`${p.name} (${p.sprints.map(s=>s.name).join(', ')})`).join(' & ');
-
-  // Pills
-  const pills = d.projects.map(p =>
-    `<span class="pill" style="background:${p.color_light};color:${p.color_dark||p.color};border-color:${p.color}66">${p.name}</span>`
-  ).join('') + `<span class="pill" style="background:#f0fdf4;color:#166534;border-color:#bbf7d0">Team: ${d.team.join(' · ')}</span>`;
-
-  // KPI
-  const kpis = [
-    {label:'Total SP รวม', val:grandTotal, color:'', sub: activeProjects.map(p=>`${p.name.replace('Zimple ','')} ${pMap[p.id].total}`).join(' + ')},
-    {label:'เฉลี่ย / sprint cycle', val:combinedAvg, color:'', sub:`${grandTotal} ÷ ${totalSprints} sprints รวม`}
-  ].map(k=>`<div class="kpi"><div class="kpi-label">${k.label}</div><div class="kpi-val" style="color:${k.color||'var(--text)'}">${k.val}</div><div class="kpi-sub">${k.sub}</div></div>`).join('');
-
-  // Cycle grid — group by cycle number
-  const maxCycle = Math.max(...d.projects.flatMap(p=>p.sprints.map(s=>s.cycle||1)),1);
-  const cycleCards = Array.from({length:maxCycle},(_,i)=>i+1).map(c => {
-    const rows = d.projects.map(p => {
-      const sp = p.sprints.find(s=>s.cycle===c);
-      if (!sp) return `<div class="no-sprint">— ${p.name.replace('Zimple ','')} ยังไม่เริ่ม —</div>`;
-      return `<div class="cycle-row">
-        <div>
-          <div class="cycle-name" style="color:${p.color_dark||p.color}">${sp.name}</div>
-          <div class="cycle-desc">${sp.desc}</div>
-          ${sp.date_start&&sp.date_end?`<div class="cycle-date">${sp.date_start} – ${sp.date_end}</div>`:''}
-        </div>
-        <div class="cycle-sp" style="color:${p.color_dark||p.color}">${sp.sp} SP</div>
-      </div>`;
-    }).join('');
-    return `<div class="cycle-card"><div class="cycle-num">รอบที่ ${c}</div>${rows}</div>`;
-  }).join('');
-
-  // Legend
-  const legend = activeProjects.map(p=>
-    `<div class="leg"><div class="leg-dot" style="background:${p.color}"></div>${p.name.replace('Zimple ','')}</div>`
-  ).join('');
-
-  // Chart
-  const sortedMembers = [...members].sort((a,b)=>b.total-a.total);
-  const chartRows = sortedMembers.map(m => {
-    const avg = +(m.total/TOTAL_CYCLES).toFixed(2);
-    const segs = d.projects.map(p => {
-      const sp = m.sp_by_project[p.id]||0;
-      if (sp===0) return '';
-      const w = (sp/maxTotal*100).toFixed(1);
-      return `<div class="seg" style="width:${w}%;background:${p.color}">${sp>5?sp:''}</div>`;
-    }).join('');
-    return `<div class="chart-row">
-      <div class="av" style="background:${m.avatar_bg};color:${m.avatar_color}">${m.name.substring(0,2)}</div>
-      <div class="cname">${m.name}</div>
-      <div class="bar-bg">${segs}</div>
-      <div class="cval">${m.total} SP</div>
-      <div class="csep">|</div>
-      <div class="cavg">${avg} <span>SP/sp</span></div>
-    </div>`;
-  }).join('');
-
-  // Table
-  const thCols = d.projects.map(p=>
-    `<th style="width:9%">${p.name.replace('Zimple ','')} SP<br><span style="font-weight:400;font-size:.6rem;text-transform:none">(${p.sprints.length}sp)</span></th>
-     <th style="width:9%">เฉลี่ย<br>${p.name.replace('Zimple ','')}/sp</th>`
-  ).join('');
-  const tableRows = members.map(m => {
-    const pct = grandTotal>0 ? +((m.total/grandTotal)*100).toFixed(1) : 0;
-    const spCells = d.projects.map(p => {
-      const sp = m.sp_by_project[p.id]||0;
-      const avg = p.sprints.length>0 ? +(sp/p.sprints.length).toFixed(2) : 0;
-      const cls = sp===0?'zero':'mono'; const sty = sp===0?'':` style="color:${p.color_dark||p.color}"`;
-      return `<td><span class="${cls}"${sty}>${sp}</span></td><td><span class="${cls}"${sty}>${avg}</span></td>`;
-    }).join('');
-    const note = m.note_warning?`${m.note}<br><span class="note-warn">${m.note_warning}</span>`:m.note;
-    return `<tr>
-      <td class="l"><span class="inline-av" style="background:${m.avatar_bg};color:${m.avatar_color}">${m.name.substring(0,2)}</span>${m.name}</td>
-      ${spCells}
-      <td><span class="mono">${m.total}</span></td>
-      <td><span class="pct">${pct}%</span></td>
-      <td class="l"><div class="note-sm">${note}</div></td>
-    </tr>`;
-  }).join('');
-  const totalCells = d.projects.map(p=>
-    `<td><span class="mono" style="color:${p.color_dark||p.color}">${pMap[p.id].total}</span></td>
-     <td><span class="mono" style="color:${p.color_dark||p.color}">${pMap[p.id].avg}</span></td>`
-  ).join('');
-
-  // Bottom cards
-  const bottomCards = [
-    ...activeProjects.map(p=>{
-      const top3 = members.filter(m=>(m.sp_by_project[p.id]||0)>5).sort((a,b)=>(b.sp_by_project[p.id]||0)-(a.sp_by_project[p.id]||0)).slice(0,3).map(m=>m.name).join('+');
-      return `<div class="bot-card"><div class="bot-label">เฉลี่ย ${p.name.replace('Zimple ','')} / sprint</div><div class="bot-val" style="color:${p.color}">${pMap[p.id].avg} SP</div>${top3?`<div class="bot-sub">core dev: ${top3}</div>`:''}</div>`;
-    }),
-    `<div class="bot-card"><div class="bot-label">เฉลี่ยรวม / sprint</div><div class="bot-val">${combinedAvg} SP</div><div class="bot-sub">${grandTotal} ÷ ${totalSprints} sprints รวม</div></div>`
-  ].join('');
-
-  document.getElementById('app').innerHTML = `
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:.3rem">
-      <div>
-        <div class="report-title">Zimple <em>Solution</em> — Sprint Effort Summary</div>
-        <div class="subtitle">${activeProjects.length>0?sprintRange:'ยังไม่มีข้อมูล sprint'} · Dev Team: ${d.team.length} คน</div>
-      </div>
-      <span class="badge-date">อัปเดต ${d._updated}</span>
-    </div>
-    <div class="pills">${pills}</div>
-    <div class="kpi-row">${kpis}</div>
-
-    <div class="sec-div">
-      <span class="sec-label">Sprint overview</span>
-      <div class="sec-line"></div>
-    </div>
-    <div class="cycle-grid">${cycleCards}</div>
-
-    <div class="sec-div">
-      <button class="collapse-btn open" id="toggle-workload-btn" onclick="toggleWorkload()">
-        Workload รายคน
-        <span id="toggle-workload-icon" style="font-size:.8rem;transition:transform .2s;display:inline-block;transform:rotate(180deg)">▼</span>
-      </button>
-      <div class="sec-line"></div>
-      <div class="sec-legend">${legend}<span style="font-size:.65rem;color:var(--text-faint)">SP รวม | เฉลี่ย/cycle</span></div>
-    </div>
-    <div id="workload-section">
-    <div class="chart-card">${chartRows}</div>
-    </div>
-
-    <div class="sec-div">
-      <button class="collapse-btn" id="toggle-btn" onclick="toggleTable()">
-        ตารางละเอียด
-        <span id="toggle-icon" style="font-size:.8rem;transition:transform .2s;display:inline-block">▼</span>
-      </button>
-      <div class="sec-line"></div>
-      <div class="sec-legend">${legend}</div>
-    </div>
-    <div id="detail-table" style="display:none">
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th class="l" style="width:13%">คน</th>
-            ${thCols}
-            <th style="width:8%">รวม SP</th>
-            <th style="width:8%">%</th>
-            <th class="l" style="width:16%">หมายเหตุ</th>
-          </tr></thead>
-          <tbody>
-            ${tableRows}
-            <tr class="total-row">
-              <td class="l" style="color:var(--text-muted)">รวม</td>
-              ${totalCells}
-              <td><span class="mono">${grandTotal}</span></td>
-              <td><span class="pct">100%</span></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="bottom-row">${bottomCards}</div>
-    <div class="warn-box">⚠ ${d.warn_text||'ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect'}</div>
-    <div class="footnote">${(d.footnotes||[]).map(f=>'* '+f).join('<br>')}</div>
-  `;
-  document.title = 'Zimple Sprint Report — ' + d._updated;
-}
-
-function addFootnote(){
-  const d = currentData;
-  if((d.footnotes||[]).length >= 5) return;
-  if(!d.footnotes) d.footnotes = [];
-  d.footnotes.push('');
-  openEditor();
-}
-
-function removeFootnote(idx){
-  const d = currentData;
-  d.footnotes.splice(idx, 1);
-  openEditor();
-}
-
-function toggleWorkload(){
-  const t=document.getElementById('workload-section');
-  const b=document.getElementById('toggle-workload-btn');
-  const icon=document.getElementById('toggle-workload-icon');
-  const v=t.style.display!=='none';
-  t.style.display=v?'none':'block';
-  b.classList.toggle('open',!v);
-  icon.style.transform=v?'rotate(0deg)':'rotate(180deg)';
-}
-
-function toggleTable(){
-  const t=document.getElementById('detail-table');
-  const b=document.getElementById('toggle-btn');
-  const icon=document.getElementById('toggle-icon');
-  const v=t.style.display!=='none';
-  t.style.display=v?'none':'block';
-  b.classList.toggle('open',!v);
-  icon.style.transform=v?'rotate(0deg)':'rotate(180deg)';
-}
-
-function openEditor(){
-  const d=currentData; let html='';
-  d.projects.forEach((p,pi)=>{
-    html+=`<div class="ed-section"><div class="ed-sec-title" style="color:${p.color}">${p.name} — Sprints</div>`;
-    if(p.sprints.length===0){html+=`<div style="font-size:.75rem;color:var(--text-faint);padding:.5rem 0;font-style:italic">ยังไม่มี sprint (จะแสดงเมื่อเพิ่มข้อมูล)</div>`;}
-    p.sprints.forEach((s,si)=>{
-      html+=`<div class="sp-item"><div class="sp-item-title">รอบที่ ${s.cycle||'-'}</div>
-        <div class="ed-row c2" style="margin-bottom:6px">
-          <div><div class="ed-label">ชื่อ Sprint</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.name" value="${s.name}"></div>
-          <div><div class="ed-label">SP</div><input class="ed-input" type="number" data-path="projects.${pi}.sprints.${si}.sp" value="${s.sp}"></div>
-        </div>
-        <div class="ed-row c4">
-          <div><div class="ed-label">Description</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.desc" value="${s.desc}"></div>
-          <div></div>
-          <div><div class="ed-label">วันเริ่ม</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.date_start" value="${s.date_start||''}"></div>
-          <div><div class="ed-label">วันจบ</div><input class="ed-input" data-path="projects.${pi}.sprints.${si}.date_end" value="${s.date_end||''}"></div>
-        </div></div>`;
+    const r = await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current&select=data`,{
+      headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`}
     });
-    html+=`</div>`;
+    if(r.ok){ const rows=await r.json(); if(rows.length&&rows[0].data) DATA=rows[0].data; }
+  } catch(e){}
+  render();
+}
+
+async function saveData(){
+  DATA._updated = new Date().toISOString().slice(0,10);
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current`,{
+      method:'PATCH',
+      headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({data:DATA})
+    });
+    showToast('💾 บันทึกแล้ว');
+  } catch(e){ showToast('❌ บันทึกไม่สำเร็จ'); }
+  render();
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity=1;
+  setTimeout(()=>t.style.opacity=0,2200);
+}
+
+function toggleEdit(){
+  openEditModal();
+}
+
+function openEditModal(){
+  document.getElementById('edit-modal').style.display='flex';
+  renderModalForm();
+}
+function closeEditModal(){
+  document.getElementById('edit-modal').style.display='none';
+}
+function applyAndSave(){
+  DATA._updated = document.getElementById('m-updated').value || DATA._updated;
+  // warnings
+  const warnEl = document.getElementById('m-warning');
+  if(warnEl) DATA.warnings = [warnEl.value];
+  saveData();
+  closeEditModal();
+}
+
+function renderModalForm(){
+  const m = DATA;
+  let h = '';
+
+  // ── ZIMPLE OMNI — SPRINTS ──
+  h += `<div class="ms-section-title" style="color:var(--accent)">ZIMPLE OMNI — SPRINTS</div>`;
+  m.cycles.forEach((cy,i)=>{
+    const o = cy.omni;
+    if(!o) return;
+    h += `<div class="m-cycle-block">
+      <div class="m-cycle-label">${cy.label}</div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>ชื่อ Sprint</label>
+          <input value="${o.name||''}" onchange="DATA.cycles[${i}].omni.name=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>SP</label>
+          <input type="number" value="${o.sp||0}" onchange="DATA.cycles[${i}].omni.sp=+this.value">
+        </div>
+      </div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>Description</label>
+          <input value="${o.desc||''}" onchange="DATA.cycles[${i}].omni.desc=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันเริ่ม</label>
+          <input value="${(o.dates||'').split('–')[0].trim()}" onchange="DATA.cycles[${i}].omni.dates=this.value+' – '+(DATA.cycles[${i}].omni.dates||'').split('–').slice(1).join('–').trim()">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันจบ</label>
+          <input value="${(o.dates||'').split('–')[1]?.trim()||''}" onchange="DATA.cycles[${i}].omni.dates=(DATA.cycles[${i}].omni.dates||'').split('–')[0].trim()+' – '+this.value">
+        </div>
+      </div>
+    </div>`;
   });
-  html+=`<div class="ed-section"><div class="ed-sec-title">หมายเหตุรายคน</div>`;
-  d.members.forEach((m,mi)=>{
-    html+=`<div class="mb-row"><div class="mb-name">${m.name}</div>
-      <div class="ed-row c2">
-        <div><div class="ed-label">หมายเหตุ</div><input class="ed-input" data-path="members.${mi}.note" value="${m.note||''}"></div>
-        <div><div class="ed-label">คำเตือน (สีแดง)</div><input class="ed-input" data-path="members.${mi}.note_warning" value="${m.note_warning||''}"></div>
-      </div></div>`;
+
+  // ── ZIMPLE AI — SPRINTS ──
+  h += `<div class="ms-section-title" style="color:#7c35b8;margin-top:20px">ZIMPLE AI — SPRINTS</div>`;
+  m.cycles.forEach((cy,i)=>{
+    const a = cy.ai;
+    if(!a) return;
+    h += `<div class="m-cycle-block">
+      <div class="m-cycle-label">${cy.label}</div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>ชื่อ Sprint</label>
+          <input value="${a.name||''}" onchange="DATA.cycles[${i}].ai.name=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>SP</label>
+          <input type="number" value="${a.sp||0}" onchange="DATA.cycles[${i}].ai.sp=+this.value">
+        </div>
+      </div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>Description</label>
+          <input value="${a.desc||''}" onchange="DATA.cycles[${i}].ai.desc=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันเริ่ม</label>
+          <input value="${(a.dates||'').split('–')[0].trim()}" onchange="DATA.cycles[${i}].ai.dates=this.value+' – '+(DATA.cycles[${i}].ai.dates||'').split('–').slice(1).join('–').trim()">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันจบ</label>
+          <input value="${(a.dates||'').split('–')[1]?.trim()||''}" onchange="DATA.cycles[${i}].ai.dates=(DATA.cycles[${i}].ai.dates||'').split('–')[0].trim()+' – '+this.value">
+        </div>
+      </div>
+    </div>`;
   });
-  html+=`</div>
-  <div class="ed-section"><div class="ed-sec-title">ข้อความเตือน</div>
-    <input class="ed-input" data-path="warn_text" value="${d.warn_text||''}">
-  </div>
-  <div class="ed-section">
-    <div class="ed-sec-title">Footnotes <span style="font-size:.65rem;font-weight:400;color:var(--text-faint)">(สูงสุด 5 บรรทัด)</span></div>
-    <div id="footnotes-list">
-      ${(d.footnotes||[]).map((f,fi)=>`
-        <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center" id="fn-row-${fi}">
-          <input class="ed-input" data-path="footnotes.${fi}" value="${f}" style="flex:1">
-          <button type="button" onclick="removeFootnote(${fi})" style="padding:4px 10px;border:0.5px solid #fca5a5;border-radius:6px;background:#fff;color:#ef4444;font-size:.75rem;cursor:pointer;flex-shrink:0">ลบ</button>
-        </div>`).join('')}
+
+  // ── ZIMPLE COMMERCE — SPRINTS ──
+  h += `<div class="ms-section-title" style="color:var(--yellow);margin-top:20px">ZIMPLE COMMERCE — SPRINTS</div>
+  <p style="font-size:11px;color:var(--muted);font-style:italic;margin:4px 0 12px">ยังไม่มี sprint (จะแสดงเมื่อเพิ่มข้อมูล)</p>`;
+
+  // ── หมายเหตุรายคน ──
+  h += `<div class="ms-section-title" style="margin-top:20px">หมายเหตุรายคน</div>`;
+  const allMembers = [...(m.members||[])];
+  if(!allMembers.includes('Top')) allMembers.push('Top');
+  allMembers.forEach(mem=>{
+    h += `<div class="m-member-row">
+      <div class="m-member-name">${mem}</div>
+      <div class="m-field" style="flex:1">
+        <label>หมายเหตุ</label>
+        <input value="${(m.notes||{})[mem]||''}" onchange="if(!DATA.notes)DATA.notes={};DATA.notes['${mem}']=this.value">
+      </div>
+      <div class="m-field" style="flex:1">
+        <label>คำเตือน (สีแดง)</label>
+        <input value="${(m.warnings_member||{})[mem]||''}" onchange="if(!DATA.warnings_member)DATA.warnings_member={};DATA.warnings_member['${mem}']=this.value" style="border-color:rgba(214,62,74,.3)">
+      </div>
+    </div>`;
+  });
+
+  // ── ข้อความเตือน ──
+  h += `<div class="ms-section-title" style="margin-top:20px">ข้อความเตือน</div>
+  <textarea id="m-warning" class="m-textarea">${(m.warnings||[]).join('\n')}</textarea>`;
+
+  // ── Footnotes ──
+  h += `<div class="ms-section-title" style="margin-top:16px">FOOTNOTES (สูงสุด 5 บรรทัด)</div>
+  <div id="m-footnotes">`;
+  (m.footnotes||[]).forEach((fn,i)=>{
+    h += `<div class="m-fn-row">
+      <input value="${fn}" onchange="DATA.footnotes[${i}]=this.value" style="flex:1">
+      <button class="m-fn-del" onclick="DATA.footnotes.splice(${i},1);renderModalForm()">ลบ</button>
+    </div>`;
+  });
+  h += `</div>
+  <button class="m-fn-add" onclick="if(!DATA.footnotes)DATA.footnotes=[];if(DATA.footnotes.length<5){DATA.footnotes.push('');renderModalForm()}">+ เพิ่ม footnote</button>`;
+
+  // ── วันที่อัปเดต ──
+  h += `<div class="ms-section-title" style="margin-top:16px">วันที่อัปเดต</div>
+  <input id="m-updated" value="${m._updated||''}" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 10px;font-size:12px;width:200px">`;
+
+  document.getElementById('modal-body').innerHTML = h;
+}
+
+/* ══════════════════════════════════
+   COMPUTE
+══════════════════════════════════ */
+function compute(){
+  const members = DATA.members;
+  const omniTotals={}, aiTotals={};
+  members.forEach(m=>{ omniTotals[m]=0; aiTotals[m]=0; });
+
+  DATA.omni.sprints.forEach(s=>members.forEach(m=>{ omniTotals[m]+=(s.sp[m]||0); }));
+  DATA.ai.sprints.forEach(s=>members.forEach(m=>{ aiTotals[m]+=(s.sp[m]||0); }));
+
+  const omniAvg={}, aiAvg={};
+  members.forEach(m=>{ omniAvg[m]=Math.round(omniTotals[m]/3*100)/100; aiAvg[m]=Math.round(aiTotals[m]/3*100)/100; });
+
+  // All-time totals
+  const totalSP = {
+    omni: (DATA.omniAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0),
+    ai:   (DATA.aiAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0)
+  };
+  totalSP.all = totalSP.omni + totalSP.ai;
+  // Max sprint SP (for reference)
+  const maxOmniSP = Math.max(...(DATA.omniAllTime||[]).map(s=>typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)));
+  const cycles = DATA.omni.sprints.length; // 3
+
+  const memberTotals={};
+  members.forEach(m=>{ memberTotals[m]={omni:omniTotals[m],ai:aiTotals[m],total:omniTotals[m]+aiTotals[m]}; });
+
+  return {members,omniTotals,aiTotals,omniAvg,aiAvg,totalSP,cycles,memberTotals};
+}
+
+/* ══════════════════════════════════
+   RENDER
+══════════════════════════════════ */
+function render(){
+  document.getElementById('date-badge').textContent = `อัปเดต ${DATA._updated||'—'}`;
+  const C = compute();
+  const {members,omniAvg,aiAvg,totalSP,memberTotals} = C;
+
+  // Compute all-member totals for bar scaling (includes Top)
+const _allSpMap = {};
+[...DATA.omni.sprints, ...DATA.ai.sprints].forEach(s=>Object.entries(s.sp).forEach(([m,v])=>{ _allSpMap[m]=(_allSpMap[m]||0)+v; }));
+const maxBar = Math.max(...Object.values(_allSpMap), 1);
+  const totalAll = members.reduce((a,m)=>a+memberTotals[m].total,0);
+
+  let h = `
+  <!-- Title -->
+  <div class="title-block">
+    <h1>Zimple <span>Solution</span> — Sprint Effort Summary</h1>
+    <div class="subtitle">${editMode?`<input style="background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 8px;font-size:13px;width:100%" value="${DATA.subtitle}" onchange="DATA.subtitle=this.value">`:DATA.subtitle}</div>
+    <div class="product-tags">
+      <span class="ptag ptag-omni">Zimple Omni</span>
+      <span class="ptag ptag-ai">Zimple AI</span>
+      <span class="ptag ptag-commerce">Zimple Commerce</span>
+      <span class="ptag ptag-team">Team: ${members.join(' · ')}</span>
     </div>
-    ${(d.footnotes||[]).length < 5 ? `<button type="button" onclick="addFootnote()" id="add-fn-btn" style="margin-top:4px;padding:5px 14px;border:0.5px solid var(--border-strong);border-radius:6px;background:#fff;color:var(--text-muted);font-size:.75rem;font-weight:500;cursor:pointer">+ เพิ่ม footnote</button>` : ''}
   </div>
-  <div class="ed-section"><div class="ed-sec-title">วันที่อัปเดต</div>
-    <div style="max-width:200px"><input class="ed-input" data-path="_updated" value="${d._updated}"></div>
-  </div>`;
-  document.getElementById('editor-body').innerHTML=html;
-  document.getElementById('editor-overlay').style.display='block';
-}
 
-function closeEditor(){ document.getElementById('editor-overlay').style.display='none'; }
+  <!-- KPI Top — Avg last 3 sprints -->
+  <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px">📈 เฉลี่ย 3 Sprint ล่าสุด ต่อ project</div>
+  <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:6px">
+    <div class="kpi-card">
+      <div class="kpi-label" style="color:var(--accent)">เฉลี่ย Omni / sprint</div>
+      <div class="kpi-val" style="color:var(--accent)">${Math.round(DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.omni.sprints.length*10)/10}</div>
+      <div class="kpi-sub">avg ${DATA.omni.sprints.length} sprints ล่าสุด</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" style="color:#7c35b8">เฉลี่ย AI / sprint</div>
+      <div class="kpi-val" style="color:#7c35b8">${Math.round(DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.ai.sprints.length*10)/10}</div>
+      <div class="kpi-sub">avg ${DATA.ai.sprints.length} sprints ล่าสุด</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label" style="color:var(--yellow)">เฉลี่ย Commerce / sprint</div>
+      <div class="kpi-val" style="color:var(--yellow)">0</div>
+      <div class="kpi-sub">ยังไม่เริ่ม</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">เฉลี่ยรวม / sprint</div>
+      <div class="kpi-val">${Math.round((DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0))/DATA.omni.sprints.length*10)/10}</div>
+      <div class="kpi-sub">อิงตาม Omni (${DATA.omni.sprints.length} sprints)</div>
+    </div>
+  </div>
+  <!-- KPI Bottom — All-time totals -->
+  <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px;margin-top:16px">📊 SP รวมทั้งหมดตั้งแต่เริ่มต้น</div>
+  <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi-card" style="background:var(--bg)">
+      <div class="kpi-label" style="color:var(--accent)">Omni รวม</div>
+      <div class="kpi-val" style="color:var(--accent);font-size:24px">${totalSP.omni}</div>
+      <div class="kpi-sub">SP1–SP7 (${(DATA.omniAllTime||[]).length} sprints)</div>
+    </div>
+    <div class="kpi-card" style="background:var(--bg)">
+      <div class="kpi-label" style="color:#7c35b8">AI รวม</div>
+      <div class="kpi-val" style="color:#7c35b8;font-size:24px">${totalSP.ai}</div>
+      <div class="kpi-sub">SP.1–SP.3 (${(DATA.aiAllTime||[]).length} sprints)</div>
+    </div>
+    <div class="kpi-card" style="background:var(--bg)">
+      <div class="kpi-label" style="color:var(--yellow)">Commerce รวม</div>
+      <div class="kpi-val" style="color:var(--yellow);font-size:24px">0</div>
+      <div class="kpi-sub">ยังไม่เริ่ม</div>
+    </div>
+    <div class="kpi-card" style="background:var(--bg)">
+      <div class="kpi-label">เฉลี่ยรวม / sprint</div>
+      <div class="kpi-val" style="font-size:24px">${Math.round(totalSP.all/(DATA.omniAllTime||[]).length*10)/10}</div>
+      <div class="kpi-sub">รวม ${totalSP.all} SP ÷ ${(DATA.omniAllTime||[]).length} sprints (Omni)</div>
+    </div>
+  </div>
 
-async function applyEdits(){
-  const newData=JSON.parse(JSON.stringify(currentData));
-  // rebuild footnotes from inputs before processing
-  const fnInputs = document.querySelectorAll('#editor-body [data-path^="footnotes."]');
-  if(fnInputs.length > 0){
-    newData.footnotes = Array.from(fnInputs).map(i => i.value.trim()).filter(v => v !== '');
-  }
-  document.querySelectorAll('#editor-body [data-path]').forEach(input=>{
-    const path=input.getAttribute('data-path');
-    if(path.startsWith('footnotes.')) return; // handled above
-    const parts=path.split('.');
-    let obj=newData;
-    for(let i=0;i<parts.length-1;i++) obj=obj[parts[i]];
-    const key=parts[parts.length-1];
-    obj[key]=input.type==='number'?+input.value:(input.value.trim()===''?null:input.value.trim());
+  <!-- Sprint Overview -->
+  <div class="section-label">SPRINT OVERVIEW</div>
+  <div class="cycles-grid">`;
+
+  DATA.cycles.forEach((cy,i)=>{
+    h += `<div class="cycle-card"><div class="cycle-title">${cy.label}</div>`;
+    if(cy.omni){
+      const o=cy.omni;
+      h += `<div class="sprint-item">
+        <span class="sprint-name">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:600;width:140px" value="${o.name}" onchange="DATA.cycles[${i}].omni.name=this.value">`:o.name}</span>
+        <span class="sprint-sp omni">${editMode?`<input type="number" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:700;width:40px;text-align:right" value="${o.sp}" onchange="DATA.cycles[${i}].omni.sp=+this.value">`:o.sp} SP</span>
+        <div class="sprint-desc">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${o.desc||''}" onchange="DATA.cycles[${i}].omni.desc=this.value">`:o.desc||''}</div>
+        <div class="sprint-dates">${o.dates||''}</div>
+      </div>`;
+    }
+    if(cy.ai){
+      const a=cy.ai;
+      h += `<hr class="sprint-divider"><div class="sprint-item">
+        <span class="sprint-name" style="color:#7c35b8">${a.name}</span>
+        <span class="sprint-sp ai">${a.sp} SP</span>
+        <div class="sprint-desc">${a.desc||''}</div>
+        <div class="sprint-dates">${a.dates||''}</div>
+      </div>`;
+    } else if(i>0){
+      h += `<hr class="sprint-divider"><div class="sprint-empty">— AI ยังไม่เริ่ม —</div>`;
+    }
+    if(!cy.commerce){ h += i===0?`<hr class="sprint-divider"><div class="sprint-empty">— Commerce ยังไม่เริ่ม —</div>`:''; }
+    h += `</div>`;
   });
-  currentData=newData;
-  closeEditor();
-  render(currentData);
-  await saveData(currentData);
+
+  h += `</div>
+
+  <!-- Workload -->
+  <div class="workload-header">
+    <button class="collapse-btn" onclick="showWorkload=!showWorkload;render()">WORKLOAD รายคน ${showWorkload?'▲':'▼'}</button>
+    <div class="legend-right">
+      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
+      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
+      <span style="margin-left:8px;color:var(--muted)">SP รวม | เฉลี่ย/cycle</span>
+    </div>
+  </div>`;
+
+  if(showWorkload){
+    h += `<div class="workload-wrap">`;
+    // Show Top if they have any SP in current sprints
+    const allMembers = [...members];
+    const topOmni = DATA.omni.sprints.reduce((a,s)=>a+(s.sp['Top']||0),0);
+    const topAI   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp['Top']||0),0);
+    if((topOmni+topAI)>0 && !allMembers.includes('Top')) allMembers.push('Top');
+    allMembers.forEach(m=>{
+      const mOmni = DATA.omni.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      const mAI   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      const tot = mOmni + mAI;
+      if(!tot) return;
+      const omniW = maxBar ? mOmni/maxBar*100 : 0;
+      const aiW   = maxBar ? mAI/maxBar*100 : 0;
+      const avg   = Math.round(tot/3*100)/100;
+      const initials = m.slice(0,2);
+      h += `<div class="member-row">
+        <div class="member-avatar" style="background:${DATA.avatarBg[m]||'rgba(91,141,238,.15)'}">
+          <span style="color:${DATA.colors[m]||'var(--accent)'};">${initials}</span>
+        </div>
+        <div class="member-name">${m}</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            ${mOmni>0?`<div class="bar-omni" style="width:${omniW}%">${mOmni}</div>`:''}
+            ${mAI>0?`<div class="bar-ai" style="width:${aiW}%">${mAI}</div>`:''}
+          </div>
+        </div>
+        <div class="bar-right">${tot} SP &nbsp;|&nbsp; <span style="color:var(--muted)">${avg} avg SP/sprint (÷3)</span></div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  // Detail table
+  h += `<div class="detail-header">
+    <button class="collapse-btn" onclick="showDetail=!showDetail;render()">ตารางละเอียด ${showDetail?'▲':'▼'}</button>
+    <div class="legend-right">
+      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
+      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
+    </div>
+  </div>`;
+
+  if(showDetail){
+    const omniN = DATA.omni.sprints.length;
+    const aiN = DATA.ai.sprints.length;
+    h += `<div class="table-wrap"><table>
+      <thead><tr>
+        <th style="text-align:left">คน</th>
+        <th>OMNI SP<br><span style="font-weight:400">(${omniN}sp)</span></th>
+        <th>เฉลี่ย<br>OMNI/SP</th>
+        <th style="color:#7c35b8">AI SP<br><span style="font-weight:400">(${aiN}sp)</span></th>
+        <th style="color:#7c35b8">เฉลี่ย<br>AI/SP</th>
+        <th>COMMERCE SP<br><span style="font-weight:400">(0sp)</span></th>
+        <th>เฉลี่ย<br>COMMERCE/SP</th>
+        <th>รวม SP</th>
+        <th>%</th>
+        <th style="text-align:left">หมายเหตุ</th>
+      </tr></thead>
+      <tbody>`;
+
+    members.forEach(m=>{
+      const tot = memberTotals[m].total;
+      const pct = totalAll ? Math.round(tot/totalAll*1000)/10 : 0;
+      const note = DATA.notes[m]||'';
+      h += `<tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:${DATA.avatarBg[m]||'rgba(91,141,238,.15)'}">
+            <span style="color:${DATA.colors[m]||'var(--accent)'}">${m.slice(0,2)}</span>
+          </div>
+          ${m}
+        </div></td>
+        <td class="num">${memberTotals[m].omni||0}</td>
+        <td class="avg-col">${omniAvg[m]||0}</td>
+        <td class="num" style="color:#7c35b8">${memberTotals[m].ai||0}</td>
+        <td class="avg-ai">${aiAvg[m]||0}</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">${tot}</td>
+        <td class="pct-col">${pct}%</td>
+        <td class="note-col">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${note}" onchange="DATA.notes['${m}']=this.value">`:note}</td>
+      </tr>`;
+    });
+
+    // Total row
+    const omniTotal = members.reduce((a,m)=>a+memberTotals[m].omni,0);
+    const aiTotal   = members.reduce((a,m)=>a+memberTotals[m].ai,0);
+    h += `<tr class="total-row">
+      <td>รวม</td>
+      <td class="num">${omniTotal}</td>
+      <td class="avg-col">${Math.round(omniTotal/omniN*100)/100}</td>
+      <td class="num" style="color:#7c35b8">${aiTotal}</td>
+      <td class="avg-ai">${Math.round(aiTotal/aiN*100)/100}</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="num">${totalAll}</td>
+      <td class="pct-col">100%</td>
+      <td></td>
+    </tr>`;
+
+    h += `</tbody></table></div>`;
+  }
+
+  // Bottom summary — avg of last 3 sprints
+  const omniAvgTotal = Math.round(totalSP.omni/DATA.omni.sprints.length*100)/100;
+  const aiAvgTotal   = Math.round(totalSP.ai/DATA.ai.sprints.length*100)/100;
+  const grandAvg     = Math.round((omniAvgTotal+aiAvgTotal)*10)/10;
+  const coreOmni = members.filter(m=>memberTotals[m].omni>10).join('+');
+  const coreAI   = members.filter(m=>memberTotals[m].ai>10).join('+');
+
+  // bottom summary now in KPI section
+
+  // Warnings
+  DATA.warnings.forEach(w=>{
+    h += `<div class="warn-box">⚠️ ${w}</div>`;
+  });
+
+  // Footnotes
+  h += `<ul class="fn-list">`;
+  DATA.footnotes.forEach(fn=>{ h += `<li>${fn}</li>`; });
+  h += `</ul>`;
+
+  document.getElementById('root').innerHTML = h;
 }
 
-(async()=>{
-  currentData=await loadData();
-  document.getElementById('loading').style.display='none';
-  document.getElementById('app').style.display='block';
-  render(currentData);
-})();
+loadData();
 </script>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="edit-modal" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>📊</span>
+      <h2>แก้ไขข้อมูล Report</h2>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeEditModal()">ยกเลิก</button>
+      <button class="btn-save" onclick="applyAndSave()">✓ บันทึกและ Render ใหม่</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
