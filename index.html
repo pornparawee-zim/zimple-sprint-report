@@ -285,7 +285,6 @@ async function loadData(){
 }
 
 async function saveData(){
-  DATA._updated = new Date().toISOString().slice(0,10);
   try {
     await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current`,{
       method:'PATCH',
@@ -315,7 +314,14 @@ function closeEditModal(){
   document.getElementById('edit-modal').style.display='none';
 }
 function applyAndSave(){
-  DATA._updated = document.getElementById('m-updated').value || DATA._updated;
+  const inputDate = document.getElementById('m-updated').value;
+  // ถ้า input ต่างจากค่าเดิม = หมวยแก้เอง → ใช้ค่านั้น
+  // ถ้าเหมือนเดิมหรือว่าง = auto set วันนี้
+  if(inputDate && inputDate !== DATA._updated){
+    DATA._updated = inputDate;
+  } else {
+    DATA._updated = new Date().toISOString().slice(0,10);
+  }
   // warnings
   const warnEl = document.getElementById('m-warning');
   if(warnEl) DATA.warnings = warnEl.value.split('\n').filter(x=>x.trim());
@@ -542,7 +548,7 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
           value="${(DATA.notes||{})[m]||''}"
           oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value;saveData()"
           placeholder="note..."
-          style="margin-left:auto;font-size:11px;color:var(--textdim);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;text-align:right;width:200px;max-width:40%;transition:border-color .15s"
+          style="margin-left:auto;font-size:11px;color:var(--textdim);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;text-align:right;min-width:100px;max-width:180px;transition:border-color .15s"
           onfocus="this.style.borderBottomColor='var(--accent)'"
           onblur="this.style.borderBottomColor='transparent'"
         >
