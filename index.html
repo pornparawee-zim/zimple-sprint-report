@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -280,14 +279,9 @@ async function loadData(){
     const r = await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current&select=data`,{
       headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`}
     });
-    if(r.ok){
-      const rows = await r.json();
-      if(rows.length && rows[0].data && rows[0].data.omni && rows[0].data.ai && rows[0].data.members){
-        DATA = rows[0].data;
-      }
-    }
-  } catch(e){ console.warn('loadData error:', e); }
-  try { render(); } catch(e){ console.error('render error:', e); }
+    if(r.ok){ const rows=await r.json(); if(rows.length&&rows[0].data) DATA=rows[0].data; }
+  } catch(e){}
+  render();
 }
 
 async function saveData(){
@@ -300,7 +294,7 @@ async function saveData(){
     });
     showToast('💾 บันทึกแล้ว');
   } catch(e){ showToast('❌ บันทึกไม่สำเร็จ'); }
-  try { render(); } catch(e){ console.error('render error after save:', e); }
+  render();
 }
 
 function showToast(msg){
@@ -548,7 +542,7 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
           value="${(DATA.notes||{})[m]||''}"
           oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value;saveData()"
           placeholder="note..."
-          style="margin-left:auto;font-size:11px;color:var(--textdim);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;text-align:right;min-width:100px;max-width:180px;transition:border-color .15s"
+          style="margin-left:auto;font-size:11px;color:var(--textdim);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;text-align:right;width:200px;max-width:40%;transition:border-color .15s"
           onfocus="this.style.borderBottomColor='var(--accent)'"
           onblur="this.style.borderBottomColor='transparent'"
         >
