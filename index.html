@@ -538,6 +538,14 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
         <div style="font-size:12px;font-weight:500;min-width:48px">${m}</div>
         <div style="font-size:13px;font-weight:700;font-family:var(--mono);color:${(DATA.colors||{})[m]||'var(--text)'}">${memberLastSP[m]}</div>
         <div style="font-size:10px;color:var(--muted);margin-left:2px">SP</div>
+        <input
+          value="${(DATA.notes||{})[m]||''}"
+          oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value;saveData()"
+          placeholder="note..."
+          style="margin-left:auto;font-size:11px;color:var(--textdim);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;text-align:right;min-width:100px;max-width:180px;transition:border-color .15s"
+          onfocus="this.style.borderBottomColor='var(--accent)'"
+          onblur="this.style.borderBottomColor='transparent'"
+        >
       </div>`).join('');
     return `
     <div class="kpi-collapsible">
