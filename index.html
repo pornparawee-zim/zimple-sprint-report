@@ -78,7 +78,7 @@ td.num{font-family:var(--mono)}
 .member-cell{display:flex;align-items:center;gap:8px}
 .m-avatar{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
 .pct-col{color:var(--textdim);font-family:var(--mono)}
-.note-col{font-size:11px;color:var(--textdim);text-align:center}
+.note-col{font-size:11px;color:var(--textdim)}
 .note-col .hi{color:var(--red);font-size:10px}
 .total-row td{background:rgba(59,111,212,.08);font-weight:700;border-top:2px solid var(--border)!important}
 /* Bottom summary */
@@ -138,73 +138,29 @@ td.num{font-family:var(--mono)}
 @media(max-width:768px){
   main{padding:16px 12px}
   .title-block h1{font-size:20px}
-
-  /* KPI */
   .kpi-row{grid-template-columns:1fr 1fr}
   .kpi-val{font-size:24px}
-
-  /* Sprint Overview */
   .cycles-grid{grid-template-columns:1fr}
-
-  /* Bottom summary */
-  .bottom-grid{grid-template-columns:1fr 1fr}
+  .bottom-grid{grid-template-columns:1fr}
   .sum-val{font-size:22px}
-
-  /* Workload bars */
-  .bar-right{min-width:90px;font-size:10px}
+  .bar-right{min-width:100px;font-size:10px}
   .member-name{width:40px;font-size:11px}
-  .member-row{gap:6px}
-
-  /* Table — horizontal scroll */
-  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{min-width:580px}
-
-  /* Modal */
-  .modal-overlay{padding:20px 10px}
-  .modal-body{max-height:65vh}
+  .table-wrap{overflow-x:auto}
+  table{min-width:600px}
+  .modal-body{max-height:60vh}
   .m-field-row{flex-wrap:wrap}
   .m-field-sm{max-width:100%}
-  .m-member-row{flex-wrap:wrap}
-
-  /* Topbar */
   .topbar{padding:8px 12px;gap:8px}
   .edit-hint{display:none}
-
-  /* KPI section headers */
-  .kpi-sec-btn{padding:9px 12px;font-size:11px}
-
-  /* SP last member note input */
-  input[placeholder="เพิ่ม note..."]{max-width:120px}
 }
 
 @media(max-width:480px){
-  main{padding:12px 10px}
-  .title-block h1{font-size:18px}
-
-  /* KPI — single column */
   .kpi-row{grid-template-columns:1fr}
-  .kpi-val{font-size:26px}
-
-  /* Bottom */
-  .bottom-grid{grid-template-columns:1fr}
-
-  /* Workload */
+  .kpi-val{font-size:28px}
+  .title-block h1{font-size:18px}
   .legend-right{display:none}
-  .bar-right{min-width:72px;font-size:9px}
-  .member-name{width:36px}
-
-  /* Table */
-  table{min-width:520px}
-  th,td{padding:6px 8px}
-
-  /* Collapse buttons */
-  .collapse-btn{font-size:10px;padding:3px 8px}
-
-  /* Date badge — hide on very small */
-  .date-badge{display:none}
-
-  /* SP last member note input */
-  input[placeholder="เพิ่ม note..."]{display:none}
+  .bar-right{min-width:80px;font-size:9px}
+  main{padding:12px 10px}
 }
 </style>
 </head>
@@ -233,9 +189,9 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const INIT_DATA = {
   _updated: '2026-06-22',
   subtitle: 'Zimple Omni (Sprint 5, 6, 7) & Zimple AI (SP.1, SP.2, SP.3) · Dev Team: 5 คน',
-  members: ['Wick','Q','Griang','Toy','Tan'],
-  colors: {Wick:'#7c5bde',Q:'#5b8dee',Griang:'#3ecf8e',Toy:'#f5a623',Tan:'#6b7595'},
-  avatarBg: {Wick:'rgba(96,64,184,.1)',Q:'rgba(59,111,212,.1)',Griang:'rgba(30,158,110,.1)',Toy:'rgba(199,124,0,.1)',Tan:'rgba(136,146,176,.1)'},
+  members: ['Wick','Q','Griang','Toy','Top','Tan'],
+  colors: {Wick:'#7c5bde',Q:'#5b8dee',Griang:'#3ecf8e',Toy:'#f5a623',Top:'#1e40af',Tan:'#6b7595'},
+  avatarBg: {Wick:'rgba(96,64,184,.1)',Q:'rgba(59,111,212,.1)',Griang:'rgba(30,158,110,.1)',Toy:'rgba(199,124,0,.1)',Top:'rgba(219,234,254,.8)',Tan:'rgba(136,146,176,.1)'},
   notes: {
     Wick: 'ควบ 2 projects',
     Q: 'Core dev Omni',
@@ -582,14 +538,6 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
         <div style="font-size:12px;font-weight:500;min-width:48px">${m}</div>
         <div style="font-size:13px;font-weight:700;font-family:var(--mono);color:${(DATA.colors||{})[m]||'var(--text)'}">${memberLastSP[m]}</div>
         <div style="font-size:10px;color:var(--muted);margin-left:2px">SP</div>
-        <input
-          value="${(DATA.notes||{})[m]||''}"
-          oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value;saveData()"
-          placeholder="เพิ่ม note..."
-          style="margin-left:auto;font-size:11px;color:var(--textdim);border:none;border-bottom:1px solid transparent;background:transparent;outline:none;text-align:right;min-width:120px;max-width:200px;transition:border-color .15s"
-          onfocus="this.style.borderBottomColor='var(--accent)'"
-          onblur="this.style.borderBottomColor='transparent'"
-        >
       </div>`).join('');
     return `
     <div class="kpi-collapsible">
@@ -726,7 +674,7 @@ return `
         <th>เฉลี่ย<br>COMMERCE/SP</th>
         <th>รวม SP</th>
         <th>%</th>
-        <th style="text-align:center">หมายเหตุ</th>
+        <th style="text-align:left">หมายเหตุ</th>
       </tr></thead>
       <tbody>`;
 
