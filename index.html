@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -279,9 +280,14 @@ async function loadData(){
     const r = await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current&select=data`,{
       headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`}
     });
-    if(r.ok){ const rows=await r.json(); if(rows.length&&rows[0].data) DATA=rows[0].data; }
-  } catch(e){}
-  render();
+    if(r.ok){
+      const rows = await r.json();
+      if(rows.length && rows[0].data && rows[0].data.omni && rows[0].data.ai && rows[0].data.members){
+        DATA = rows[0].data;
+      }
+    }
+  } catch(e){ console.warn('loadData error:', e); }
+  try { render(); } catch(e){ console.error('render error:', e); }
 }
 
 async function saveData(){
@@ -294,7 +300,7 @@ async function saveData(){
     });
     showToast('💾 บันทึกแล้ว');
   } catch(e){ showToast('❌ บันทึกไม่สำเร็จ'); }
-  render();
+  try { render(); } catch(e){ console.error('render error after save:', e); }
 }
 
 function showToast(msg){
