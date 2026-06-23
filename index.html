@@ -127,6 +127,35 @@ td.num{font-family:var(--mono)}
 .btn-cancel{background:var(--bg);color:var(--textdim);border:1px solid var(--border);border-radius:6px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:var(--sans)}
 .btn-save{background:var(--accent2);color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)}
 .btn-save:hover{opacity:.9}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  main{padding:16px 12px}
+  .title-block h1{font-size:20px}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .kpi-val{font-size:24px}
+  .cycles-grid{grid-template-columns:1fr}
+  .bottom-grid{grid-template-columns:1fr}
+  .sum-val{font-size:22px}
+  .bar-right{min-width:100px;font-size:10px}
+  .member-name{width:40px;font-size:11px}
+  .table-wrap{overflow-x:auto}
+  table{min-width:600px}
+  .modal-body{max-height:60vh}
+  .m-field-row{flex-wrap:wrap}
+  .m-field-sm{max-width:100%}
+  .topbar{padding:8px 12px;gap:8px}
+  .edit-hint{display:none}
+}
+
+@media(max-width:480px){
+  .kpi-row{grid-template-columns:1fr}
+  .kpi-val{font-size:28px}
+  .title-block h1{font-size:18px}
+  .legend-right{display:none}
+  .bar-right{min-width:80px;font-size:9px}
+  main{padding:12px 10px}
+}
 </style>
 </head>
 <body>
@@ -269,9 +298,9 @@ function applyAndSave(){
   DATA._updated = document.getElementById('m-updated').value || DATA._updated;
   // warnings
   const warnEl = document.getElementById('m-warning');
-  if(warnEl) DATA.warnings = [warnEl.value];
-  saveData();
+  if(warnEl) DATA.warnings = warnEl.value.split('\n').filter(x=>x.trim());
   closeEditModal();
+  saveData(); // saveData calls render() after save
 }
 
 function renderModalForm(){
@@ -288,25 +317,25 @@ function renderModalForm(){
       <div class="m-field-row">
         <div class="m-field">
           <label>ชื่อ Sprint</label>
-          <input value="${o.name||''}" onchange="DATA.cycles[${i}].omni.name=this.value">
+          <input value="${o.name||''}" oninput="DATA.cycles[${i}].omni.name=this.value">
         </div>
         <div class="m-field m-field-sm">
           <label>SP</label>
-          <input type="number" value="${o.sp||0}" onchange="DATA.cycles[${i}].omni.sp=+this.value">
+          <input type="number" value="${o.sp||0}" oninput="DATA.cycles[${i}].omni.sp=+this.value">
         </div>
       </div>
       <div class="m-field-row">
         <div class="m-field">
           <label>Description</label>
-          <input value="${o.desc||''}" onchange="DATA.cycles[${i}].omni.desc=this.value">
+          <input value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">
         </div>
         <div class="m-field m-field-sm">
           <label>วันเริ่ม</label>
-          <input value="${(o.dates||'').split('–')[0].trim()}" onchange="DATA.cycles[${i}].omni.dates=this.value+' – '+(DATA.cycles[${i}].omni.dates||'').split('–').slice(1).join('–').trim()">
+          <input value="${(o.dates||'').split('–')[0].trim()}" oninput="DATA.cycles[${i}].omni.dates=this.value+' – '+(DATA.cycles[${i}].omni.dates||'').split('–').slice(1).join('–').trim()">
         </div>
         <div class="m-field m-field-sm">
           <label>วันจบ</label>
-          <input value="${(o.dates||'').split('–')[1]?.trim()||''}" onchange="DATA.cycles[${i}].omni.dates=(DATA.cycles[${i}].omni.dates||'').split('–')[0].trim()+' – '+this.value">
+          <input value="${(o.dates||'').split('–')[1]?.trim()||''}" oninput="DATA.cycles[${i}].omni.dates=(DATA.cycles[${i}].omni.dates||'').split('–')[0].trim()+' – '+this.value">
         </div>
       </div>
     </div>`;
@@ -322,25 +351,25 @@ function renderModalForm(){
       <div class="m-field-row">
         <div class="m-field">
           <label>ชื่อ Sprint</label>
-          <input value="${a.name||''}" onchange="DATA.cycles[${i}].ai.name=this.value">
+          <input value="${a.name||''}" oninput="DATA.cycles[${i}].ai.name=this.value">
         </div>
         <div class="m-field m-field-sm">
           <label>SP</label>
-          <input type="number" value="${a.sp||0}" onchange="DATA.cycles[${i}].ai.sp=+this.value">
+          <input type="number" value="${a.sp||0}" oninput="DATA.cycles[${i}].ai.sp=+this.value">
         </div>
       </div>
       <div class="m-field-row">
         <div class="m-field">
           <label>Description</label>
-          <input value="${a.desc||''}" onchange="DATA.cycles[${i}].ai.desc=this.value">
+          <input value="${a.desc||''}" oninput="DATA.cycles[${i}].ai.desc=this.value">
         </div>
         <div class="m-field m-field-sm">
           <label>วันเริ่ม</label>
-          <input value="${(a.dates||'').split('–')[0].trim()}" onchange="DATA.cycles[${i}].ai.dates=this.value+' – '+(DATA.cycles[${i}].ai.dates||'').split('–').slice(1).join('–').trim()">
+          <input value="${(a.dates||'').split('–')[0].trim()}" oninput="DATA.cycles[${i}].ai.dates=this.value+' – '+(DATA.cycles[${i}].ai.dates||'').split('–').slice(1).join('–').trim()">
         </div>
         <div class="m-field m-field-sm">
           <label>วันจบ</label>
-          <input value="${(a.dates||'').split('–')[1]?.trim()||''}" onchange="DATA.cycles[${i}].ai.dates=(DATA.cycles[${i}].ai.dates||'').split('–')[0].trim()+' – '+this.value">
+          <input value="${(a.dates||'').split('–')[1]?.trim()||''}" oninput="DATA.cycles[${i}].ai.dates=(DATA.cycles[${i}].ai.dates||'').split('–')[0].trim()+' – '+this.value">
         </div>
       </div>
     </div>`;
@@ -359,11 +388,11 @@ function renderModalForm(){
       <div class="m-member-name">${mem}</div>
       <div class="m-field" style="flex:1">
         <label>หมายเหตุ</label>
-        <input value="${(m.notes||{})[mem]||''}" onchange="if(!DATA.notes)DATA.notes={};DATA.notes['${mem}']=this.value">
+        <input value="${(m.notes||{})[mem]||''}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${mem}']=this.value">
       </div>
       <div class="m-field" style="flex:1">
         <label>คำเตือน (สีแดง)</label>
-        <input value="${(m.warnings_member||{})[mem]||''}" onchange="if(!DATA.warnings_member)DATA.warnings_member={};DATA.warnings_member['${mem}']=this.value" style="border-color:rgba(214,62,74,.3)">
+        <input value="${(m.warnings_member||{})[mem]||''}" oninput="if(!DATA.warnings_member)DATA.warnings_member={};DATA.warnings_member['${mem}']=this.value" style="border-color:rgba(214,62,74,.3)">
       </div>
     </div>`;
   });
@@ -377,7 +406,7 @@ function renderModalForm(){
   <div id="m-footnotes">`;
   (m.footnotes||[]).forEach((fn,i)=>{
     h += `<div class="m-fn-row">
-      <input value="${fn}" onchange="DATA.footnotes[${i}]=this.value" style="flex:1">
+      <input value="${fn}" oninput="DATA.footnotes[${i}]=this.value" style="flex:1">
       <button class="m-fn-del" onclick="DATA.footnotes.splice(${i},1);renderModalForm()">ลบ</button>
     </div>`;
   });
@@ -439,7 +468,7 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
   <!-- Title -->
   <div class="title-block">
     <h1>Zimple <span>Solution</span> — Sprint Effort Summary</h1>
-    <div class="subtitle">${editMode?`<input style="background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 8px;font-size:13px;width:100%" value="${DATA.subtitle}" onchange="DATA.subtitle=this.value">`:DATA.subtitle}</div>
+    <div class="subtitle">${editMode?`<input style="background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 8px;font-size:13px;width:100%" value="${DATA.subtitle}" oninput="DATA.subtitle=this.value">`:DATA.subtitle}</div>
     <div class="product-tags">
       <span class="ptag ptag-omni">Zimple Omni</span>
       <span class="ptag ptag-ai">Zimple AI</span>
@@ -506,9 +535,9 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
     if(cy.omni){
       const o=cy.omni;
       h += `<div class="sprint-item">
-        <span class="sprint-name">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:600;width:140px" value="${o.name}" onchange="DATA.cycles[${i}].omni.name=this.value">`:o.name}</span>
-        <span class="sprint-sp omni">${editMode?`<input type="number" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:700;width:40px;text-align:right" value="${o.sp}" onchange="DATA.cycles[${i}].omni.sp=+this.value">`:o.sp} SP</span>
-        <div class="sprint-desc">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${o.desc||''}" onchange="DATA.cycles[${i}].omni.desc=this.value">`:o.desc||''}</div>
+        <span class="sprint-name">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:600;width:140px" value="${o.name}" oninput="DATA.cycles[${i}].omni.name=this.value">`:o.name}</span>
+        <span class="sprint-sp omni">${editMode?`<input type="number" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:700;width:40px;text-align:right" value="${o.sp}" oninput="DATA.cycles[${i}].omni.sp=+this.value">`:o.sp} SP</span>
+        <div class="sprint-desc">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">`:o.desc||''}</div>
         <div class="sprint-dates">${o.dates||''}</div>
       </div>`;
     }
@@ -602,7 +631,8 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
     members.forEach(m=>{
       const tot = memberTotals[m].total;
       const pct = totalAll ? Math.round(tot/totalAll*1000)/10 : 0;
-      const note = DATA.notes[m]||'';
+      const note = (DATA.notes||{})[m]||'';
+      const noteWarn = (DATA.warnings_member||{})[m]||'';
       h += `<tr>
         <td><div class="member-cell">
           <div class="m-avatar" style="background:${DATA.avatarBg[m]||'rgba(91,141,238,.15)'}">
@@ -618,7 +648,7 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
         <td class="num" style="color:var(--muted)">0</td>
         <td class="num" style="font-weight:700">${tot}</td>
         <td class="pct-col">${pct}%</td>
-        <td class="note-col">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${note}" onchange="DATA.notes['${m}']=this.value">`:note}</td>
+        <td class="note-col">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${note}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value">`:note}${noteWarn?`<div class="hi">${noteWarn}</div>`:''}</td>
       </tr>`;
     });
 
