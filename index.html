@@ -243,7 +243,8 @@ const INIT_DATA = {
     {name:'SP4', sp:60, desc:'RBAC + Settings & Configuration', dates:'16 Feb 26 – 1 Mar 26'},
     {name:'SP5', sp:24, desc:'Login Security (มีวันหยุดยาว)', dates:'2 Mar 26 – 15 Mar 26'},
     {name:'SP6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
-    {name:'SP7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'}
+    {name:'SP7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
+    {name:'Sprint 8', sp:38.5, desc:'Rule Automation + Mylogiz integrations', dates:'22 Jun 26 – 3 Jul 26'}
   ],
   aiAllTime: [
     {name:'Sprint 1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
@@ -683,7 +684,7 @@ return `
           <div class="kpi-card"><div class="kpi-label" style="color:var(--accent)">เฉลี่ย Omni / sprint</div><div class="kpi-val" style="color:var(--accent)">${omniAvgSP}</div><div class="kpi-sub">avg ${DATA.omni.sprints.length} sprints ล่าสุด</div></div>
           <div class="kpi-card"><div class="kpi-label" style="color:#7c35b8">เฉลี่ย AI / sprint</div><div class="kpi-val" style="color:#7c35b8">${aiAvgSP}</div><div class="kpi-sub">avg ${DATA.ai.sprints.length} sprints ล่าสุด</div></div>
           <div class="kpi-card"><div class="kpi-label" style="color:var(--yellow)">Commerce</div><div class="kpi-val" style="color:var(--yellow)">0</div><div class="kpi-sub">ยังไม่เริ่ม</div></div>
-          <div class="kpi-card"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val">${combined}</div><div class="kpi-sub">อิงตาม Omni (${DATA.omni.sprints.length} sprints)</div></div>
+          <div class="kpi-card"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val">${combined}</div><div class="kpi-sub">รวม Omni + AI + Commerce (${DATA.omni.sprints.length} sprints ล่าสุด)</div></div>
         </div>
       </div>
     </div>`;
@@ -865,7 +866,7 @@ return `
           <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--accent)">Omni รวม</div><div class="kpi-val" style="color:var(--accent);font-size:24px">${totalSP.omni}</div><div class="kpi-sub">${(DATA.omniAllTime||[]).length} sprints</div></div>
           <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:#7c35b8">AI รวม</div><div class="kpi-val" style="color:#7c35b8;font-size:24px">${totalSP.ai}</div><div class="kpi-sub">${(DATA.aiAllTime||[]).length} sprints</div></div>
           <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--yellow)">Commerce รวม</div><div class="kpi-val" style="color:var(--yellow);font-size:24px">0</div><div class="kpi-sub">ยังไม่เริ่ม</div></div>
-          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val" style="font-size:24px">${Math.round(totalSP.all/(DATA.omniAllTime||[]).length*10)/10}</div><div class="kpi-sub">รวม ${totalSP.all} SP ÷ ${(DATA.omniAllTime||[]).length} sprints (Omni)</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val" style="font-size:24px">${Math.round(totalSP.all/(DATA.omniAllTime||[]).length*10)/10}</div><div class="kpi-sub">รวม ${totalSP.all} SP ÷ ${(DATA.omniAllTime||[]).length} sprints (อิงตามจำนวน sp ของ Omni)</div></div>
         </div>
       </div>
     </div>`;
