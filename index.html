@@ -187,8 +187,8 @@ const SUPA_URL = 'https://qabbwvmazpdyjdjcvhrm.supabase.co';
 const SUPA_KEY = 'sb_publishable_18mSYWVH7Pcp5OaIwjQ7LQ_TtWWz_nj';
 
 const INIT_DATA = {
-  _updated: '2026-06-23T10:00:00',
-  subtitle: 'Zimple Omni (Sprint 5, 6, 7) & Zimple AI (SP.1, SP.2, SP.3) · Dev Team: 5 คน',
+  _updated: '2026-07-03T12:00:00',
+  subtitle: 'Zimple Omni (Sprint 6, 7, 8) & Zimple AI (Sprint 2, 3, 4) · Dev Team: 5 คน',
   members: ['Wick','Q','Griang','Toy','Top','Tan'],
   colors: {Wick:'#7c5bde',Q:'#5b8dee',Griang:'#3ecf8e',Toy:'#f5a623',Top:'#1e40af',Tan:'#6b7595'},
   avatarBg: {Wick:'rgba(96,64,184,.1)',Q:'rgba(59,111,212,.1)',Griang:'rgba(30,158,110,.1)',Toy:'rgba(199,124,0,.1)',Top:'rgba(219,234,254,.8)',Tan:'rgba(136,146,176,.1)'},
@@ -200,39 +200,41 @@ const INIT_DATA = {
     Tan: 'Dev Lead — manage ทีม'
   },
   cycles: [
+
     {
       label: 'รอบที่ 1',
-      omni: {name:'Sprint 5 (มีวันหยุดยาว)', sp:24, desc:'Login Security', dates:'2 Mar 26 – 15 Mar 26'},
-      ai:   {name:'SP.1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
+      omni: {name:'Sprint 6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
+      ai:   {name:'Sprint 2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
       commerce: null
     },
     {
       label: 'รอบที่ 2',
-      omni: {name:'Sprint 6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
-      ai:   {name:'SP.2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
+      omni: {name:'Sprint 7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
+      ai:   {name:'Sprint 3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'},
       commerce: null
     },
     {
       label: 'รอบที่ 3',
-      omni: {name:'Sprint 7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
-      ai:   {name:'SP.3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'},
+      omni: {name:'Sprint 8', sp:38.5, desc:'Rule Automation + Mylogiz integrations', dates:'22 Jun 26 – 3 Jul 26'},
+      ai:   {name:'Sprint 4', sp:0, desc:'ยังไม่มีข้อมูล', dates:''},
       commerce: null
     }
   ],
   omni: {
     sprints: [
-      {name:'Sprint 5', sp:{Q:8,Griang:8,Toy:8}},
       {name:'Sprint 6', sp:{Q:17,Griang:21,Toy:13,Wick:8,Tan:3}},
-      {name:'Sprint 7', sp:{Griang:21,Toy:18,Q:17,Top:0}}
+      {name:'Sprint 7', sp:{Griang:21,Toy:18,Q:17,Top:0}},
+      {name:'Sprint 8', sp:{Wick:16,Griang:9,Q:7,Toy:6.5}}
     ]
   },
   ai: {
     sprints: [
-      {name:'Sprint 1', sp:{Wick:26}},
       {name:'Sprint 2', sp:{Wick:30,Toy:1,Q:1,Top:1,Tan:1,Griang:1}},
-      {name:'Sprint 3', sp:{Wick:36}}
+      {name:'Sprint 3', sp:{Wick:36}},
+      {name:'Sprint 4', sp:{}}
     ]
   },
+  sprint_notes: {'Omni : Sprint 8': 'A4.1(1)-->ui ยังไม่เสร็จ /A4.1(4)--> SP5', 'AI : Sprint 4': 'ไม่ได้ดึง task AI มาทำ/เอาไปทำ sp5 แทน'},
   warnings: ['ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้'],
   omniAllTime: [
     {name:'SP1', sp:76, desc:'Program Setup + Channel Connectivity', dates:'16 Feb 26 – 6 Mar 26'},
@@ -244,9 +246,9 @@ const INIT_DATA = {
     {name:'SP7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'}
   ],
   aiAllTime: [
-    {name:'SP.1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
-    {name:'SP.2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
-    {name:'SP.3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'}
+    {name:'Sprint 1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
+    {name:'Sprint 2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
+    {name:'Sprint 3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'}
   ],
   footnotes: [
     'tasks ที่มีหลาย owner: split SP เท่ากันทุกคน',
@@ -303,11 +305,20 @@ async function loadData(){
           if(ann.footnotes)    DATA.footnotes    = ann.footnotes;
         }
 
-        // Legacy flat structure support
+        // Legacy flat structure support — override if INIT_DATA is newer
         if(!saved.sp_data && !saved.annotations && saved.omni){
+          // DATA already set to INIT_DATA above — keep it if newer
+          // Only merge user annotations from legacy
           if(saved.notes)     DATA.notes     = Object.assign({}, INIT_DATA.notes, saved.notes);
           if(saved.warnings)  DATA.warnings  = saved.warnings;
           if(saved.footnotes) DATA.footnotes = saved.footnotes;
+          // If legacy _updated is newer than INIT_DATA → use legacy sp data
+          if(saved._updated && saved._updated > INIT_DATA._updated){
+            Object.assign(DATA, saved);
+            DATA.notes     = Object.assign({}, INIT_DATA.notes, saved.notes||{});
+            DATA.warnings  = saved.warnings  || INIT_DATA.warnings;
+            DATA.footnotes = saved.footnotes || INIT_DATA.footnotes;
+          }
         }
       }
     }
@@ -479,9 +490,38 @@ function renderModalForm(){
   h += `<div class="ms-section-title" style="margin-top:20px">ข้อความเตือน</div>
   <textarea id="m-warning" class="m-textarea">${(m.warnings||[]).join('\n')}</textarea>`;
 
+  // ── Sprint Notes ──
+  h += `<div class="ms-section-title" style="margin-top:16px">SPRINT NOTES (Note จาก ClickUp — แก้ได้)</div>
+  <div id="m-sprint-notes">`;
+  Object.entries(m.sprint_notes||{}).forEach(([k,v],i)=>{
+    h += `<div class="m-fn-row" style="margin-bottom:6px">
+      <input value="${k}" placeholder="เช่น Omni : Sprint 8" oninput="
+        const keys=Object.keys(DATA.sprint_notes||{});
+        const vals=Object.values(DATA.sprint_notes||{});
+        keys[${i}]=this.value;
+        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
+      " style="flex:0 0 180px;font-weight:600">
+      <input value="${v}" placeholder="note..." oninput="
+        const keys=Object.keys(DATA.sprint_notes||{});
+        const vals=Object.values(DATA.sprint_notes||{});
+        vals[${i}]=this.value;
+        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
+      " style="flex:1">
+      <button class="m-fn-del" onclick="
+        const keys=Object.keys(DATA.sprint_notes||{});
+        const vals=Object.values(DATA.sprint_notes||{});
+        keys.splice(${i},1);vals.splice(${i},1);
+        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
+        renderModalForm()
+      ">ลบ</button>
+    </div>`;
+  });
+  h += `</div>
+  <button class="m-fn-add" onclick="if(!DATA.sprint_notes)DATA.sprint_notes={};const k='Product : Sprint ?';DATA.sprint_notes[k]='';renderModalForm()">+ เพิ่ม sprint note</button>`;
+
   // ── Footnotes ──
-  h += `<div class="ms-section-title" style="margin-top:16px">FOOTNOTES (สูงสุด 5 บรรทัด)</div>
-  <div id="m-footnotes">`;
+  h += `<div class="ms-section-title" style="margin-top:16px">FOOTNOTES (สูงสุด 5 บรรทัด)</div>`;
+  h += `<div id="m-footnotes">`;
   (m.footnotes||[]).forEach((fn,i)=>{
     h += `<div class="m-fn-row">
       <input value="${fn}" oninput="DATA.footnotes[${i}]=this.value" style="flex:1">
@@ -616,6 +656,13 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
         <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">${lastSpCards}</div>
         <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px">รายคน</div>
         <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${memberCards}</div>
+        ${(()=>{
+          const notes = Object.entries(DATA.sprint_notes||{});
+          if(!notes.length) return '';
+          return '<div style="margin-top:10px;padding:8px 12px;background:#fffbeb;border:0.5px solid #fde68a;border-radius:8px;font-size:11px;color:#92400e;line-height:1.7"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;color:#b45309">📝 Note จาก ClickUp</div>'
+          + notes.map(([k,v])=>'<div><span style="font-weight:600">'+k+':</span> '+v+'</div>').join('')
+          + '</div>';
+        })()}
       </div>
     </div>`;
   })()}
