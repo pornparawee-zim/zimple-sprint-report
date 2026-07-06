@@ -788,6 +788,7 @@ return `
         <th>COMMERCE SP<br><span style="font-weight:400">(0sp)</span></th>
         <th>เฉลี่ย<br>COMMERCE/SP</th>
         <th>รวม SP</th>
+        <th>เฉลี่ยรวม<br>/SP</th>
         <th>%</th>
         <th style="text-align:left">หมายเหตุ</th>
       </tr></thead>
@@ -812,6 +813,7 @@ return `
         <td class="num">0</td>
         <td class="num" style="color:var(--muted)">0</td>
         <td class="num" style="font-weight:700">${tot}</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">${Math.round(tot/omniN*100)/100}</td>
         <td class="pct-col">${pct}%</td>
         <td class="note-col">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${note}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value">`:note}${noteWarn?`<div class="hi">${noteWarn}</div>`:''}</td>
       </tr>`;
@@ -829,6 +831,7 @@ return `
       <td class="num">0</td>
       <td class="num">0</td>
       <td class="num">${totalAll}</td>
+      <td class="avg-col" style="color:#92400e;font-weight:600">${Math.round(totalAll/omniN*100)/100}</td>
       <td class="pct-col">100%</td>
       <td></td>
     </tr>`;
