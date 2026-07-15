@@ -162,6 +162,30 @@ td.num{font-family:var(--mono)}
   .bar-right{min-width:80px;font-size:9px}
   main{padding:12px 10px}
 }
+
+/* Member table ("รายคน") — Note gets the most space, other columns sized to fit content */
+.rc-header,.rc-row{display:grid;grid-template-columns:minmax(96px,1fr) minmax(150px,1.15fr) minmax(130px,2.3fr);gap:10px 14px;align-items:center}
+.rc-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
+.rc-row{padding:9px 4px;border-bottom:1px solid var(--border);transition:background .15s}
+.rc-row:last-of-type{border-bottom:none}
+.rc-row:hover{background:rgba(30,158,110,.03)}
+.rc-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.rc-name{display:flex;align-items:center;gap:8px;min-width:0}
+.rc-name span{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc-spwrap{display:flex;gap:10px}
+.rc-sp{flex:1;text-align:center;white-space:nowrap}
+.rc-sp b{font-size:13.5px;font-weight:700;font-family:var(--mono)}
+.rc-sp em{font-size:9.5px;font-style:normal;color:var(--muted);margin-left:2px}
+.rc-note{font-size:11.5px;color:var(--textdim);border:1px solid transparent;border-radius:6px;background:rgba(15,23,42,.025);padding:6px 10px;outline:none;cursor:text;min-height:30px;line-height:1.45;transition:background .15s,border-color .15s,box-shadow .15s;word-break:break-word}
+.rc-note:hover{background:rgba(15,23,42,.045)}
+.rc-note:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(91,141,238,.1)}
+.rc-note:empty:before{content:attr(placeholder);color:var(--muted);font-style:italic}
+@media(max-width:640px){
+  .rc-header{display:none}
+  .rc-row{grid-template-columns:1fr;gap:6px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
+  .rc-spwrap{gap:16px;margin:2px 0 4px 30px}
+  .rc-sp{text-align:left}
+}
 </style>
 </head>
 <body>
@@ -234,6 +258,7 @@ const INIT_DATA = {
       {name:'Sprint 4', sp:{}}
     ]
   },
+  sprint_member_notes: {},
   sprint_notes: {'Omni : Sprint 8': 'A4.1(1)-->ui ยังไม่เสร็จ /A4.1(4)--> SP5', 'AI : Sprint 4': 'ไม่ได้ดึง task AI มาทำ/เอาไปทำ sp5 แทน'},
   warnings: ['ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้'],
   omniAllTime: [
@@ -262,10 +287,10 @@ let editMode = false;
 // Toggle state — persistent across render()
 const kpiState = {
   'kpi-last': true,   // SP sprint ล่าสุด — default open
-  'kpi-avg':  true,   // เฉลี่ย 3 sprint ล่าสุด
+  'kpi-avg':  false,  // เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
   'kpi-all':  false,  // SP รวมทั้งหมด
-  'workload': true,   // Workload
-  'detail':   true    // ตารางละเอียด
+  'workload': false,  // Workload
+  'detail':   false   // ตารางละเอียด
 };
 
 function toggleKpi(id){
@@ -300,10 +325,11 @@ async function loadData(){
         if(saved.annotations){
           const ann = saved.annotations;
           if(ann.notes)        DATA.notes        = Object.assign({}, INIT_DATA.notes, ann.notes);
-          if(ann.sprint_notes) DATA.sprint_notes = ann.sprint_notes;
-          if(ann.sprint_dates) DATA.sprint_dates = ann.sprint_dates;
-          if(ann.warnings)     DATA.warnings     = ann.warnings;
-          if(ann.footnotes)    DATA.footnotes    = ann.footnotes;
+          if(ann.sprint_notes && Object.keys(ann.sprint_notes).length) DATA.sprint_notes = ann.sprint_notes;
+          if(ann.sprint_member_notes && Object.keys(ann.sprint_member_notes).length) DATA.sprint_member_notes = ann.sprint_member_notes;
+          if(ann.sprint_dates && Object.keys(ann.sprint_dates).length) DATA.sprint_dates = ann.sprint_dates;
+          if(ann.warnings && ann.warnings.length)  DATA.warnings     = ann.warnings;
+          if(ann.footnotes && ann.footnotes.length) DATA.footnotes   = ann.footnotes;
         }
 
         // Legacy flat structure support — override if INIT_DATA is newer
@@ -311,8 +337,8 @@ async function loadData(){
           // DATA already set to INIT_DATA above — keep it if newer
           // Only merge user annotations from legacy
           if(saved.notes)     DATA.notes     = Object.assign({}, INIT_DATA.notes, saved.notes);
-          if(saved.warnings)  DATA.warnings  = saved.warnings;
-          if(saved.footnotes) DATA.footnotes = saved.footnotes;
+          if(saved.warnings && saved.warnings.length)  DATA.warnings  = saved.warnings;
+          if(saved.footnotes && saved.footnotes.length) DATA.footnotes = saved.footnotes;
           // If legacy _updated is newer than INIT_DATA → use legacy sp data
           if(saved._updated && saved._updated > INIT_DATA._updated){
             Object.assign(DATA, saved);
@@ -344,6 +370,7 @@ async function saveData(){
     annotations: {
       notes:        DATA.notes        || {},
       sprint_notes: DATA.sprint_notes || {},
+      sprint_member_notes: DATA.sprint_member_notes || {},
       sprint_dates: DATA.sprint_dates || {},
       warnings:     DATA.warnings     || [],
       footnotes:    DATA.footnotes    || []
@@ -471,6 +498,8 @@ function renderModalForm(){
 
   // ── หมายเหตุรายคน ──
   h += `<div class="ms-section-title" style="margin-top:20px">หมายเหตุรายคน</div>`;
+  const lastOmniM = m.omni.sprints[m.omni.sprints.length-1];
+  const lastSprintKeyM = lastOmniM ? lastOmniM.name : '';
   const allMembers = [...(m.members||[])];
   if(!allMembers.includes('Top')) allMembers.push('Top');
   allMembers.forEach(mem=>{
@@ -479,6 +508,10 @@ function renderModalForm(){
       <div class="m-field" style="flex:1">
         <label>หมายเหตุ</label>
         <input value="${(m.notes||{})[mem]||''}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${mem}']=this.value">
+      </div>
+      <div class="m-field" style="flex:1">
+        <label>Note sprint นี้ (${lastSprintKeyM||'-'})</label>
+        <input value="${((m.sprint_member_notes||{})[lastSprintKeyM]||{})[mem]||''}" oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['${lastSprintKeyM}'])DATA.sprint_member_notes['${lastSprintKeyM}']={};DATA.sprint_member_notes['${lastSprintKeyM}']['${mem}']=this.value">
       </div>
       <div class="m-field" style="flex:1">
         <label>คำเตือน (สีแดง)</label>
@@ -631,21 +664,33 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
         <div class="kpi-val">${omniSP+aiSP}</div>
         <div class="kpi-sub">Omni + AI</div>
       </div>`;
+    const memberAvg3 = {};
+    DATA.members.forEach(m => {
+      const omniSum = DATA.omni.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      const aiSum   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      memberAvg3[m] = Math.round((omniSum+aiSum)/DATA.omni.sprints.length*100)/100;
+    });
+    const lastSprintKey = lastOmni ? lastOmni.name : '';
+    const memberHeader = `<div class="rc-header">
+      <div class="rc-label">คน</div>
+      <div class="rc-spwrap"><div class="rc-label" style="flex:1;text-align:center">Sprint ล่าสุด</div><div class="rc-label" style="flex:1;text-align:center;color:#92400e">เฉลี่ย 3 Sprint</div></div>
+      <div class="rc-label">Note sprint นี้</div>
+    </div>`;
     const memberCards = DATA.members.map(m=>`
-      <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);overflow:hidden">
-        <div class="m-avatar" style="background:${(DATA.avatarBg||{})[m]||'#eee'};color:${(DATA.colors||{})[m]||'#333'};width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">${m.substring(0,2)}</div>
-        <div style="font-size:12px;font-weight:500;min-width:48px">${m}</div>
-        <div style="font-size:13px;font-weight:700;font-family:var(--mono);color:${(DATA.colors||{})[m]||'var(--text)'}">${memberLastSP[m]}</div>
-        <div style="font-size:10px;color:var(--muted);margin-left:2px">SP</div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:${(DATA.avatarBg||{})[m]||'#eee'};color:${(DATA.colors||{})[m]||'#333'};width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">${m.substring(0,2)}</div>
+          <span>${m}</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:${(DATA.colors||{})[m]||'var(--text)'}">${memberLastSP[m]}</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">${memberAvg3[m]}</b><em>SP</em></div>
+        </div>
         <div
+          class="rc-note"
           contenteditable="true"
-          data-member="${m}"
-          oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.innerText.trim();saveData()"
-          placeholder="note..."
-          style="margin-left:auto;font-size:11px;color:var(--textdim);border-bottom:1px solid transparent;background:transparent;outline:none;text-align:right;max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor:text;transition:border-color .15s;padding:1px 0"
-          onfocus="this.style.borderBottomColor='var(--accent)';this.style.overflow='visible';this.style.whiteSpace='normal'"
-          onblur="this.style.borderBottomColor='transparent';this.style.overflow='hidden';this.style.whiteSpace='nowrap'"
-        >${(DATA.notes||{})[m]||''}</div>
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['${lastSprintKey}'])DATA.sprint_member_notes['${lastSprintKey}']={};DATA.sprint_member_notes['${lastSprintKey}']['${m}']=this.innerText.trim();saveData()"
+        >${((DATA.sprint_member_notes||{})[lastSprintKey]||{})[m]||''}</div>
       </div>`).join('');
     return `
     <div class="kpi-collapsible">
@@ -656,7 +701,17 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
       <div id="kpi-last-body" class="kpi-sec-body" style="${kpiState['kpi-last']?'':' display:none'}">
         <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">${lastSpCards}</div>
         <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px">รายคน</div>
-        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${memberCards}</div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${memberHeader}${memberCards}</div>
+        ${(()=>{
+          let wf = '';
+          (DATA.warnings||[]).forEach(w=>{ wf += `<div class="warn-box" style="margin-top:10px">⚠️ ${w}</div>`; });
+          if((DATA.footnotes||[]).length){
+            wf += '<ul class="fn-list" style="margin-top:8px">';
+            DATA.footnotes.forEach(fn=>{ wf += `<li>${fn}</li>`; });
+            wf += '</ul>';
+          }
+          return wf;
+        })()}
         ${(()=>{
           const notes = Object.entries(DATA.sprint_notes||{});
           if(!notes.length) return '';
@@ -668,15 +723,44 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
     </div>`;
   })()}
 
-  <!-- Section 2: เฉลี่ย 3 sprint ล่าสุด (default closed) -->
+  <!-- Section 2: เฉลี่ย 3 sprint ล่าสุด + Sprint Overview (รวม section เดียว, default closed) -->
   ${(()=>{
     const omniAvgSP = Math.round(DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.omni.sprints.length*10)/10;
     const aiAvgSP   = Math.round(DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.ai.sprints.length*10)/10;
     const combined  = Math.round((DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0))/DATA.omni.sprints.length*10)/10;
+
+    let cyclesHtml = `<div class="section-label" style="margin-top:16px">SPRINT OVERVIEW</div><div class="cycles-grid">`;
+    DATA.cycles.forEach((cy,i)=>{
+      cyclesHtml += `<div class="cycle-card"><div class="cycle-title">${cy.label}</div>`;
+      if(cy.omni){
+        const o=cy.omni;
+        cyclesHtml += `<div class="sprint-item">
+          <span class="sprint-name">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:600;width:140px" value="${o.name}" oninput="DATA.cycles[${i}].omni.name=this.value">`:o.name}</span>
+          <span class="sprint-sp omni">${editMode?`<input type="number" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:700;width:40px;text-align:right" value="${o.sp}" oninput="DATA.cycles[${i}].omni.sp=+this.value">`:o.sp} SP</span>
+          <div class="sprint-desc">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">`:o.desc||''}</div>
+          <div class="sprint-dates">${o.dates||''}</div>
+        </div>`;
+      }
+      if(cy.ai){
+        const a=cy.ai;
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:#7c35b8">${a.name}</span>
+          <span class="sprint-sp ai">${a.sp} SP</span>
+          <div class="sprint-desc">${a.desc||''}</div>
+          <div class="sprint-dates">${a.dates||''}</div>
+        </div>`;
+      } else if(i>0){
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-empty">— AI ยังไม่เริ่ม —</div>`;
+      }
+      if(!cy.commerce){ cyclesHtml += i===0?`<hr class="sprint-divider"><div class="sprint-empty">— Commerce ยังไม่เริ่ม —</div>`:''; }
+      cyclesHtml += `</div>`;
+    });
+    cyclesHtml += `</div>`;
+
 return `
     <div class="kpi-collapsible">
       <button class="kpi-sec-btn" onclick="toggleKpi('kpi-avg')" style="border-left:4px solid #3b6fd4;background:rgba(59,111,212,.04)">
-        📈 เฉลี่ย 3 sprint ล่าสุด
+        📈 เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
         <span id="kpi-avg-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['kpi-avg']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
       </button>
       <div id="kpi-avg-body" class="kpi-sec-body" style="${kpiState['kpi-avg']?'':' display:none'}">
@@ -686,41 +770,10 @@ return `
           <div class="kpi-card"><div class="kpi-label" style="color:var(--yellow)">Commerce</div><div class="kpi-val" style="color:var(--yellow)">0</div><div class="kpi-sub">ยังไม่เริ่ม</div></div>
           <div class="kpi-card"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val">${combined}</div><div class="kpi-sub">รวม Omni + AI + Commerce (${DATA.omni.sprints.length} sprints ล่าสุด)</div></div>
         </div>
+        ${cyclesHtml}
       </div>
     </div>`;
   })()}
-
-  <!-- Sprint Overview -->
-  <div class="section-label">SPRINT OVERVIEW</div>
-  <div class="cycles-grid">`;
-
-  DATA.cycles.forEach((cy,i)=>{
-    h += `<div class="cycle-card"><div class="cycle-title">${cy.label}</div>`;
-    if(cy.omni){
-      const o=cy.omni;
-      h += `<div class="sprint-item">
-        <span class="sprint-name">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:600;width:140px" value="${o.name}" oninput="DATA.cycles[${i}].omni.name=this.value">`:o.name}</span>
-        <span class="sprint-sp omni">${editMode?`<input type="number" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:700;width:40px;text-align:right" value="${o.sp}" oninput="DATA.cycles[${i}].omni.sp=+this.value">`:o.sp} SP</span>
-        <div class="sprint-desc">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">`:o.desc||''}</div>
-        <div class="sprint-dates">${o.dates||''}</div>
-      </div>`;
-    }
-    if(cy.ai){
-      const a=cy.ai;
-      h += `<hr class="sprint-divider"><div class="sprint-item">
-        <span class="sprint-name" style="color:#7c35b8">${a.name}</span>
-        <span class="sprint-sp ai">${a.sp} SP</span>
-        <div class="sprint-desc">${a.desc||''}</div>
-        <div class="sprint-dates">${a.dates||''}</div>
-      </div>`;
-    } else if(i>0){
-      h += `<hr class="sprint-divider"><div class="sprint-empty">— AI ยังไม่เริ่ม —</div>`;
-    }
-    if(!cy.commerce){ h += i===0?`<hr class="sprint-divider"><div class="sprint-empty">— Commerce ยังไม่เริ่ม —</div>`:''; }
-    h += `</div>`;
-  });
-
-  h += `</div>
 
   <!-- Workload -->
   <div class="workload-header">
@@ -847,16 +900,6 @@ return `
   const coreAI   = members.filter(m=>memberTotals[m].ai>10).join('+');
 
   // bottom summary now in KPI section
-
-  // Warnings
-  DATA.warnings.forEach(w=>{
-    h += `<div class="warn-box">⚠️ ${w}</div>`;
-  });
-
-  // Footnotes
-  h += `<ul class="fn-list">`;
-  DATA.footnotes.forEach(fn=>{ h += `<li>${fn}</li>`; });
-  h += `</ul>`;
 
   h += `
     <div class="kpi-collapsible" style="margin-bottom:20px">
