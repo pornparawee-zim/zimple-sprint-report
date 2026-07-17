@@ -180,11 +180,21 @@ td.num{font-family:var(--mono)}
 .rc-note:hover{background:rgba(15,23,42,.045)}
 .rc-note:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(91,141,238,.1)}
 .rc-note:empty:before{content:attr(placeholder);color:var(--muted);font-style:italic}
+.df-header,.df-row{display:grid;grid-template-columns:minmax(80px,.7fr) minmax(160px,2.3fr) minmax(110px,1.2fr) minmax(80px,.8fr);gap:10px 14px;align-items:center}
+.df-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
+.df-row{padding:9px 4px;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;transition:background .15s}
+.df-row:last-of-type{border-bottom:none}
+.df-row:hover{background:rgba(214,62,74,.03)}
+.df-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;background:rgba(102,71,240,.1);color:#6647f0}
+.df-name{font-size:12px;color:var(--text)}
+.df-sub{font-size:11px;color:var(--textdim)}
 @media(max-width:640px){
   .rc-header{display:none}
   .rc-row{grid-template-columns:1fr;gap:6px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
   .rc-spwrap{gap:16px;margin:2px 0 4px 30px}
   .rc-sp{text-align:left}
+  .df-header{display:none}
+  .df-row{grid-template-columns:1fr;gap:4px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
 }
 </style>
 </head>
@@ -211,55 +221,67 @@ const SUPA_URL = 'https://qabbwvmazpdyjdjcvhrm.supabase.co';
 const SUPA_KEY = 'sb_publishable_18mSYWVH7Pcp5OaIwjQ7LQ_TtWWz_nj';
 
 const INIT_DATA = {
-  _updated: '2026-07-03T12:00:00',
-  subtitle: 'Zimple Omni (Sprint 6, 7, 8) & Zimple AI (Sprint 2, 3, 4) · Dev Team: 5 คน',
-  members: ['Wick','Q','Griang','Toy','Top','Tan'],
-  colors: {Wick:'#7c5bde',Q:'#5b8dee',Griang:'#3ecf8e',Toy:'#f5a623',Top:'#1e40af',Tan:'#6b7595'},
-  avatarBg: {Wick:'rgba(96,64,184,.1)',Q:'rgba(59,111,212,.1)',Griang:'rgba(30,158,110,.1)',Toy:'rgba(199,124,0,.1)',Top:'rgba(219,234,254,.8)',Tan:'rgba(136,146,176,.1)'},
+  _updated: '2026-07-17T18:00:00',
+  subtitle: 'Zimple Omni (Sprint 7, 8, 9) & Zimple AI (Sprint 3, 4, 5) & Zimple Commerce (Sprint 1) · Dev Team: 8 คน',
+  members: ['Wick','Q','Griang','Toy','Tan','Tee','Prem','Kim'],
+  colors: {Wick:'#7c5bde',Q:'#5b8dee',Griang:'#3ecf8e',Toy:'#f5a623',Top:'#1e40af',Tan:'#6b7595',Tee:'#0d9488',Prem:'#be185d',Kim:'#4338ca'},
+  avatarBg: {Wick:'rgba(96,64,184,.1)',Q:'rgba(59,111,212,.1)',Griang:'rgba(30,158,110,.1)',Toy:'rgba(199,124,0,.1)',Top:'rgba(219,234,254,.8)',Tan:'rgba(136,146,176,.1)',Tee:'rgba(13,148,136,.1)',Prem:'rgba(190,24,93,.1)',Kim:'rgba(67,56,202,.1)'},
   notes: {
     Wick: 'ควบ 2 projects',
     Q: 'Core dev Omni',
     Griang: 'Core dev Omni เท่านั้น',
     Toy: 'Core dev Omni',
-    Tan: 'Dev Lead — manage ทีม'
+    Tan: 'Dev Lead — manage ทีม',
+    Tee: 'Dev ใหม่ (เข้าทีม Sprint 9)',
+    Prem: 'Dev ใหม่ — รับหน้าที่แก้ defect',
+    Kim: 'Dev ใหม่ (เข้าทีม Sprint 9)'
   },
   cycles: [
 
     {
       label: 'รอบที่ 1',
-      omni: {name:'Sprint 6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
-      ai:   {name:'Sprint 2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
-      commerce: null
-    },
-    {
-      label: 'รอบที่ 2',
       omni: {name:'Sprint 7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
       ai:   {name:'Sprint 3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'},
       commerce: null
     },
     {
-      label: 'รอบที่ 3',
+      label: 'รอบที่ 2',
       omni: {name:'Sprint 8', sp:38.5, desc:'Rule Automation + Mylogiz integrations', dates:'22 Jun 26 – 3 Jul 26'},
       ai:   {name:'Sprint 4', sp:0, desc:'ยังไม่มีข้อมูล', dates:''},
       commerce: null
+    },
+    {
+      label: 'รอบที่ 3',
+      omni: {name:'Sprint 9', sp:114, desc:'Broadcast + Rule Automation + RBAC/Permission + Meilisearch Search', dates:'6 Jul 26 – 17 Jul 26'},
+      ai:   {name:'Sprint 5', sp:16.5, desc:'Multi-turn Conversation + Handover Detection + Summary/Classification API', dates:'6 Jul 26 – 17 Jul 26'},
+      commerce: {name:'Sprint 1', sp:3, desc:'Project Setup + 3rd-party Tools POC', dates:'6 Jul 26 – 17 Jul 26'}
     }
   ],
   omni: {
     sprints: [
-      {name:'Sprint 6', sp:{Q:17,Griang:21,Toy:13,Wick:8,Tan:3}},
       {name:'Sprint 7', sp:{Griang:21,Toy:18,Q:17,Top:0}},
-      {name:'Sprint 8', sp:{Wick:16,Griang:9,Q:7,Toy:6.5}}
+      {name:'Sprint 8', sp:{Wick:16,Griang:9,Q:7,Toy:6.5}},
+      {name:'Sprint 9', sp:{Q:15.5,Griang:12,Toy:10.5,Tan:8,Tee:12,Prem:56}}
     ]
   },
   ai: {
     sprints: [
-      {name:'Sprint 2', sp:{Wick:30,Toy:1,Q:1,Top:1,Tan:1,Griang:1}},
       {name:'Sprint 3', sp:{Wick:36}},
-      {name:'Sprint 4', sp:{}}
+      {name:'Sprint 4', sp:{}},
+      {name:'Sprint 5', sp:{Wick:11,Kim:5.5}}
+    ]
+  },
+  commerce: {
+    sprints: [
+      {name:'Sprint 1', sp:{Prem:3}}
     ]
   },
   sprint_member_notes: {},
-  sprint_notes: {'Omni : Sprint 8': 'A4.1(1)-->ui ยังไม่เสร็จ /A4.1(4)--> SP5', 'AI : Sprint 4': 'ไม่ได้ดึง task AI มาทำ/เอาไปทำ sp5 แทน'},
+  sprint_notes: {
+    'Omni : Sprint 9': 'STORY-BC-01-->cut scope send to specific / A4.1(1)-->Carry from sp8 / A4.1(4)-->move มาจาก sp8 / Website Chat Widget SDK-->ติด 2 ใบ รองานที',
+    'AI : Sprint 5': 'STORY-ACE-01-->เก็บงานได้ 11/13 / STORY-ACE-03-->เก็บงานได้ 2.3/8 / STORY-ACE-04-->เก็บงานได้ 3.2/8',
+    'Commerce : Sprint 1': 'POC 3rd-party tools-->POC ไปได้ 1/16'
+  },
   warnings: ['ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้'],
   omniAllTime: [
     {name:'SP1', sp:76, desc:'Program Setup + Channel Connectivity', dates:'16 Feb 26 – 6 Mar 26'},
@@ -269,16 +291,31 @@ const INIT_DATA = {
     {name:'SP5', sp:24, desc:'Login Security (มีวันหยุดยาว)', dates:'2 Mar 26 – 15 Mar 26'},
     {name:'SP6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
     {name:'SP7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
-    {name:'Sprint 8', sp:38.5, desc:'Rule Automation + Mylogiz integrations', dates:'22 Jun 26 – 3 Jul 26'}
+    {name:'Sprint 8', sp:38.5, desc:'Rule Automation + Mylogiz integrations', dates:'22 Jun 26 – 3 Jul 26'},
+    {name:'Sprint 9', sp:114, desc:'Broadcast + Rule Automation + RBAC/Permission + Meilisearch Search', dates:'6 Jul 26 – 17 Jul 26'}
   ],
   aiAllTime: [
     {name:'Sprint 1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
     {name:'Sprint 2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
-    {name:'Sprint 3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'}
+    {name:'Sprint 3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'},
+    {name:'Sprint 4', sp:0, desc:'ยังไม่มีข้อมูล', dates:'22 Jun 26 – 3 Jul 26'},
+    {name:'Sprint 5', sp:16.5, desc:'Multi-turn Conversation + Handover Detection + Summary/Classification API', dates:'6 Jul 26 – 17 Jul 26'}
+  ],
+  commerceAllTime: [
+    {name:'Sprint 1', sp:3, desc:'Project Setup + 3rd-party Tools POC', dates:'6 Jul 26 – 17 Jul 26'}
   ],
   footnotes: [
     'tasks ที่มีหลาย owner: split SP เท่ากันทุกคน',
-    'Top ออกจาก report ตั้งแต่ Sprint 7 เป็นต้นไป (ย้ายไป project นอกเต็มตัว)'
+    'Top ออกจาก report ตั้งแต่ Sprint 7 เป็นต้นไป (ย้ายไป project นอกเต็มตัว)',
+    'ตั้งแต่ Sprint 9: Tee, Prem, Kim เข้าร่วมทีมแทน Top',
+    'Zimple Commerce เริ่ม Sprint 1 (7/6–7/17) เป็นรอบแรก'
+  ],
+  defects: [
+    {id:'ACE-2762', name:"SLA - ไม่สามารถ 'ปิด' ใช้งาน SLA ทั้งหมดได้", product:'Omni', ownerParent:'Toy, Siraphob', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3mpx98'},
+    {id:'ACE-2763', name:'Search - ปุ่ม Search ไม่สามารถใช้งานได้', product:'Omni', ownerParent:'Griang', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3muh0f'},
+    {id:'ACE-2764', name:'Filter - ปุ่ม Filter Channel, Status, Assignee และ Tag ไม่สามารถใช้งานได้', product:'Omni', ownerParent:'ไม่พบ (REF ไม่ใช่ลิงก์)', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3muk5g'},
+    {id:'ACE-2765', name:'SLA - Channel Shopee ใน SLA Target ต่อ Channel ไม่แสดง', product:'Omni', ownerParent:'ไม่พบ (REF ไม่ใช่ ClickUp task)', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3murua'},
+    {id:'ACE-2766', name:'SLA - เมื่อเปิด "นับ SLA เฉพาะ Business Hours" คำนวณ due time ผิด', product:'Omni', ownerParent:'Griang, Toy, Wetchayan', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3mv8ur'}
   ]
 };
 
@@ -287,6 +324,7 @@ let editMode = false;
 // Toggle state — persistent across render()
 const kpiState = {
   'kpi-last': true,   // SP sprint ล่าสุด — default open
+  'defects':  true,   // Defect ที่ถูกเอาเข้า SP — default open
   'kpi-avg':  false,  // เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
   'kpi-all':  false,  // SP รวมทั้งหมด
   'workload': false,  // Workload
@@ -364,8 +402,11 @@ async function saveData(){
       cycles: DATA.cycles,
       omni: DATA.omni,
       ai: DATA.ai,
+      commerce: DATA.commerce,
       omniAllTime: DATA.omniAllTime,
-      aiAllTime: DATA.aiAllTime
+      aiAllTime: DATA.aiAllTime,
+      commerceAllTime: DATA.commerceAllTime,
+      defects: DATA.defects
     },
     annotations: {
       notes:        DATA.notes        || {},
@@ -589,9 +630,10 @@ function compute(){
   // All-time totals
   const totalSP = {
     omni: (DATA.omniAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0),
-    ai:   (DATA.aiAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0)
+    ai:   (DATA.aiAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0),
+    commerce: ((DATA.commerce&&DATA.commerce.sprints)||[]).reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)
   };
-  totalSP.all = totalSP.omni + totalSP.ai;
+  totalSP.all = totalSP.omni + totalSP.ai + totalSP.commerce;
   // Max sprint SP (for reference)
   const maxOmniSP = Math.max(...(DATA.omniAllTime||[]).map(s=>typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)));
   const cycles = DATA.omni.sprints.length; // 3
@@ -635,13 +677,16 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
   ${(()=>{
     const lastOmni = DATA.omni.sprints[DATA.omni.sprints.length-1];
     const lastAi   = DATA.ai.sprints[DATA.ai.sprints.length-1];
+    const lastCommerce = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints[DATA.commerce.sprints.length-1] : null;
     const omniSP   = lastOmni ? Object.values(lastOmni.sp).reduce((a,b)=>a+b,0) : 0;
     const aiSP     = lastAi   ? Object.values(lastAi.sp).reduce((a,b)=>a+b,0)   : 0;
+    const commerceSP = lastCommerce ? Object.values(lastCommerce.sp).reduce((a,b)=>a+b,0) : 0;
     const memberLastSP = {};
     DATA.members.forEach(m=>{
       const o = lastOmni ? (lastOmni.sp[m]||0) : 0;
       const a = lastAi   ? (lastAi.sp[m]||0)   : 0;
-      memberLastSP[m] = o + a;
+      const c = lastCommerce ? (lastCommerce.sp[m]||0) : 0;
+      memberLastSP[m] = o + a + c;
     });
     const lastSpCards = `
       <div class="kpi-card">
@@ -655,20 +700,21 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
         <div class="kpi-sub">SP sprint ล่าสุด</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label" style="color:var(--yellow)">Commerce</div>
-        <div class="kpi-val" style="color:var(--yellow)">0</div>
-        <div class="kpi-sub">ยังไม่เริ่ม</div>
+        <div class="kpi-label" style="color:var(--yellow)">Commerce${lastCommerce?' — '+lastCommerce.name:''}</div>
+        <div class="kpi-val" style="color:var(--yellow)">${commerceSP}</div>
+        <div class="kpi-sub">${lastCommerce?'SP sprint ล่าสุด':'ยังไม่เริ่ม'}</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">รวม sprint นี้</div>
-        <div class="kpi-val">${omniSP+aiSP}</div>
-        <div class="kpi-sub">Omni + AI</div>
+        <div class="kpi-val">${omniSP+aiSP+commerceSP}</div>
+        <div class="kpi-sub">Omni + AI + Commerce</div>
       </div>`;
     const memberAvg3 = {};
     DATA.members.forEach(m => {
       const omniSum = DATA.omni.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
       const aiSum   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
-      memberAvg3[m] = Math.round((omniSum+aiSum)/DATA.omni.sprints.length*100)/100;
+      const commerceSum = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints.reduce((a,s)=>a+(s.sp[m]||0),0) : 0;
+      memberAvg3[m] = Math.round((omniSum+aiSum+commerceSum)/DATA.omni.sprints.length*100)/100;
     });
     const lastSprintKey = lastOmni ? lastOmni.name : '';
     const memberHeader = `<div class="rc-header">
@@ -723,11 +769,50 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
     </div>`;
   })()}
 
+  <!-- Section: Defect ที่ถูกเอาเข้า SP (default open) -->
+  ${(()=>{
+    const defects = DATA.defects||[];
+    if(!defects.length) return '';
+    const lastOmniD = DATA.omni.sprints[DATA.omni.sprints.length-1];
+    const lastAiD   = DATA.ai.sprints[DATA.ai.sprints.length-1];
+    const lastCommerceD = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints[DATA.commerce.sprints.length-1] : null;
+    const sprintLabels = [
+      lastOmniD ? `Omni ${lastOmniD.name}` : null,
+      lastAiD ? `AI ${lastAiD.name}` : null,
+      lastCommerceD ? `Commerce ${lastCommerceD.name}` : null
+    ].filter(Boolean).join(' / ');
+    const header = `<div class="df-header">
+      <div class="rc-label">ACE Product</div>
+      <div class="rc-label">ชื่อ Task</div>
+      <div class="rc-label">Owner of Parent Task</div>
+      <div class="rc-label">Owner Defect Task</div>
+    </div>`;
+    const rows = defects.map(d=>`
+      <a class="df-row" href="${d.url}" target="_blank" rel="noopener">
+        <div><span class="df-tag">${d.product||'—'}</span></div>
+        <div class="df-name">${d.id?`<span style="color:var(--muted);font-family:var(--mono);font-size:10px">${d.id}</span> `:''}${d.name}</div>
+        <div class="df-sub">${d.ownerParent||'—'}</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">${d.ownerDefect||'—'}</div>
+      </a>`).join('');
+    return `
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('defects')" style="border-left:4px solid #d63e4a;background:rgba(214,62,74,.04)">
+        🐞 Defect ที่ถูกเอาเข้า SP ล่าสุด (${sprintLabels}) — ${defects.length} tasks
+        <span id="defects-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['defects']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="defects-body" class="kpi-sec-body" style="${kpiState['defects']?'':' display:none'}">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${header}${rows}</div>
+        <div style="font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.6">* ACE Product ของ defect เหล่านี้ยังไม่ได้ fill ใน ClickUp จริง — ใช้ Omni ตามที่ยืนยันไว้ชั่วคราว<br>* Owner of Parent Task ดึงจากลิงก์ REF ใน description (บาง task ไม่มีลิงก์ที่ใช้ได้ จึงระบุไม่ได้)</div>
+      </div>
+    </div>`;
+  })()}
+
   <!-- Section 2: เฉลี่ย 3 sprint ล่าสุด + Sprint Overview (รวม section เดียว, default closed) -->
   ${(()=>{
     const omniAvgSP = Math.round(DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.omni.sprints.length*10)/10;
     const aiAvgSP   = Math.round(DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.ai.sprints.length*10)/10;
-    const combined  = Math.round((DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0))/DATA.omni.sprints.length*10)/10;
+    const commerceTotal = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0) : 0;
+    const combined  = Math.round((DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+commerceTotal)/DATA.omni.sprints.length*10)/10;
 
     let cyclesHtml = `<div class="section-label" style="margin-top:16px">SPRINT OVERVIEW</div><div class="cycles-grid">`;
     DATA.cycles.forEach((cy,i)=>{
@@ -752,7 +837,17 @@ const maxBar = Math.max(...Object.values(_allSpMap), 1);
       } else if(i>0){
         cyclesHtml += `<hr class="sprint-divider"><div class="sprint-empty">— AI ยังไม่เริ่ม —</div>`;
       }
-      if(!cy.commerce){ cyclesHtml += i===0?`<hr class="sprint-divider"><div class="sprint-empty">— Commerce ยังไม่เริ่ม —</div>`:''; }
+      if(cy.commerce){
+        const c=cy.commerce;
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:var(--yellow)">${c.name}</span>
+          <span class="sprint-sp" style="color:var(--yellow)">${c.sp} SP</span>
+          <div class="sprint-desc">${c.desc||''}</div>
+          <div class="sprint-dates">${c.dates||''}</div>
+        </div>`;
+      } else if(i>0){
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-empty">— Commerce ยังไม่เริ่ม —</div>`;
+      }
       cyclesHtml += `</div>`;
     });
     cyclesHtml += `</div>`;
@@ -767,7 +862,7 @@ return `
         <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">
           <div class="kpi-card"><div class="kpi-label" style="color:var(--accent)">เฉลี่ย Omni / sprint</div><div class="kpi-val" style="color:var(--accent)">${omniAvgSP}</div><div class="kpi-sub">avg ${DATA.omni.sprints.length} sprints ล่าสุด</div></div>
           <div class="kpi-card"><div class="kpi-label" style="color:#7c35b8">เฉลี่ย AI / sprint</div><div class="kpi-val" style="color:#7c35b8">${aiAvgSP}</div><div class="kpi-sub">avg ${DATA.ai.sprints.length} sprints ล่าสุด</div></div>
-          <div class="kpi-card"><div class="kpi-label" style="color:var(--yellow)">Commerce</div><div class="kpi-val" style="color:var(--yellow)">0</div><div class="kpi-sub">ยังไม่เริ่ม</div></div>
+          <div class="kpi-card"><div class="kpi-label" style="color:var(--yellow)">Commerce</div><div class="kpi-val" style="color:var(--yellow)">${commerceTotal}</div><div class="kpi-sub">${commerceTotal?('avg '+Math.round(commerceTotal/DATA.omni.sprints.length*10)/10+' /sprint'):'ยังไม่เริ่ม'}</div></div>
           <div class="kpi-card"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val">${combined}</div><div class="kpi-sub">รวม Omni + AI + Commerce (${DATA.omni.sprints.length} sprints ล่าสุด)</div></div>
         </div>
         ${cyclesHtml}
@@ -911,7 +1006,7 @@ return `
         <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
           <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--accent)">Omni รวม</div><div class="kpi-val" style="color:var(--accent);font-size:24px">${totalSP.omni}</div><div class="kpi-sub">${(DATA.omniAllTime||[]).length} sprints</div></div>
           <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:#7c35b8">AI รวม</div><div class="kpi-val" style="color:#7c35b8;font-size:24px">${totalSP.ai}</div><div class="kpi-sub">${(DATA.aiAllTime||[]).length} sprints</div></div>
-          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--yellow)">Commerce รวม</div><div class="kpi-val" style="color:var(--yellow);font-size:24px">0</div><div class="kpi-sub">ยังไม่เริ่ม</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--yellow)">Commerce รวม</div><div class="kpi-val" style="color:var(--yellow);font-size:24px">${totalSP.commerce}</div><div class="kpi-sub">${(DATA.commerce&&DATA.commerce.sprints||[]).length} sprints</div></div>
           <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val" style="font-size:24px">${Math.round(totalSP.all/(DATA.omniAllTime||[]).length*10)/10}</div><div class="kpi-sub">รวม ${totalSP.all} SP ÷ ${(DATA.omniAllTime||[]).length} sprints (อิงตามจำนวน sp ของ Omni)</div></div>
         </div>
       </div>
