@@ -363,7 +363,6 @@ async function loadData(){
         if(saved.annotations){
           const ann = saved.annotations;
           if(ann.notes)        DATA.notes        = Object.assign({}, INIT_DATA.notes, ann.notes);
-          if(ann.sprint_notes && Object.keys(ann.sprint_notes).length) DATA.sprint_notes = ann.sprint_notes;
           if(ann.sprint_member_notes && Object.keys(ann.sprint_member_notes).length) DATA.sprint_member_notes = ann.sprint_member_notes;
           if(ann.sprint_dates && Object.keys(ann.sprint_dates).length) DATA.sprint_dates = ann.sprint_dates;
           if(ann.warnings && ann.warnings.length)  DATA.warnings     = ann.warnings;
@@ -406,11 +405,11 @@ async function saveData(){
       omniAllTime: DATA.omniAllTime,
       aiAllTime: DATA.aiAllTime,
       commerceAllTime: DATA.commerceAllTime,
-      defects: DATA.defects
+      defects: DATA.defects,
+      sprint_notes: DATA.sprint_notes || {}
     },
     annotations: {
       notes:        DATA.notes        || {},
-      sprint_notes: DATA.sprint_notes || {},
       sprint_member_notes: DATA.sprint_member_notes || {},
       sprint_dates: DATA.sprint_dates || {},
       warnings:     DATA.warnings     || [],
