@@ -1,1038 +1,138 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zimple Sprint Effort Summary</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ACE Velocity — Sprint 11 Final [TEST]</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
-:root{--bg:#f4f6fb;--surface:#ffffff;--card:#f8fafc;--border:#dde3f0;--accent:#3b6fd4;--accent2:#6040b8;--green:#1e9e6e;--yellow:#c77c00;--red:#d63e4a;--orange:#c26000;--muted:#8892b0;--textdim:#4a5568;--text:#1a1f36;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans Thai',sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh}
-/* Header */
-.topbar{background:#ffffff;border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.06);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-.edit-badge{background:var(--accent2);color:#fff;border-radius:5px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:500;border:none;font-family:var(--sans)}
-.edit-hint{font-size:10px;color:#8892b0;margin-left:auto}
-/* Date badge */
-.date-badge{background:rgba(91,141,238,.12);color:var(--accent);border:1px solid rgba(91,141,238,.2);border-radius:5px;padding:3px 10px;font-size:11px;font-family:var(--mono)}
-/* Main */
-main{max-width:980px;margin:0 auto;padding:28px 20px}
-/* Title */
-.title-block{margin-bottom:20px}
-.title-block h1{font-size:26px;font-weight:600;margin-bottom:6px}
-.title-block h1 span{color:var(--accent)}
-.title-block .subtitle{font-size:13px;color:var(--textdim);margin-bottom:10px}
-.product-tags{display:flex;gap:8px;flex-wrap:wrap}
-.ptag{border:1px solid;border-radius:5px;padding:3px 10px;font-size:11px}
-.ptag-omni{border-color:rgba(91,141,238,.4);color:var(--accent)}
-.ptag-ai{border-color:rgba(232,121,249,.4);color:#7c35b8}
-.ptag-commerce{border-color:rgba(245,166,35,.4);color:var(--yellow)}
-.ptag-team{border-color:var(--border);color:var(--textdim)}
-/* KPI cards */
-.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.kpi-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:18px 20px}
-.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px}
-.kpi-val{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
-.kpi-sub{font-size:11px;color:var(--textdim)}
-/* Sprint overview */
-.section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px}
-.cycles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.cycle-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:14px}
-.cycle-title{font-size:10px;color:var(--muted);margin-bottom:8px}
-.sprint-item{margin-bottom:8px}
-.sprint-name{font-size:14px;font-weight:600;color:var(--accent)}
-.sprint-sp{font-family:var(--mono);font-size:14px;font-weight:700;float:right}
-.sprint-sp.ai{color:#7c35b8}
-.sprint-sp.omni{color:var(--accent)}
-.sprint-desc{font-size:11px;color:var(--textdim);margin-top:2px;clear:both}
-.sprint-dates{font-size:10px;color:var(--muted);margin-top:2px}
-.sprint-empty{font-size:11px;color:var(--muted);font-style:italic;margin-top:6px}
-.sprint-divider{border:none;border-top:1px solid var(--border);margin:8px 0}
-/* Workload section */
-.workload-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.collapse-btn{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer;color:var(--textdim);font-family:var(--sans)}
-.legend-right{margin-left:auto;display:flex;gap:12px;font-size:10px;color:var(--textdim);align-items:center}
-.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
-/* Workload bars */
-.workload-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:16px;margin-bottom:20px}
-.member-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.member-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
-.member-name{width:52px;font-size:12px;flex-shrink:0}
-.bar-wrap{flex:1;position:relative}
-.bar-bg{height:20px;border-radius:4px;overflow:hidden;display:flex}
-.bar-omni{background:var(--accent);height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
-.bar-ai{background:#8b44cc;height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
-.bar-right{font-size:11px;color:var(--textdim);white-space:nowrap;font-family:var(--mono);min-width:140px;text-align:right}
-/* Detail table */
-.detail-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.table-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;overflow:hidden;margin-bottom:20px}
-table{width:100%;border-collapse:collapse}
-th{background:rgba(59,111,212,.06);padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
-th,td{text-align:right}
-th:first-child,td:first-child{text-align:left}
-td{padding:9px 12px;border-bottom:1px solid rgba(42,48,72,.35);font-size:12px}
-tr:last-child td{border-bottom:none}
-td.num{font-family:var(--mono)}
-.avg-col{color:var(--accent);font-weight:600;font-family:var(--mono)}
-.avg-ai{color:#7c35b8}
-.member-cell{display:flex;align-items:center;gap:8px}
-.m-avatar{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
-.pct-col{color:var(--textdim);font-family:var(--mono)}
-.note-col{font-size:11px;color:var(--textdim)}
-.note-col .hi{color:var(--red);font-size:10px}
-.total-row td{background:rgba(59,111,212,.08);font-weight:700;border-top:2px solid var(--border)!important}
-/* Bottom summary */
-.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
-.sum-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:16px 18px}
-.sum-label{font-size:11px;color:var(--muted);margin-bottom:6px}
-.sum-val{font-size:28px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
-.sum-val.omni{color:var(--accent)}
-.sum-val.ai{color:#7c35b8}
-.sum-val.total{color:var(--text)}
-.sum-sub{font-size:11px;color:var(--textdim)}
-/* Warning box */
-.warn-box{background:rgba(199,124,0,.05);border:1px solid rgba(199,124,0,.2);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:11px;color:var(--textdim)}
-.warn-box strong{color:var(--yellow)}
-/* Footnotes */
-.fn-list{list-style:none;padding:0;font-size:10px;color:var(--muted)}
-.fn-list li::before{content:'* '}
-/* Toast */
-#toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#0a1f0d;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
-
-/* ── Edit Modal ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
-.modal-box{background:#fff;border-radius:12px;width:100%;max-width:700px;box-shadow:0 8px 40px rgba(0,0,0,.15);overflow:hidden;margin:auto}
-.modal-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border)}
-.modal-header h2{font-size:14px;font-weight:600;flex:1}
-.modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:4px}
-.modal-close:hover{background:var(--bg)}
-.modal-body{padding:20px;max-height:70vh;overflow-y:auto}
-.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:#fff}
-.ms-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-.m-cycle-block{background:var(--bg);border-radius:8px;padding:12px;margin-bottom:10px}
-.m-cycle-label{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600}
-.m-field-row{display:flex;gap:8px;margin-bottom:6px}
-.m-field{display:flex;flex-direction:column;gap:3px;flex:1}
-.m-field-sm{max-width:110px}
-.m-field label{font-size:10px;color:var(--muted);font-weight:600}
-.m-field input,.m-field textarea{background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans);width:100%}
-.m-field input:focus,.m-field textarea:focus{outline:none;border-color:var(--accent)}
-.m-textarea{width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:12px;font-family:var(--sans);color:var(--text);resize:vertical;min-height:56px}
-.m-member-row{display:flex;align-items:flex-end;gap:10px;margin-bottom:10px}
-.m-member-name{font-size:12px;font-weight:600;width:52px;flex-shrink:0;padding-bottom:8px}
-.m-fn-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
-.m-fn-row input{flex:1;background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans)}
-.m-fn-del{background:rgba(214,62,74,.08);color:var(--red);border:1px solid rgba(214,62,74,.2);border-radius:4px;padding:4px 8px;font-size:11px;cursor:pointer}
-.m-fn-add{background:rgba(59,111,212,.06);color:var(--accent);border:1px solid rgba(59,111,212,.2);border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;margin-top:4px}
-.btn-cancel{background:var(--bg);color:var(--textdim);border:1px solid var(--border);border-radius:6px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:var(--sans)}
-.btn-save{background:var(--accent2);color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)}
-.btn-save:hover{opacity:.9}
-
-/* KPI Collapsible */
-.kpi-collapsible{margin-bottom:8px}
-.kpi-sec-btn{width:100%;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;font-family:var(--sans);text-align:left;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.kpi-sec-btn:hover{border-color:var(--accent);background:rgba(59,111,212,.02)}
-.kpi-sec-body{padding:12px 0 4px}
-
-/* ── Responsive ── */
-@media(max-width:768px){
-  main{padding:16px 12px}
-  .title-block h1{font-size:20px}
-  .kpi-row{grid-template-columns:1fr 1fr}
-  .kpi-val{font-size:24px}
-  .cycles-grid{grid-template-columns:1fr}
-  .bottom-grid{grid-template-columns:1fr}
-  .sum-val{font-size:22px}
-  .bar-right{min-width:100px;font-size:10px}
-  .member-name{width:40px;font-size:11px}
-  .table-wrap{overflow-x:auto}
-  table{min-width:600px}
-  .modal-body{max-height:60vh}
-  .m-field-row{flex-wrap:wrap}
-  .m-field-sm{max-width:100%}
-  .topbar{padding:8px 12px;gap:8px}
-  .edit-hint{display:none}
-}
-
-@media(max-width:480px){
-  .kpi-row{grid-template-columns:1fr}
-  .kpi-val{font-size:28px}
-  .title-block h1{font-size:18px}
-  .legend-right{display:none}
-  .bar-right{min-width:80px;font-size:9px}
-  main{padding:12px 10px}
-}
-
-/* Member table ("รายคน") — Note gets the most space, other columns sized to fit content */
-.rc-header,.rc-row{display:grid;grid-template-columns:minmax(96px,1fr) minmax(150px,1.15fr) minmax(130px,2.3fr);gap:10px 14px;align-items:center}
-.rc-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
-.rc-row{padding:9px 4px;border-bottom:1px solid var(--border);transition:background .15s}
-.rc-row:last-of-type{border-bottom:none}
-.rc-row:hover{background:rgba(30,158,110,.03)}
-.rc-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
-.rc-name{display:flex;align-items:center;gap:8px;min-width:0}
-.rc-name span{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rc-spwrap{display:flex;gap:10px}
-.rc-sp{flex:1;text-align:center;white-space:nowrap}
-.rc-sp b{font-size:13.5px;font-weight:700;font-family:var(--mono)}
-.rc-sp em{font-size:9.5px;font-style:normal;color:var(--muted);margin-left:2px}
-.rc-note{font-size:11.5px;color:var(--textdim);border:1px solid transparent;border-radius:6px;background:rgba(15,23,42,.025);padding:6px 10px;outline:none;cursor:text;min-height:30px;line-height:1.45;transition:background .15s,border-color .15s,box-shadow .15s;word-break:break-word}
-.rc-note:hover{background:rgba(15,23,42,.045)}
-.rc-note:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(91,141,238,.1)}
-.rc-note:empty:before{content:attr(placeholder);color:var(--muted);font-style:italic}
-.df-header,.df-row{display:grid;grid-template-columns:minmax(80px,.7fr) minmax(160px,2.3fr) minmax(110px,1.2fr) minmax(80px,.8fr);gap:10px 14px;align-items:center}
-.df-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
-.df-row{padding:9px 4px;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;transition:background .15s}
-.df-row:last-of-type{border-bottom:none}
-.df-row:hover{background:rgba(214,62,74,.03)}
-.df-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;background:rgba(102,71,240,.1);color:#6647f0}
-.df-name{font-size:12px;color:var(--text)}
-.df-sub{font-size:11px;color:var(--textdim)}
-@media(max-width:640px){
-  .rc-header{display:none}
-  .rc-row{grid-template-columns:1fr;gap:6px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
-  .rc-spwrap{gap:16px;margin:2px 0 4px 30px}
-  .rc-sp{text-align:left}
-  .df-header{display:none}
-  .df-row{grid-template-columns:1fr;gap:4px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
-}
+:root{--bg:#f4f6fb;--surface:#fff;--border:#dde3f0;--accent:#3b6fd4;--purple:#8b44cc;--amber:#c77c00;--green:#1e9e6e;--red:#d63e4a;--muted:#8892b0;--text:#1a1f36;--textdim:#4a5568;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans Thai',sans-serif;--radius:10px;--shadow:0 1px 4px rgba(0,0,0,.04)}
+*{box-sizing:border-box;margin:0;padding:0} body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.06);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}.topbar-title{font-size:14px;font-weight:600}.date-badge{background:rgba(59,111,212,.1);color:var(--accent);border:1px solid rgba(59,111,212,.2);border-radius:5px;padding:3px 10px;font-size:11px;font-family:var(--mono);font-weight:500}.topbar-right{margin-left:auto;font-size:10px;color:var(--muted)}
+main{max-width:980px;margin:0 auto;padding:28px 20px}.title-block{margin-bottom:24px}.title-block h1{font-size:26px;font-weight:700;margin-bottom:6px}.title-block h1 span{color:var(--accent)}.subtitle{font-size:12px;color:var(--textdim);margin-bottom:10px}.product-tags{display:flex;gap:8px;flex-wrap:wrap}.ptag{border:1px solid;border-radius:5px;padding:3px 10px;font-size:11px;font-weight:500}.ptag-omni{border-color:rgba(59,111,212,.4);color:var(--accent)}.ptag-ai{border-color:rgba(139,68,204,.4);color:var(--purple)}.ptag-commerce{border-color:rgba(199,124,0,.4);color:var(--amber)}.ptag-team{border-color:var(--border);color:var(--textdim)}
+.sec-title{display:flex;align-items:center;gap:10px;margin:28px 0 12px;padding:8px 14px;background:rgba(59,111,212,.04);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;font-size:13px;font-weight:600}.sec-title.warn{border-left-color:var(--red);background:rgba(214,62,74,.04)}
+.card{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius);padding:18px 20px}.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px}.kpi-val{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}.kpi-sub{font-size:11px;color:var(--textdim)}.health-row{display:flex;align-items:center;gap:10px;margin-top:8px}.health-dot{width:12px;height:12px;border-radius:50%;background:#d9b100}.health-text{font-size:13px;font-weight:600}.health-reason{font-size:11px;color:var(--textdim);margin-top:6px;line-height:1.5}
+.cycles-grid,.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cycle-card,.sum-card{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius);padding:14px}.cycle-title{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}.sprint-item{margin-bottom:10px}.sprint-row{display:flex;justify-content:space-between;align-items:baseline}.sprint-name{font-size:13px;font-weight:600}.sprint-name.omni{color:var(--accent)}.sprint-name.ai{color:var(--purple)}.sprint-name.commerce{color:var(--amber)}.sprint-sp{font-family:var(--mono);font-size:14px;font-weight:700}.sprint-sp.omni{color:var(--accent)}.sprint-sp.ai{color:var(--purple)}.sprint-sp.commerce{color:var(--amber)}.sprint-desc{font-size:11px;color:var(--textdim);margin-top:2px}.sprint-divider{border:none;border-top:1px solid var(--border);margin:8px 0}
+.detail-wrap,.carry-wrap{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius);overflow:hidden}.detail-header,.detail-row{display:grid;grid-template-columns:minmax(110px,1.2fr) 72px 72px 72px 72px;gap:8px;padding:10px 16px;align-items:center}.detail-header{border-bottom:2px solid var(--border);background:rgba(59,111,212,.04)}.detail-header span{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}.detail-header span:not(:first-child),.detail-val,.detail-avg{text-align:right}.detail-row{border-bottom:1px solid var(--border)}.detail-row:last-child{border-bottom:none}.detail-row.total{background:rgba(59,111,212,.06);font-weight:700;border-top:2px solid var(--border)}.detail-name{font-size:12px;font-weight:500}.detail-val,.detail-avg{font-family:var(--mono);font-size:12px}.detail-avg{font-weight:700;color:var(--accent)}
+.sum-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:500}.sum-val{font-size:28px;font-weight:700;font-family:var(--mono);margin-bottom:4px}.sum-val.omni{color:var(--accent)}.sum-val.ai{color:var(--purple)}.sum-val.commerce{color:var(--amber)}.sum-sub{font-size:11px;color:var(--textdim)}
+.carry-header,.carry-row{display:grid;grid-template-columns:2fr 70px 110px 120px;gap:8px;padding:10px 16px;align-items:center}.carry-header{border-bottom:2px solid var(--border);background:rgba(214,62,74,.04)}.carry-header span{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}.carry-row{border-bottom:1px solid var(--border);font-size:12px}.carry-row:last-child{border-bottom:none}
+.defect-wrap{background:#fff;border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius);overflow:hidden}.defect-header,.defect-row{display:grid;grid-template-columns:140px 90px 1fr;gap:8px;padding:10px 16px;align-items:start}.defect-header{border-bottom:2px solid var(--border);background:rgba(139,68,204,.06)}.defect-header span{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}.defect-row{border-bottom:1px solid var(--border);font-size:12px}.defect-row:last-child{border-bottom:none}
+.warn-box{background:rgba(199,124,0,.05);border:1px solid rgba(199,124,0,.2);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:11px;color:var(--textdim);line-height:1.7}.fn-list{list-style:none;padding:0;font-size:10px;color:var(--muted);line-height:1.8}.fn-list li::before{content:'* '}
+@media(max-width:768px){main{padding:16px 12px}.kpi-row,.cycles-grid,.bottom-grid{grid-template-columns:1fr}.defect-header,.defect-row,.carry-header,.carry-row,.detail-header,.detail-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<div class="topbar" style="background:#fff">
-  <span style="font-size:11px;font-weight:600;color:#8892b0;text-transform:uppercase;letter-spacing:.5px">EDIT</span>
-  <button class="edit-badge" id="edit-btn" onclick="toggleEdit()">📊 แก้ไขข้อมูล</button>
-  <span class="edit-hint" id="edit-hint">กด 'แก้ไขข้อมูล' เพื่อแก้ไขและบันทึกการเปลี่ยนแปลง</span>
-  <span class="date-badge" id="date-badge">—</span>
+<div class="topbar">
+  <div class="topbar-title">ACE Velocity</div>
+  <span class="date-badge">Sprint 11 FINAL TEST (8/5 – 9/4) · Current snapshot</span>
+  <span class="topbar-right">Generated: Thu Sep 3, 2026 · Leaf-level calculation</span>
 </div>
 
 <main>
-  <div id="root"></div>
-</main>
-
-<div id="toast"></div>
-
-<script>
-/* ═══════════════════════════════════
-   CONFIG & DATA
-═══════════════════════════════════ */
-const SUPA_URL = 'https://qabbwvmazpdyjdjcvhrm.supabase.co';
-const SUPA_KEY = 'sb_publishable_18mSYWVH7Pcp5OaIwjQ7LQ_TtWWz_nj';
-
-const INIT_DATA = {
-  _updated: '2026-07-17T20:30:00',
-  subtitle: 'Zimple Omni (Sprint 7, 8, 9) & Zimple AI (Sprint 3, 4, 5) & Zimple Commerce (Sprint 1) · Dev Team: 8 คน',
-  members: ['Wick','Q','Griang','Toy','Tan','Tee','Prem','Kim'],
-  colors: {Wick:'#7c5bde',Q:'#5b8dee',Griang:'#3ecf8e',Toy:'#f5a623',Top:'#1e40af',Tan:'#6b7595',Tee:'#0d9488',Prem:'#be185d',Kim:'#4338ca'},
-  avatarBg: {Wick:'rgba(96,64,184,.1)',Q:'rgba(59,111,212,.1)',Griang:'rgba(30,158,110,.1)',Toy:'rgba(199,124,0,.1)',Top:'rgba(219,234,254,.8)',Tan:'rgba(136,146,176,.1)',Tee:'rgba(13,148,136,.1)',Prem:'rgba(190,24,93,.1)',Kim:'rgba(67,56,202,.1)'},
-  notes: {
-    Wick: 'ควบ 2 projects',
-    Q: 'Core dev Omni',
-    Griang: 'Core dev Omni เท่านั้น',
-    Toy: 'Core dev Omni',
-    Tan: 'Dev Lead — manage ทีม',
-    Tee: 'Dev ใหม่ (เข้าทีม Sprint 9)',
-    Prem: 'Dev ใหม่ — รับหน้าที่แก้ defect',
-    Kim: 'Dev ใหม่ (เข้าทีม Sprint 9)'
-  },
-  cycles: [
-
-    {
-      label: 'รอบที่ 1',
-      omni: {name:'Sprint 7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
-      ai:   {name:'Sprint 3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'},
-      commerce: null
-    },
-    {
-      label: 'รอบที่ 2',
-      omni: {name:'Sprint 8', sp:38.5, desc:'Rule Automation + Mylogiz integrations', dates:'22 Jun 26 – 3 Jul 26'},
-      ai:   {name:'Sprint 4', sp:0, desc:'ยังไม่มีข้อมูล', dates:''},
-      commerce: null
-    },
-    {
-      label: 'รอบที่ 3',
-      omni: {name:'Sprint 9', sp:114, desc:'Broadcast + Rule Automation + RBAC/Permission + Meilisearch Search', dates:'6 Jul 26 – 17 Jul 26'},
-      ai:   {name:'Sprint 5', sp:17.5, desc:'Multi-turn Conversation + Handover Detection + Summary/Classification API', dates:'6 Jul 26 – 17 Jul 26'},
-      commerce: {name:'Sprint 1', sp:3, desc:'Project Setup + 3rd-party Tools POC', dates:'6 Jul 26 – 17 Jul 26'}
-    }
-  ],
-  omni: {
-    sprints: [
-      {name:'Sprint 7', sp:{Griang:21,Toy:18,Q:17,Top:0}},
-      {name:'Sprint 8', sp:{Wick:16,Griang:9,Q:7,Toy:6.5}},
-      {name:'Sprint 9', sp:{Q:15.5,Griang:12,Toy:10.5,Tan:8,Tee:12,Prem:56}}
-    ]
-  },
-  ai: {
-    sprints: [
-      {name:'Sprint 3', sp:{Wick:36}},
-      {name:'Sprint 4', sp:{}},
-      {name:'Sprint 5', sp:{Wick:11.5,Kim:6}}
-    ]
-  },
-  commerce: {
-    sprints: [
-      {name:'Sprint 1', sp:{Prem:3}}
-    ]
-  },
-  sprint_member_notes: {},
-  sprint_notes: {
-    'Omni : Sprint 9': 'STORY-BC-01-->cut scope send to specific / A4.1(1)-->Carry from sp8 / A4.1(4)-->move มาจาก sp8 / Website Chat Widget SDK-->ติด 2 ใบ รองานที',
-    'AI : Sprint 5': 'STORY-ACE-01-->เก็บงานได้ 12/13 / STORY-ACE-03-->เก็บงานได้ 2.3/8 / STORY-ACE-04-->เก็บงานได้ 3.2/8',
-    'Commerce : Sprint 1': 'POC 3rd-party tools-->POC ไปได้ 1/16'
-  },
-  warnings: ['ตัวเลข SP ข้างต้นไม่รวม effort ในการแก้ defect — actual effort จริงของทีมอาจสูงกว่านี้'],
-  omniAllTime: [
-    {name:'SP1', sp:76, desc:'Program Setup + Channel Connectivity', dates:'16 Feb 26 – 6 Mar 26'},
-    {name:'SP2', sp:98, desc:'Channel Connectivity + Unified Inbox', dates:'9 Mar 26 – 23 Mar 26'},
-    {name:'SP3', sp:84, desc:'Unified Inbox + Agent Workflow + Contact Profile', dates:'26 Mar 26 – 30 Apr 26'},
-    {name:'SP4', sp:60, desc:'RBAC + Settings & Configuration', dates:'16 Feb 26 – 1 Mar 26'},
-    {name:'SP5', sp:24, desc:'Login Security (มีวันหยุดยาว)', dates:'2 Mar 26 – 15 Mar 26'},
-    {name:'SP6', sp:62, desc:'Login Security + SLA Management', dates:'16 Mar 26 – 29 Mar 26'},
-    {name:'SP7', sp:56, desc:'Notification Center', dates:'8 Jun 26 – 19 Jun 26'},
-    {name:'Sprint 8', sp:38.5, desc:'Rule Automation + Mylogiz integrations', dates:'22 Jun 26 – 3 Jul 26'},
-    {name:'Sprint 9', sp:114, desc:'Broadcast + Rule Automation + RBAC/Permission + Meilisearch Search', dates:'6 Jul 26 – 17 Jul 26'}
-  ],
-  aiAllTime: [
-    {name:'Sprint 1', sp:26, desc:'Knowledge Ingestion + Program Setup', dates:'5 May 26 – 18 May 26'},
-    {name:'Sprint 2', sp:35, desc:'Vault Injection + Auth + Sign Up + Login + Workspace', dates:'18 May 26 – 6 Jun 26'},
-    {name:'Sprint 3', sp:36, desc:'KI-01–04: Multi-tenant + KB + Agent + Monitoring', dates:'8 Jun 26 – 19 Jun 26'},
-    {name:'Sprint 4', sp:0, desc:'ยังไม่มีข้อมูล', dates:'22 Jun 26 – 3 Jul 26'},
-    {name:'Sprint 5', sp:17.5, desc:'Multi-turn Conversation + Handover Detection + Summary/Classification API', dates:'6 Jul 26 – 17 Jul 26'}
-  ],
-  commerceAllTime: [
-    {name:'Sprint 1', sp:3, desc:'Project Setup + 3rd-party Tools POC', dates:'6 Jul 26 – 17 Jul 26'}
-  ],
-  footnotes: [
-    'tasks ที่มีหลาย owner: split SP เท่ากันทุกคน',
-    'Top ออกจาก report ตั้งแต่ Sprint 7 เป็นต้นไป (ย้ายไป project นอกเต็มตัว)',
-    'ตั้งแต่ Sprint 9: Tee, Prem, Kim เข้าร่วมทีมแทน Top',
-    'Zimple Commerce เริ่ม Sprint 1 (7/6–7/17) เป็นรอบแรก'
-  ],
-  defects: [
-    {id:'ACE-2762', name:"SLA - ไม่สามารถ 'ปิด' ใช้งาน SLA ทั้งหมดได้", product:'Omni', ownerParent:'Toy, Siraphob', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3mpx98'},
-    {id:'ACE-2763', name:'Search - ปุ่ม Search ไม่สามารถใช้งานได้', product:'Omni', ownerParent:'Griang', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3muh0f'},
-    {id:'ACE-2764', name:'Filter - ปุ่ม Filter Channel, Status, Assignee และ Tag ไม่สามารถใช้งานได้', product:'Omni', ownerParent:'ไม่พบ (REF ไม่ใช่ลิงก์)', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3muk5g'},
-    {id:'ACE-2765', name:'SLA - Channel Shopee ใน SLA Target ต่อ Channel ไม่แสดง', product:'Omni', ownerParent:'ไม่พบ (REF ไม่ใช่ ClickUp task)', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3murua'},
-    {id:'ACE-2766', name:'SLA - เมื่อเปิด "นับ SLA เฉพาะ Business Hours" คำนวณ due time ผิด', product:'Omni', ownerParent:'Griang, Toy, Wetchayan', ownerDefect:'Prem', url:'https://app.clickup.com/t/86d3mv8ur'}
-  ]
-};
-
-let DATA = JSON.parse(JSON.stringify(INIT_DATA));
-let editMode = false;
-// Toggle state — persistent across render()
-const kpiState = {
-  'kpi-last': true,   // SP sprint ล่าสุด — default open
-  'defects':  true,   // Defect ที่ถูกเอาเข้า SP — default open
-  'kpi-avg':  false,  // เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
-  'kpi-all':  false,  // SP รวมทั้งหมด
-  'workload': false,  // Workload
-  'detail':   false   // ตารางละเอียด
-};
-
-function toggleKpi(id){
-  kpiState[id] = !kpiState[id];
-  const el = document.getElementById(id+'-body');
-  const arrow = document.getElementById(id+'-arrow');
-  if(el) el.style.display = kpiState[id] ? 'block' : 'none';
-  if(arrow) arrow.style.transform = kpiState[id] ? 'rotate(180deg)' : 'rotate(0deg)';
-}
-
-/* ── Supabase ── */
-async function loadData(){
-  try {
-    const r = await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current&select=data`,{
-      headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`}
-    });
-    if(r.ok){
-      const rows = await r.json();
-      if(rows.length && rows[0].data){
-        const saved = rows[0].data;
-
-        // Start fresh from INIT_DATA
-        DATA = JSON.parse(JSON.stringify(INIT_DATA));
-
-        // If Supabase sp_data is newer → use it for SP data
-        if(saved.sp_data && saved.sp_data._updated > INIT_DATA._updated){
-          Object.assign(DATA, saved.sp_data);
-          DATA._updated = saved.sp_data._updated;
-        }
-
-        // Always merge annotations
-        if(saved.annotations){
-          const ann = saved.annotations;
-          if(ann.notes)        DATA.notes        = Object.assign({}, INIT_DATA.notes, ann.notes);
-          if(ann.sprint_member_notes && Object.keys(ann.sprint_member_notes).length) DATA.sprint_member_notes = ann.sprint_member_notes;
-          if(ann.sprint_dates && Object.keys(ann.sprint_dates).length) DATA.sprint_dates = ann.sprint_dates;
-          if(ann.warnings && ann.warnings.length)  DATA.warnings     = ann.warnings;
-          if(ann.footnotes && ann.footnotes.length) DATA.footnotes   = ann.footnotes;
-        }
-
-        // Legacy flat structure support — override if INIT_DATA is newer
-        if(!saved.sp_data && !saved.annotations && saved.omni){
-          // DATA already set to INIT_DATA above — keep it if newer
-          // Only merge user annotations from legacy
-          if(saved.notes)     DATA.notes     = Object.assign({}, INIT_DATA.notes, saved.notes);
-          if(saved.warnings && saved.warnings.length)  DATA.warnings  = saved.warnings;
-          if(saved.footnotes && saved.footnotes.length) DATA.footnotes = saved.footnotes;
-          // If legacy _updated is newer than INIT_DATA → use legacy sp data
-          if(saved._updated && saved._updated > INIT_DATA._updated){
-            Object.assign(DATA, saved);
-            DATA.notes     = Object.assign({}, INIT_DATA.notes, saved.notes||{});
-            DATA.warnings  = saved.warnings  || INIT_DATA.warnings;
-            DATA.footnotes = saved.footnotes || INIT_DATA.footnotes;
-          }
-        }
-      }
-    }
-  } catch(e){ console.warn('loadData error:', e); }
-  try { render(); } catch(e){ console.error('render error:', e); }
-}
-
-async function saveData(){
-  const payload = {
-    sp_data: {
-      _updated: DATA._updated,
-      subtitle: DATA.subtitle,
-      members: DATA.members,
-      colors: DATA.colors,
-      avatarBg: DATA.avatarBg,
-      cycles: DATA.cycles,
-      omni: DATA.omni,
-      ai: DATA.ai,
-      commerce: DATA.commerce,
-      omniAllTime: DATA.omniAllTime,
-      aiAllTime: DATA.aiAllTime,
-      commerceAllTime: DATA.commerceAllTime,
-      defects: DATA.defects,
-      sprint_notes: DATA.sprint_notes || {}
-    },
-    annotations: {
-      notes:        DATA.notes        || {},
-      sprint_member_notes: DATA.sprint_member_notes || {},
-      sprint_dates: DATA.sprint_dates || {},
-      warnings:     DATA.warnings     || [],
-      footnotes:    DATA.footnotes    || []
-    }
-  };
-  try {
-    await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current`,{
-      method:'PATCH',
-      headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({data:payload})
-    });
-    showToast('💾 บันทึกแล้ว');
-  } catch(e){ showToast('❌ บันทึกไม่สำเร็จ'); }
-  try { render(); } catch(e){ console.error('render error:', e); }
-}
-
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.style.opacity=1;
-  setTimeout(()=>t.style.opacity=0,2200);
-}
-
-function toggleEdit(){
-  openEditModal();
-}
-
-function openEditModal(){
-  document.getElementById('edit-modal').style.display='flex';
-  renderModalForm();
-}
-function closeEditModal(){
-  document.getElementById('edit-modal').style.display='none';
-}
-function applyAndSave(){
-  const inputDate = document.getElementById('m-updated').value;
-  // ถ้า input ต่างจากค่าเดิม = หมวยแก้เอง → ใช้ค่านั้น
-  // ถ้าเหมือนเดิมหรือว่าง = auto set วันนี้
-  if(inputDate && inputDate !== DATA._updated){
-    DATA._updated = inputDate;
-  } else {
-    DATA._updated = new Date().toISOString().slice(0,10);
-  }
-  // warnings
-  const warnEl = document.getElementById('m-warning');
-  if(warnEl) DATA.warnings = warnEl.value.split('\n').filter(x=>x.trim());
-  closeEditModal();
-  saveData(); // saveData calls render() after save
-}
-
-function renderModalForm(){
-  const m = DATA;
-  let h = '';
-
-  // ── ZIMPLE OMNI — SPRINTS ──
-  h += `<div class="ms-section-title" style="color:var(--accent)">ZIMPLE OMNI — SPRINTS</div>`;
-  m.cycles.forEach((cy,i)=>{
-    const o = cy.omni;
-    if(!o) return;
-    h += `<div class="m-cycle-block">
-      <div class="m-cycle-label">${cy.label}</div>
-      <div class="m-field-row">
-        <div class="m-field">
-          <label>ชื่อ Sprint</label>
-          <input value="${o.name||''}" oninput="DATA.cycles[${i}].omni.name=this.value">
-        </div>
-        <div class="m-field m-field-sm">
-          <label>SP</label>
-          <input type="number" value="${o.sp||0}" oninput="DATA.cycles[${i}].omni.sp=+this.value">
-        </div>
-      </div>
-      <div class="m-field-row">
-        <div class="m-field">
-          <label>Description</label>
-          <input value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">
-        </div>
-        <div class="m-field m-field-sm">
-          <label>วันเริ่ม</label>
-          <input value="${(o.dates||'').split('–')[0].trim()}" oninput="DATA.cycles[${i}].omni.dates=this.value+' – '+(DATA.cycles[${i}].omni.dates||'').split('–').slice(1).join('–').trim()">
-        </div>
-        <div class="m-field m-field-sm">
-          <label>วันจบ</label>
-          <input value="${(o.dates||'').split('–')[1]?.trim()||''}" oninput="DATA.cycles[${i}].omni.dates=(DATA.cycles[${i}].omni.dates||'').split('–')[0].trim()+' – '+this.value">
-        </div>
-      </div>
-    </div>`;
-  });
-
-  // ── ZIMPLE AI — SPRINTS ──
-  h += `<div class="ms-section-title" style="color:#7c35b8;margin-top:20px">ZIMPLE AI — SPRINTS</div>`;
-  m.cycles.forEach((cy,i)=>{
-    const a = cy.ai;
-    if(!a) return;
-    h += `<div class="m-cycle-block">
-      <div class="m-cycle-label">${cy.label}</div>
-      <div class="m-field-row">
-        <div class="m-field">
-          <label>ชื่อ Sprint</label>
-          <input value="${a.name||''}" oninput="DATA.cycles[${i}].ai.name=this.value">
-        </div>
-        <div class="m-field m-field-sm">
-          <label>SP</label>
-          <input type="number" value="${a.sp||0}" oninput="DATA.cycles[${i}].ai.sp=+this.value">
-        </div>
-      </div>
-      <div class="m-field-row">
-        <div class="m-field">
-          <label>Description</label>
-          <input value="${a.desc||''}" oninput="DATA.cycles[${i}].ai.desc=this.value">
-        </div>
-        <div class="m-field m-field-sm">
-          <label>วันเริ่ม</label>
-          <input value="${(a.dates||'').split('–')[0].trim()}" oninput="DATA.cycles[${i}].ai.dates=this.value+' – '+(DATA.cycles[${i}].ai.dates||'').split('–').slice(1).join('–').trim()">
-        </div>
-        <div class="m-field m-field-sm">
-          <label>วันจบ</label>
-          <input value="${(a.dates||'').split('–')[1]?.trim()||''}" oninput="DATA.cycles[${i}].ai.dates=(DATA.cycles[${i}].ai.dates||'').split('–')[0].trim()+' – '+this.value">
-        </div>
-      </div>
-    </div>`;
-  });
-
-  // ── ZIMPLE COMMERCE — SPRINTS ──
-  h += `<div class="ms-section-title" style="color:var(--yellow);margin-top:20px">ZIMPLE COMMERCE — SPRINTS</div>
-  <p style="font-size:11px;color:var(--muted);font-style:italic;margin:4px 0 12px">ยังไม่มี sprint (จะแสดงเมื่อเพิ่มข้อมูล)</p>`;
-
-  // ── หมายเหตุรายคน ──
-  h += `<div class="ms-section-title" style="margin-top:20px">หมายเหตุรายคน</div>`;
-  const lastOmniM = m.omni.sprints[m.omni.sprints.length-1];
-  const lastSprintKeyM = lastOmniM ? lastOmniM.name : '';
-  const allMembers = [...(m.members||[])];
-  if(!allMembers.includes('Top')) allMembers.push('Top');
-  allMembers.forEach(mem=>{
-    h += `<div class="m-member-row">
-      <div class="m-member-name">${mem}</div>
-      <div class="m-field" style="flex:1">
-        <label>หมายเหตุ</label>
-        <input value="${(m.notes||{})[mem]||''}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${mem}']=this.value">
-      </div>
-      <div class="m-field" style="flex:1">
-        <label>Note sprint นี้ (${lastSprintKeyM||'-'})</label>
-        <input value="${((m.sprint_member_notes||{})[lastSprintKeyM]||{})[mem]||''}" oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['${lastSprintKeyM}'])DATA.sprint_member_notes['${lastSprintKeyM}']={};DATA.sprint_member_notes['${lastSprintKeyM}']['${mem}']=this.value">
-      </div>
-      <div class="m-field" style="flex:1">
-        <label>คำเตือน (สีแดง)</label>
-        <input value="${(m.warnings_member||{})[mem]||''}" oninput="if(!DATA.warnings_member)DATA.warnings_member={};DATA.warnings_member['${mem}']=this.value" style="border-color:rgba(214,62,74,.3)">
-      </div>
-    </div>`;
-  });
-
-  // ── ข้อความเตือน ──
-  h += `<div class="ms-section-title" style="margin-top:20px">ข้อความเตือน</div>
-  <textarea id="m-warning" class="m-textarea">${(m.warnings||[]).join('\n')}</textarea>`;
-
-  // ── Sprint Notes ──
-  h += `<div class="ms-section-title" style="margin-top:16px">SPRINT NOTES (Note จาก ClickUp — แก้ได้)</div>
-  <div id="m-sprint-notes">`;
-  Object.entries(m.sprint_notes||{}).forEach(([k,v],i)=>{
-    h += `<div class="m-fn-row" style="margin-bottom:6px">
-      <input value="${k}" placeholder="เช่น Omni : Sprint 8" oninput="
-        const keys=Object.keys(DATA.sprint_notes||{});
-        const vals=Object.values(DATA.sprint_notes||{});
-        keys[${i}]=this.value;
-        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
-      " style="flex:0 0 180px;font-weight:600">
-      <input value="${v}" placeholder="note..." oninput="
-        const keys=Object.keys(DATA.sprint_notes||{});
-        const vals=Object.values(DATA.sprint_notes||{});
-        vals[${i}]=this.value;
-        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
-      " style="flex:1">
-      <button class="m-fn-del" onclick="
-        const keys=Object.keys(DATA.sprint_notes||{});
-        const vals=Object.values(DATA.sprint_notes||{});
-        keys.splice(${i},1);vals.splice(${i},1);
-        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
-        renderModalForm()
-      ">ลบ</button>
-    </div>`;
-  });
-  h += `</div>
-  <button class="m-fn-add" onclick="if(!DATA.sprint_notes)DATA.sprint_notes={};const k='Product : Sprint ?';DATA.sprint_notes[k]='';renderModalForm()">+ เพิ่ม sprint note</button>`;
-
-  // ── Footnotes ──
-  h += `<div class="ms-section-title" style="margin-top:16px">FOOTNOTES (สูงสุด 5 บรรทัด)</div>`;
-  h += `<div id="m-footnotes">`;
-  (m.footnotes||[]).forEach((fn,i)=>{
-    h += `<div class="m-fn-row">
-      <input value="${fn}" oninput="DATA.footnotes[${i}]=this.value" style="flex:1">
-      <button class="m-fn-del" onclick="DATA.footnotes.splice(${i},1);renderModalForm()">ลบ</button>
-    </div>`;
-  });
-  h += `</div>
-  <button class="m-fn-add" onclick="if(!DATA.footnotes)DATA.footnotes=[];if(DATA.footnotes.length<5){DATA.footnotes.push('');renderModalForm()}">+ เพิ่ม footnote</button>`;
-
-  // ── วันที่อัปเดต ──
-  h += `<div class="ms-section-title" style="margin-top:16px">วันที่อัปเดต</div>
-  <input id="m-updated" value="${m._updated||''}" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 10px;font-size:12px;width:200px">`;
-
-  document.getElementById('modal-body').innerHTML = h;
-}
-
-/* ══════════════════════════════════
-   COMPUTE
-══════════════════════════════════ */
-function compute(){
-  const members = DATA.members;
-  const omniTotals={}, aiTotals={};
-  members.forEach(m=>{ omniTotals[m]=0; aiTotals[m]=0; });
-
-  DATA.omni.sprints.forEach(s=>members.forEach(m=>{ omniTotals[m]+=(s.sp[m]||0); }));
-  DATA.ai.sprints.forEach(s=>members.forEach(m=>{ aiTotals[m]+=(s.sp[m]||0); }));
-
-  const omniAvg={}, aiAvg={};
-  members.forEach(m=>{ omniAvg[m]=Math.round(omniTotals[m]/3*100)/100; aiAvg[m]=Math.round(aiTotals[m]/3*100)/100; });
-
-  // All-time totals
-  const totalSP = {
-    omni: (DATA.omniAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0),
-    ai:   (DATA.aiAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0),
-    commerce: ((DATA.commerce&&DATA.commerce.sprints)||[]).reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)
-  };
-  totalSP.all = totalSP.omni + totalSP.ai + totalSP.commerce;
-  // Max sprint SP (for reference)
-  const maxOmniSP = Math.max(...(DATA.omniAllTime||[]).map(s=>typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)));
-  const cycles = DATA.omni.sprints.length; // 3
-
-  const memberTotals={};
-  members.forEach(m=>{ memberTotals[m]={omni:omniTotals[m],ai:aiTotals[m],total:omniTotals[m]+aiTotals[m]}; });
-
-  return {members,omniTotals,aiTotals,omniAvg,aiAvg,totalSP,cycles,memberTotals};
-}
-
-/* ══════════════════════════════════
-   RENDER
-══════════════════════════════════ */
-function render(){
-  document.getElementById('date-badge').textContent = `อัปเดต ${DATA._updated||'—'}`;
-  const C = compute();
-  const {members,omniAvg,aiAvg,totalSP,memberTotals} = C;
-
-  // Compute all-member totals for bar scaling (includes Top)
-const _allSpMap = {};
-[...DATA.omni.sprints, ...DATA.ai.sprints].forEach(s=>Object.entries(s.sp).forEach(([m,v])=>{ _allSpMap[m]=(_allSpMap[m]||0)+v; }));
-const maxBar = Math.max(...Object.values(_allSpMap), 1);
-  const totalAll = members.reduce((a,m)=>a+memberTotals[m].total,0);
-
-  let h = `
-  <!-- Title -->
   <div class="title-block">
-    <h1>Zimple <span>Solution</span> — Sprint Effort Summary</h1>
-    <div class="subtitle">${editMode?`<input style="background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 8px;font-size:13px;width:100%" value="${DATA.subtitle}" oninput="DATA.subtitle=this.value">`:DATA.subtitle}</div>
+    <h1>ACE <span>Velocity</span> Dashboard</h1>
+    <div class="subtitle">Sprint 11 Final [TEST] · current data snapshot · latest 3 sprints visible · Dev Team: 8 คน</div>
     <div class="product-tags">
-      <span class="ptag ptag-omni">Zimple Omni</span>
-      <span class="ptag ptag-ai">Zimple AI</span>
-      <span class="ptag ptag-commerce">Zimple Commerce</span>
-      <span class="ptag ptag-team">Team: ${members.join(' · ')}</span>
+      <span class="ptag ptag-omni">🟣 Omni</span>
+      <span class="ptag ptag-ai">🔵 AI</span>
+      <span class="ptag ptag-commerce">🟠 Commerce</span>
+      <span class="ptag ptag-team">👥 8 devs · Defect แยกจาก velocity</span>
     </div>
   </div>
 
-  <!-- KPI Sections — collapsible -->
-
-  <!-- Section 1: SP sprint ล่าสุด (default open) -->
-  ${(()=>{
-    const lastOmni = DATA.omni.sprints[DATA.omni.sprints.length-1];
-    const lastAi   = DATA.ai.sprints[DATA.ai.sprints.length-1];
-    const lastCommerce = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints[DATA.commerce.sprints.length-1] : null;
-    const omniSP   = lastOmni ? Object.values(lastOmni.sp).reduce((a,b)=>a+b,0) : 0;
-    const aiSP     = lastAi   ? Object.values(lastAi.sp).reduce((a,b)=>a+b,0)   : 0;
-    const commerceSP = lastCommerce ? Object.values(lastCommerce.sp).reduce((a,b)=>a+b,0) : 0;
-    const memberLastSP = {};
-    DATA.members.forEach(m=>{
-      const o = lastOmni ? (lastOmni.sp[m]||0) : 0;
-      const a = lastAi   ? (lastAi.sp[m]||0)   : 0;
-      const c = lastCommerce ? (lastCommerce.sp[m]||0) : 0;
-      memberLastSP[m] = o + a + c;
-    });
-    const lastSpCards = `
-      <div class="kpi-card">
-        <div class="kpi-label" style="color:var(--accent)">Omni — ${lastOmni?lastOmni.name:'—'}</div>
-        <div class="kpi-val" style="color:var(--accent)">${omniSP}</div>
-        <div class="kpi-sub">SP sprint ล่าสุด</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" style="color:#7c35b8">AI — ${lastAi?lastAi.name:'—'}</div>
-        <div class="kpi-val" style="color:#7c35b8">${aiSP}</div>
-        <div class="kpi-sub">SP sprint ล่าสุด</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label" style="color:var(--yellow)">Commerce${lastCommerce?' — '+lastCommerce.name:''}</div>
-        <div class="kpi-val" style="color:var(--yellow)">${commerceSP}</div>
-        <div class="kpi-sub">${lastCommerce?'SP sprint ล่าสุด':'ยังไม่เริ่ม'}</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">รวม sprint นี้</div>
-        <div class="kpi-val">${omniSP+aiSP+commerceSP}</div>
-        <div class="kpi-sub">Omni + AI + Commerce</div>
-      </div>`;
-    const memberAvg3 = {};
-    DATA.members.forEach(m => {
-      const omniSum = DATA.omni.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
-      const aiSum   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
-      const commerceSum = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints.reduce((a,s)=>a+(s.sp[m]||0),0) : 0;
-      memberAvg3[m] = Math.round((omniSum+aiSum+commerceSum)/DATA.omni.sprints.length*100)/100;
-    });
-    const lastSprintKey = lastOmni ? lastOmni.name : '';
-    const memberHeader = `<div class="rc-header">
-      <div class="rc-label">คน</div>
-      <div class="rc-spwrap"><div class="rc-label" style="flex:1;text-align:center">Sprint ล่าสุด</div><div class="rc-label" style="flex:1;text-align:center;color:#92400e">เฉลี่ย 3 Sprint</div></div>
-      <div class="rc-label">Note sprint นี้</div>
-    </div>`;
-    const memberCards = DATA.members.map(m=>`
-      <div class="rc-row">
-        <div class="rc-name">
-          <div class="m-avatar" style="background:${(DATA.avatarBg||{})[m]||'#eee'};color:${(DATA.colors||{})[m]||'#333'};width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">${m.substring(0,2)}</div>
-          <span>${m}</span>
-        </div>
-        <div class="rc-spwrap">
-          <div class="rc-sp"><b style="color:${(DATA.colors||{})[m]||'var(--text)'}">${memberLastSP[m]}</b><em>SP</em></div>
-          <div class="rc-sp"><b style="color:#92400e">${memberAvg3[m]}</b><em>SP</em></div>
-        </div>
-        <div
-          class="rc-note"
-          contenteditable="true"
-          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['${lastSprintKey}'])DATA.sprint_member_notes['${lastSprintKey}']={};DATA.sprint_member_notes['${lastSprintKey}']['${m}']=this.innerText.trim();saveData()"
-        >${((DATA.sprint_member_notes||{})[lastSprintKey]||{})[m]||''}</div>
-      </div>`).join('');
-    return `
-    <div class="kpi-collapsible">
-      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-last')" style="border-left:4px solid #1e9e6e;background:rgba(30,158,110,.04)">
-        🏃 SP sprint ล่าสุด
-        <span id="kpi-last-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['kpi-last']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
-      </button>
-      <div id="kpi-last-body" class="kpi-sec-body" style="${kpiState['kpi-last']?'':' display:none'}">
-        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">${lastSpCards}</div>
-        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px">รายคน</div>
-        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${memberHeader}${memberCards}</div>
-        ${(()=>{
-          let wf = '';
-          (DATA.warnings||[]).forEach(w=>{ wf += `<div class="warn-box" style="margin-top:10px">⚠️ ${w}</div>`; });
-          if((DATA.footnotes||[]).length){
-            wf += '<ul class="fn-list" style="margin-top:8px">';
-            DATA.footnotes.forEach(fn=>{ wf += `<li>${fn}</li>`; });
-            wf += '</ul>';
-          }
-          return wf;
-        })()}
-        ${(()=>{
-          const notes = Object.entries(DATA.sprint_notes||{});
-          if(!notes.length) return '';
-          return '<div style="margin-top:10px;padding:8px 12px;background:#fffbeb;border:0.5px solid #fde68a;border-radius:8px;font-size:11px;color:#92400e;line-height:1.7"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;color:#b45309">📝 Note จาก ClickUp</div>'
-          + notes.map(([k,v])=>'<div><span style="font-weight:600">'+k+':</span> '+v+'</div>').join('')
-          + '</div>';
-        })()}
-      </div>
-    </div>`;
-  })()}
-
-  <!-- Section: Defect ที่ถูกเอาเข้า SP (default open) -->
-  ${(()=>{
-    const defects = DATA.defects||[];
-    if(!defects.length) return '';
-    const lastOmniD = DATA.omni.sprints[DATA.omni.sprints.length-1];
-    const lastAiD   = DATA.ai.sprints[DATA.ai.sprints.length-1];
-    const lastCommerceD = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints[DATA.commerce.sprints.length-1] : null;
-    const sprintLabels = [
-      lastOmniD ? `Omni ${lastOmniD.name}` : null,
-      lastAiD ? `AI ${lastAiD.name}` : null,
-      lastCommerceD ? `Commerce ${lastCommerceD.name}` : null
-    ].filter(Boolean).join(' / ');
-    const header = `<div class="df-header">
-      <div class="rc-label">ACE Product</div>
-      <div class="rc-label">ชื่อ Task</div>
-      <div class="rc-label">Owner of Parent Task</div>
-      <div class="rc-label">Owner Defect Task</div>
-    </div>`;
-    const rows = defects.map(d=>`
-      <a class="df-row" href="${d.url}" target="_blank" rel="noopener">
-        <div><span class="df-tag">${d.product||'—'}</span></div>
-        <div class="df-name">${d.id?`<span style="color:var(--muted);font-family:var(--mono);font-size:10px">${d.id}</span> `:''}${d.name}</div>
-        <div class="df-sub">${d.ownerParent||'—'}</div>
-        <div class="df-sub" style="font-weight:600;color:var(--text)">${d.ownerDefect||'—'}</div>
-      </a>`).join('');
-    return `
-    <div class="kpi-collapsible">
-      <button class="kpi-sec-btn" onclick="toggleKpi('defects')" style="border-left:4px solid #d63e4a;background:rgba(214,62,74,.04)">
-        🐞 Defect ที่ถูกเอาเข้า SP ล่าสุด (${sprintLabels}) — ${defects.length} tasks
-        <span id="defects-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['defects']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
-      </button>
-      <div id="defects-body" class="kpi-sec-body" style="${kpiState['defects']?'':' display:none'}">
-        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${header}${rows}</div>
-        <div style="font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.6">* ACE Product ของ defect เหล่านี้ยังไม่ได้ fill ใน ClickUp จริง — ใช้ Omni ตามที่ยืนยันไว้ชั่วคราว<br>* Owner of Parent Task ดึงจากลิงก์ REF ใน description (บาง task ไม่มีลิงก์ที่ใช้ได้ จึงระบุไม่ได้)</div>
-      </div>
-    </div>`;
-  })()}
-
-  <!-- Section 2: เฉลี่ย 3 sprint ล่าสุด + Sprint Overview (รวม section เดียว, default closed) -->
-  ${(()=>{
-    const omniAvgSP = Math.round(DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.omni.sprints.length*10)/10;
-    const aiAvgSP   = Math.round(DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.ai.sprints.length*10)/10;
-    const commerceTotal = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0) : 0;
-    const combined  = Math.round((DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+commerceTotal)/DATA.omni.sprints.length*10)/10;
-
-    let cyclesHtml = `<div class="section-label" style="margin-top:16px">SPRINT OVERVIEW</div><div class="cycles-grid">`;
-    DATA.cycles.forEach((cy,i)=>{
-      cyclesHtml += `<div class="cycle-card"><div class="cycle-title">${cy.label}</div>`;
-      if(cy.omni){
-        const o=cy.omni;
-        cyclesHtml += `<div class="sprint-item">
-          <span class="sprint-name">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:600;width:140px" value="${o.name}" oninput="DATA.cycles[${i}].omni.name=this.value">`:o.name}</span>
-          <span class="sprint-sp omni">${editMode?`<input type="number" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:700;width:40px;text-align:right" value="${o.sp}" oninput="DATA.cycles[${i}].omni.sp=+this.value">`:o.sp} SP</span>
-          <div class="sprint-desc">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">`:o.desc||''}</div>
-          <div class="sprint-dates">${o.dates||''}</div>
-        </div>`;
-      }
-      if(cy.ai){
-        const a=cy.ai;
-        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-item">
-          <span class="sprint-name" style="color:#7c35b8">${a.name}</span>
-          <span class="sprint-sp ai">${a.sp} SP</span>
-          <div class="sprint-desc">${a.desc||''}</div>
-          <div class="sprint-dates">${a.dates||''}</div>
-        </div>`;
-      } else if(i>0){
-        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-empty">— AI ยังไม่เริ่ม —</div>`;
-      }
-      if(cy.commerce){
-        const c=cy.commerce;
-        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-item">
-          <span class="sprint-name" style="color:var(--yellow)">${c.name}</span>
-          <span class="sprint-sp" style="color:var(--yellow)">${c.sp} SP</span>
-          <div class="sprint-desc">${c.desc||''}</div>
-          <div class="sprint-dates">${c.dates||''}</div>
-        </div>`;
-      } else if(i>0){
-        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-empty">— Commerce ยังไม่เริ่ม —</div>`;
-      }
-      cyclesHtml += `</div>`;
-    });
-    cyclesHtml += `</div>`;
-
-return `
-    <div class="kpi-collapsible">
-      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-avg')" style="border-left:4px solid #3b6fd4;background:rgba(59,111,212,.04)">
-        📈 เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
-        <span id="kpi-avg-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['kpi-avg']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
-      </button>
-      <div id="kpi-avg-body" class="kpi-sec-body" style="${kpiState['kpi-avg']?'':' display:none'}">
-        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">
-          <div class="kpi-card"><div class="kpi-label" style="color:var(--accent)">เฉลี่ย Omni / sprint</div><div class="kpi-val" style="color:var(--accent)">${omniAvgSP}</div><div class="kpi-sub">avg ${DATA.omni.sprints.length} sprints ล่าสุด</div></div>
-          <div class="kpi-card"><div class="kpi-label" style="color:#7c35b8">เฉลี่ย AI / sprint</div><div class="kpi-val" style="color:#7c35b8">${aiAvgSP}</div><div class="kpi-sub">avg ${DATA.ai.sprints.length} sprints ล่าสุด</div></div>
-          <div class="kpi-card"><div class="kpi-label" style="color:var(--yellow)">Commerce</div><div class="kpi-val" style="color:var(--yellow)">${commerceTotal}</div><div class="kpi-sub">${commerceTotal?('avg '+Math.round(commerceTotal/DATA.omni.sprints.length*10)/10+' /sprint'):'ยังไม่เริ่ม'}</div></div>
-          <div class="kpi-card"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val">${combined}</div><div class="kpi-sub">รวม Omni + AI + Commerce (${DATA.omni.sprints.length} sprints ล่าสุด)</div></div>
-        </div>
-        ${cyclesHtml}
-      </div>
-    </div>`;
-  })()}
-
-  <!-- Workload -->
-  <div class="workload-header">
-    <button class="collapse-btn" onclick="toggleKpi('workload')">WORKLOAD รายคน <span id="workload-arrow" style="font-size:.75rem;display:inline-block;transition:transform .2s;transform:${kpiState['workload']?'rotate(180deg)':'rotate(0deg)'}">▼</span></button>
-    <div class="legend-right">
-      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
-      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
-      <span style="margin-left:8px;color:var(--muted)">SP รวม | เฉลี่ย/cycle</span>
+  <div class="sec-title"><span>📊</span> ภาพรวม</div>
+  <div class="kpi-row">
+    <div class="card">
+      <div class="kpi-label">Velocity S11 (current drilled)</div>
+      <div class="kpi-val">124.5</div>
+      <div class="kpi-sub">vs avg 110.6pt จาก 3 completed sprints ล่าสุด (S8-S10) · +13.9pt / +12.6%</div>
     </div>
-  </div>`;
-
-  h += `<div id="workload-body" style="${kpiState['workload']?'':' display:none'}">`;
-  h += `<div class="workload-wrap">`;
-    // Show Top if they have any SP in current sprints
-    const allMembers = [...members];
-    const topOmni = DATA.omni.sprints.reduce((a,s)=>a+(s.sp['Top']||0),0);
-    const topAI   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp['Top']||0),0);
-    if((topOmni+topAI)>0 && !allMembers.includes('Top')) allMembers.push('Top');
-    allMembers.forEach(m=>{
-      const mOmni = DATA.omni.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
-      const mAI   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
-      const tot = mOmni + mAI;
-      if(!tot) return;
-      const omniW = maxBar ? mOmni/maxBar*100 : 0;
-      const aiW   = maxBar ? mAI/maxBar*100 : 0;
-      const avg   = Math.round(tot/3*100)/100;
-      const initials = m.slice(0,2);
-      h += `<div class="member-row">
-        <div class="member-avatar" style="background:${DATA.avatarBg[m]||'rgba(91,141,238,.15)'}">
-          <span style="color:${DATA.colors[m]||'var(--accent)'};">${initials}</span>
-        </div>
-        <div class="member-name">${m}</div>
-        <div class="bar-wrap">
-          <div class="bar-bg">
-            ${mOmni>0?`<div class="bar-omni" style="width:${omniW}%">${mOmni}</div>`:''}
-            ${mAI>0?`<div class="bar-ai" style="width:${aiW}%">${mAI}</div>`:''}
-          </div>
-        </div>
-        <div class="bar-right">${tot} SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">${avg} avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
-      </div>`;
-    });
-  h += `</div>`;
-  h += `</div>`;
-
-  // Detail table
-  h += `<div class="detail-header">
-    <button class="collapse-btn" onclick="toggleKpi('detail')">ตารางละเอียด <span id="detail-arrow" style="font-size:.75rem;display:inline-block;transition:transform .2s">▼</span></button>
-    <div class="legend-right">
-      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
-      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
-    </div>
-  </div>`;
-
-  h += `<div id="detail-body" style="${kpiState['detail']?'':' display:none'}">`;
-  {
-    const omniN = DATA.omni.sprints.length;
-    const aiN = DATA.ai.sprints.length;
-    h += `<div class="table-wrap"><table>
-      <thead><tr>
-        <th style="text-align:left">คน</th>
-        <th>OMNI SP<br><span style="font-weight:400">(${omniN}sp)</span></th>
-        <th>เฉลี่ย<br>OMNI/SP</th>
-        <th style="color:#7c35b8">AI SP<br><span style="font-weight:400">(${aiN}sp)</span></th>
-        <th style="color:#7c35b8">เฉลี่ย<br>AI/SP</th>
-        <th>COMMERCE SP<br><span style="font-weight:400">(0sp)</span></th>
-        <th>เฉลี่ย<br>COMMERCE/SP</th>
-        <th>รวม SP</th>
-        <th>เฉลี่ยรวม<br>/SP</th>
-        <th>%</th>
-        <th style="text-align:left">หมายเหตุ</th>
-      </tr></thead>
-      <tbody>`;
-
-    members.forEach(m=>{
-      const tot = memberTotals[m].total;
-      const pct = totalAll ? Math.round(tot/totalAll*1000)/10 : 0;
-      const note = (DATA.notes||{})[m]||'';
-      const noteWarn = (DATA.warnings_member||{})[m]||'';
-      h += `<tr>
-        <td><div class="member-cell">
-          <div class="m-avatar" style="background:${DATA.avatarBg[m]||'rgba(91,141,238,.15)'}">
-            <span style="color:${DATA.colors[m]||'var(--accent)'}">${m.slice(0,2)}</span>
-          </div>
-          ${m}
-        </div></td>
-        <td class="num">${memberTotals[m].omni||0}</td>
-        <td class="avg-col">${omniAvg[m]||0}</td>
-        <td class="num" style="color:#7c35b8">${memberTotals[m].ai||0}</td>
-        <td class="avg-ai">${aiAvg[m]||0}</td>
-        <td class="num">0</td>
-        <td class="num" style="color:var(--muted)">0</td>
-        <td class="num" style="font-weight:700">${tot}</td>
-        <td class="avg-col" style="color:#92400e;font-weight:600">${Math.round(tot/omniN*100)/100}</td>
-        <td class="pct-col">${pct}%</td>
-        <td class="note-col">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${note}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value">`:note}${noteWarn?`<div class="hi">${noteWarn}</div>`:''}</td>
-      </tr>`;
-    });
-
-    // Total row
-    const omniTotal = members.reduce((a,m)=>a+memberTotals[m].omni,0);
-    const aiTotal   = members.reduce((a,m)=>a+memberTotals[m].ai,0);
-    h += `<tr class="total-row">
-      <td>รวม</td>
-      <td class="num">${omniTotal}</td>
-      <td class="avg-col">${Math.round(omniTotal/omniN*100)/100}</td>
-      <td class="num" style="color:#7c35b8">${aiTotal}</td>
-      <td class="avg-ai">${Math.round(aiTotal/aiN*100)/100}</td>
-      <td class="num">0</td>
-      <td class="num">0</td>
-      <td class="num">${totalAll}</td>
-      <td class="avg-col" style="color:#92400e;font-weight:600">${Math.round(totalAll/omniN*100)/100}</td>
-      <td class="pct-col">100%</td>
-      <td></td>
-    </tr>`;
-
-    h += `</tbody></table></div>`;
-  }
-
-  // Bottom summary — avg of last 3 sprints
-  const omniAvgTotal = Math.round(totalSP.omni/DATA.omni.sprints.length*100)/100;
-  const aiAvgTotal   = Math.round(totalSP.ai/DATA.ai.sprints.length*100)/100;
-  const grandAvg     = Math.round((omniAvgTotal+aiAvgTotal)*10)/10;
-  const coreOmni = members.filter(m=>memberTotals[m].omni>10).join('+');
-  const coreAI   = members.filter(m=>memberTotals[m].ai>10).join('+');
-
-  // bottom summary now in KPI section
-
-  h += `
-    <div class="kpi-collapsible" style="margin-bottom:20px">
-      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-all')" style="border-left:4px solid #8892b0;background:rgba(136,146,176,.04)">
-        📊 SP รวมทั้งหมดตั้งแต่เริ่มต้น
-        <span id="kpi-all-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['kpi-all']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
-      </button>
-      <div id="kpi-all-body" class="kpi-sec-body" style="${kpiState['kpi-all']?'':' display:none'}">
-        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
-          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--accent)">Omni รวม</div><div class="kpi-val" style="color:var(--accent);font-size:24px">${totalSP.omni}</div><div class="kpi-sub">${(DATA.omniAllTime||[]).length} sprints</div></div>
-          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:#7c35b8">AI รวม</div><div class="kpi-val" style="color:#7c35b8;font-size:24px">${totalSP.ai}</div><div class="kpi-sub">${(DATA.aiAllTime||[]).length} sprints</div></div>
-          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--yellow)">Commerce รวม</div><div class="kpi-val" style="color:var(--yellow);font-size:24px">${totalSP.commerce}</div><div class="kpi-sub">${(DATA.commerce&&DATA.commerce.sprints||[]).length} sprints</div></div>
-          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val" style="font-size:24px">${Math.round(totalSP.all/(DATA.omniAllTime||[]).length*10)/10}</div><div class="kpi-sub">รวม ${totalSP.all} SP ÷ ${(DATA.omniAllTime||[]).length} sprints (อิงตามจำนวน sp ของ Omni)</div></div>
-        </div>
-      </div>
-    </div>`;
-
-  
-  document.getElementById('root').innerHTML = h;
-}
-
-loadData();
-</script>
-
-<!-- Edit Modal -->
-<div class="modal-overlay" id="edit-modal" onclick="if(event.target===this)closeEditModal()">
-  <div class="modal-box">
-    <div class="modal-header">
-      <span>📊</span>
-      <h2>แก้ไขข้อมูล Report</h2>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
-    </div>
-    <div class="modal-body" id="modal-body"></div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeEditModal()">ยกเลิก</button>
-      <button class="btn-save" onclick="applyAndSave()">✓ บันทึกและ Render ใหม่</button>
+    <div class="card">
+      <div class="kpi-label">Sprint Health (close-now snapshot)</div>
+      <div class="health-row"><div class="health-dot"></div><span class="health-text">🟡 At risk</span></div>
+      <div class="health-reason">Completion 64.0% (124.5 / 194.5pt) · blocked 24pt · AI ช่วยดัน velocity แต่ Commerce ยัง carry-over หนัก</div>
     </div>
   </div>
-</div>
 
+  <div class="sec-title"><span>🔄</span> รอบ Sprint (3 รอบล่าสุด)</div>
+  <div class="cycles-grid">
+    <div class="cycle-card">
+      <div class="cycle-title">S9 FINAL (7/6 – 7/17)</div>
+      <div class="sprint-item"><div class="sprint-row"><span class="sprint-name omni">Omni</span><span class="sprint-sp omni">106.4 sp</span></div><div class="sprint-desc">Widget SDK + Broadcast + RBAC</div></div>
+      <hr class="sprint-divider"><div class="sprint-item"><div class="sprint-row"><span class="sprint-name ai">AI</span><span class="sprint-sp ai">11.9 sp</span></div><div class="sprint-desc">Multi-turn + Agent Config</div></div>
+      <hr class="sprint-divider"><div class="sprint-item"><div class="sprint-row"><span class="sprint-name commerce">Commerce</span><span class="sprint-sp commerce">3.0 sp</span></div><div class="sprint-desc">Setup + Analyze</div></div>
+    </div>
+    <div class="cycle-card">
+      <div class="cycle-title">S10 FINAL (7/20 – 8/4)</div>
+      <div class="sprint-item"><div class="sprint-row"><span class="sprint-name omni">Omni</span><span class="sprint-sp omni">104 sp</span></div><div class="sprint-desc">UI Revamp + SUB + Landing + Round-Robin</div></div>
+      <hr class="sprint-divider"><div class="sprint-item"><div class="sprint-row"><span class="sprint-name ai">AI</span><span class="sprint-sp ai">69 sp</span></div><div class="sprint-desc">ACE-01~04 + AIR-01~07</div></div>
+      <hr class="sprint-divider"><div class="sprint-item"><div class="sprint-row"><span class="sprint-name commerce">Commerce</span><span class="sprint-sp commerce">3.0 sp</span></div><div class="sprint-desc">Setup + Analyze done</div></div>
+    </div>
+    <div class="cycle-card" style="border:1px solid rgba(59,111,212,.3);background:rgba(59,111,212,.02)">
+      <div class="cycle-title">S11 TEST ★ (8/5 – 9/4)</div>
+      <div class="sprint-item"><div class="sprint-row"><span class="sprint-name omni">Omni</span><span class="sprint-sp omni">78.5 sp</span></div><div class="sprint-desc">Analytics + UI carry + Shopify carry</div></div>
+      <hr class="sprint-divider"><div class="sprint-item"><div class="sprint-row"><span class="sprint-name ai">AI</span><span class="sprint-sp ai">45 sp</span></div><div class="sprint-desc">Improve AI + Omnichat integration</div></div>
+      <hr class="sprint-divider"><div class="sprint-item"><div class="sprint-row"><span class="sprint-name commerce">Commerce</span><span class="sprint-sp commerce">1.0 sp</span></div><div class="sprint-desc">POC / provider analysis ยังไม่ปิด</div></div>
+    </div>
+  </div>
+
+  <div class="sec-title"><span>👤</span> รายคน — Velocity 3 Sprints (leaf dev-done)</div>
+  <div class="detail-wrap">
+    <div class="detail-header"><span>Name</span><span>S9</span><span>S10</span><span>S11</span><span>Avg</span></div>
+    <div class="detail-row"><div class="detail-name">Attachai</div><div class="detail-val">4.4</div><div class="detail-val">40</div><div class="detail-val">22.0</div><div class="detail-avg">22.1</div></div>
+    <div class="detail-row"><div class="detail-name">Puripat</div><div class="detail-val">7.5</div><div class="detail-val">30</div><div class="detail-val">12.5</div><div class="detail-avg">16.7</div></div>
+    <div class="detail-row"><div class="detail-name">Peerapat</div><div class="detail-val">15.4</div><div class="detail-val">13</div><div class="detail-val">17.25</div><div class="detail-avg">15.2</div></div>
+    <div class="detail-row"><div class="detail-name">Griangsak</div><div class="detail-val">12</div><div class="detail-val">19</div><div class="detail-val">10.0</div><div class="detail-avg">13.7</div></div>
+    <div class="detail-row"><div class="detail-name">Tanawin</div><div class="detail-val">7</div><div class="detail-val">14</div><div class="detail-val">10.0</div><div class="detail-avg">10.3</div></div>
+    <div class="detail-row"><div class="detail-name">Prem</div><div class="detail-val">59</div><div class="detail-val">16</div><div class="detail-val">5.0</div><div class="detail-avg">26.7</div></div>
+    <div class="detail-row"><div class="detail-name">Rutthee</div><div class="detail-val">0</div><div class="detail-val">15</div><div class="detail-val">28.0</div><div class="detail-avg">14.3</div></div>
+    <div class="detail-row"><div class="detail-name">Wetchayan</div><div class="detail-val">0</div><div class="detail-val">23</div><div class="detail-val">4.0</div><div class="detail-avg">9.0</div></div>
+    <div class="detail-row total"><div class="detail-name"><strong>TOTAL</strong></div><div class="detail-val"><b>121.3</b></div><div class="detail-val"><b>176.0</b></div><div class="detail-val"><b>124.5</b></div><div class="detail-avg">140.6</div></div>
+  </div>
+
+  <div class="sec-title"><span>📈</span> สรุป Velocity เฉลี่ย per Product</div>
+  <div class="bottom-grid">
+    <div class="sum-card"><div class="sum-label">🟣 Omni Avg</div><div class="sum-val omni">96.3</div><div class="sum-sub">S9: 106.4 · S10: 104 · S11 TEST: 78.5</div></div>
+    <div class="sum-card"><div class="sum-label">🔵 AI Avg</div><div class="sum-val ai">42.0</div><div class="sum-sub">S9: 11.9 · S10: 69 · S11 TEST: 45</div></div>
+    <div class="sum-card"><div class="sum-label">🟠 Commerce Avg</div><div class="sum-val commerce">2.3</div><div class="sum-sub">S9: 3.0 · S10: 3.0 · S11 TEST: 1.0</div></div>
+  </div>
+
+  <div class="sec-title warn"><span>📦</span> Carry-over → Sprint 12</div>
+  <div class="carry-wrap">
+    <div class="carry-header"><span>Task</span><span>Pts</span><span>Status</span><span>Assignee</span></div>
+    <div class="carry-row"><div>SHP-01: Shopify Auth Connection Flow</div><div><b>5</b></div><div>to do</div><div>Prem</div></div>
+    <div class="carry-row"><div>SHP-02: Shopify Customer Sync & Contact Linking</div><div><b>5</b></div><div>to do</div><div>Prem</div></div>
+    <div class="carry-row"><div>SHP-03: Order Context Panel in Inbox</div><div><b>3</b></div><div>to do</div><div>Prem</div></div>
+    <div class="carry-row"><div>SHP-04: Product Catalog Search & Share in Chat</div><div><b>5</b></div><div>to do</div><div>Prem</div></div>
+    <div class="carry-row"><div>SHP-05: Shopify Webhook Event Handling</div><div><b>3</b></div><div>to do</div><div>Prem</div></div>
+    <div class="carry-row"><div>SHP-06: Shopify Connection Health & Disconnect</div><div><b>2</b></div><div>to do</div><div>Prem</div></div>
+    <div class="carry-row"><div>SHP-07: Publish App to Shopify App Store</div><div><b>8</b></div><div>to do</div><div>Prem</div></div>
+    <div class="carry-row" style="background:rgba(214,62,74,.03)"><div><strong>Blocked bundle:</strong> MKT-03 / MKT-04 / MKT-06 / SUB-11 / SUB-12</div><div><b>24</b></div><div>blocked</div><div>Mixed</div></div>
+  </div>
+
+  <div class="sec-title"><span>🐞</span> Defect (แยกจาก Velocity)</div>
+  <div class="defect-wrap">
+    <div class="defect-header"><span>Product</span><span>Count</span><span>Representative items</span></div>
+    <div class="defect-row"><div><strong>Omni</strong></div><div><strong>108</strong></div><div><a href="https://app.clickup.com/t/86d4793xr">ACE-6235</a>, <a href="https://app.clickup.com/t/86d47930r">ACE-6234</a>, <a href="https://app.clickup.com/t/86d45t7kc">ACE-6125</a> · ส่วนใหญ่เป็น defect/bug ที่อยู่ใน aligned Sprint 11 list แต่ไม่มี sprint points</div></div>
+    <div class="defect-row"><div><strong>AI</strong></div><div><strong>11</strong></div><div><a href="https://app.clickup.com/t/86d45d829">ACE-6116</a>, <a href="https://app.clickup.com/t/86d3xkrwu">ACE-3251</a>, <a href="https://app.clickup.com/t/86d45274a">ACE-6102</a> · มีทั้ง tag defect และ bug-named items</div></div>
+    <div class="defect-row"><div><strong>Commerce</strong></div><div><strong>0</strong></div><div>รอบนี้ยังไม่เจอ defect match จาก query ใน aligned Sprint 3 (8/5 - 9/4)</div></div>
+  </div>
+
+  <div class="sec-title"><span>⚠️</span> หมายเหตุ</div>
+  <div class="warn-box">
+    • รายงานนี้เป็น <strong>TEST snapshot using current data</strong> ไม่ใช่ official sprint-close retro<br>
+    • baseline ใช้ 3 completed sprints ล่าสุดจาก historical final data: S8, S9, S10<br>
+    • defect มีจริง และถูกแยกรายงานต่างหากจาก velocity ตามกติกา<br>
+    • defect ส่วนใหญ่ใน Sprint 11 ไม่มี sprint points จึงไม่ถูกนับใน 124.5pt<br>
+    • current per-person row ของ S11 โฟกัส 8 dev หลัก; งานที่ share กับ non-core collaborators ไม่ได้ดันเข้าตารางหลักทั้งหมด
+  </div>
+
+  <ul class="fn-list">
+    <li>Leaf definition: ถ้ามี point ที่ child ให้ยึด child และไม่ซ้ำ parent</li>
+    <li>Dev-done bucket: dev testing, reviewing, [sit] ready to qa test, qa testing, [prod] ready to release, done, closed</li>
+    <li>Multi-assignee split: แบ่ง point เท่ากันตาม assignee ที่เกี่ยวข้อง</li>
+    <li>Defect แยกรายงาน ไม่ปนกับ velocity / carry-over / blocked</li>
+  </ul>
+</main>
 </body>
 </html>
