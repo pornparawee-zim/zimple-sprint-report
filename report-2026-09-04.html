@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<!-- saved from url=(0111)https://t25605274.p.clickup-attachments.com/t25605274/deaef830-1de3-4923-8354-4e0d80367c0a/index.html?view=open -->
+<html lang="th"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zimple Sprint Effort Summary</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root{--bg:#f4f6fb;--surface:#ffffff;--card:#f8fafc;--border:#dde3f0;--accent:#3b6fd4;--accent2:#6040b8;--green:#1e9e6e;--yellow:#c77c00;--red:#d63e4a;--orange:#c26000;--muted:#8892b0;--textdim:#4a5568;--text:#1a1f36;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans Thai',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh}
+/* Header */
+.topbar{background:#ffffff;border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.06);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.edit-badge{background:var(--accent2);color:#fff;border-radius:5px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:500;border:none;font-family:var(--sans)}
+.edit-hint{font-size:10px;color:#8892b0;margin-left:auto}
+/* Date badge */
+.date-badge{background:rgba(91,141,238,.12);color:var(--accent);border:1px solid rgba(91,141,238,.2);border-radius:5px;padding:3px 10px;font-size:11px;font-family:var(--mono)}
+/* Main */
+main{max-width:980px;margin:0 auto;padding:28px 20px}
+/* Title */
+.title-block{margin-bottom:20px}
+.title-block h1{font-size:26px;font-weight:600;margin-bottom:6px}
+.title-block h1 span{color:var(--accent)}
+.title-block .subtitle{font-size:13px;color:var(--textdim);margin-bottom:10px}
+.product-tags{display:flex;gap:8px;flex-wrap:wrap}
+.ptag{border:1px solid;border-radius:5px;padding:3px 10px;font-size:11px}
+.ptag-omni{border-color:rgba(91,141,238,.4);color:var(--accent)}
+.ptag-ai{border-color:rgba(232,121,249,.4);color:#7c35b8}
+.ptag-commerce{border-color:rgba(245,166,35,.4);color:var(--yellow)}
+.ptag-team{border-color:var(--border);color:var(--textdim)}
+/* KPI cards */
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.kpi-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:18px 20px}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px}
+.kpi-val{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.kpi-sub{font-size:11px;color:var(--textdim)}
+/* Sprint overview */
+.section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px}
+.cycles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.cycle-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:14px}
+.cycle-title{font-size:10px;color:var(--muted);margin-bottom:8px}
+.sprint-item{margin-bottom:8px}
+.sprint-name{font-size:14px;font-weight:600;color:var(--accent)}
+.sprint-sp{font-family:var(--mono);font-size:14px;font-weight:700;float:right}
+.sprint-sp.ai{color:#7c35b8}
+.sprint-sp.omni{color:var(--accent)}
+.sprint-desc{font-size:11px;color:var(--textdim);margin-top:2px;clear:both}
+.sprint-dates{font-size:10px;color:var(--muted);margin-top:2px}
+.sprint-empty{font-size:11px;color:var(--muted);font-style:italic;margin-top:6px}
+.sprint-divider{border:none;border-top:1px solid var(--border);margin:8px 0}
+/* Workload section */
+.workload-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.collapse-btn{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer;color:var(--textdim);font-family:var(--sans)}
+.legend-right{margin-left:auto;display:flex;gap:12px;font-size:10px;color:var(--textdim);align-items:center}
+.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+/* Workload bars */
+.workload-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:16px;margin-bottom:20px}
+.member-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.member-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.member-name{width:52px;font-size:12px;flex-shrink:0}
+.bar-wrap{flex:1;position:relative}
+.bar-bg{height:20px;border-radius:4px;overflow:hidden;display:flex}
+.bar-omni{background:var(--accent);height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
+.bar-ai{background:#8b44cc;height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
+.bar-right{font-size:11px;color:var(--textdim);white-space:nowrap;font-family:var(--mono);min-width:140px;text-align:right}
+/* Detail table */
+.detail-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.table-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;overflow:hidden;margin-bottom:20px}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(59,111,212,.06);padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+th,td{text-align:right}
+th:first-child,td:first-child{text-align:left}
+td{padding:9px 12px;border-bottom:1px solid rgba(42,48,72,.35);font-size:12px}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono)}
+.avg-col{color:var(--accent);font-weight:600;font-family:var(--mono)}
+.avg-ai{color:#7c35b8}
+.member-cell{display:flex;align-items:center;gap:8px}
+.m-avatar{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
+.pct-col{color:var(--textdim);font-family:var(--mono)}
+.note-col{font-size:11px;color:var(--textdim)}
+.note-col .hi{color:var(--red);font-size:10px}
+.total-row td{background:rgba(59,111,212,.08);font-weight:700;border-top:2px solid var(--border)!important}
+/* Bottom summary */
+.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.sum-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:16px 18px}
+.sum-label{font-size:11px;color:var(--muted);margin-bottom:6px}
+.sum-val{font-size:28px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.sum-val.omni{color:var(--accent)}
+.sum-val.ai{color:#7c35b8}
+.sum-val.total{color:var(--text)}
+.sum-sub{font-size:11px;color:var(--textdim)}
+/* Warning box */
+.warn-box{background:rgba(199,124,0,.05);border:1px solid rgba(199,124,0,.2);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:11px;color:var(--textdim)}
+.warn-box strong{color:var(--yellow)}
+/* Footnotes */
+.fn-list{list-style:none;padding:0;font-size:10px;color:var(--muted)}
+.fn-list li::before{content:'* '}
+
+/* ── Velocity / Sprint Health ── */
+.health-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:16px}
+.health-status{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:12px}
+.health-on_track{background:rgba(30,158,110,.1);color:#1e9e6e;border:1px solid rgba(30,158,110,.25)}
+.health-at_risk{background:rgba(199,124,0,.1);color:#c77c00;border:1px solid rgba(199,124,0,.25)}
+.health-off_track{background:rgba(214,62,74,.1);color:#d63e4a;border:1px solid rgba(214,62,74,.25)}
+.health-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hm-item{text-align:center;padding:10px;background:var(--bg);border-radius:8px}
+.hm-val{font-size:22px;font-weight:700;font-family:var(--mono);line-height:1}
+.hm-label{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.4px}
+.hm-delta{font-size:11px;font-weight:600;margin-top:3px}
+.hm-up{color:var(--green)}.hm-down{color:var(--red)}.hm-neutral{color:var(--muted)}
+.velocity-bar{margin-top:14px}
+.vbar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.vbar-track{height:8px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.vbar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .3s}
+.vbar-baseline{position:relative;height:0}
+.vbar-baseline-line{position:absolute;top:-8px;width:2px;background:var(--yellow);height:8px;border-radius:1px}
+
+/* ── Carry-over / Blocked table ── */
+.carry-table-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.carry-table{width:100%;border-collapse:collapse}
+.carry-table th{background:rgba(59,111,212,.06);padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);text-align:left}
+.carry-table td{padding:9px 12px;border-bottom:1px solid rgba(42,48,72,.07);font-size:12px;text-align:left}
+.carry-table tr:last-child td{border-bottom:none}
+.carry-table tr:hover td{background:rgba(59,111,212,.02)}
+.badge-todo{background:rgba(136,146,176,.1);color:var(--muted);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600}
+.badge-blocked{background:rgba(214,62,74,.1);color:var(--red);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600}
+.badge-inprog{background:rgba(59,111,212,.1);color:var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600}
+.pts-badge{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--text)}
+.empty-state{padding:20px;text-align:center;color:var(--muted);font-size:12px;font-style:italic}
+
+/* ── Dev-done bars ── */
+.devdone-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.devdone-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.devdone-row:last-child{margin-bottom:0}
+.devdone-track{flex:1;height:16px;background:var(--bg);border-radius:4px;overflow:hidden;position:relative;border:1px solid var(--border)}
+.devdone-fill{height:100%;border-radius:4px;transition:width .3s}
+.devdone-pct{font-size:11px;font-weight:600;font-family:var(--mono);min-width:42px;text-align:right}
+@media(max-width:768px){.health-metrics{grid-template-columns:repeat(2,1fr)}}
+/* Toast */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#0a1f0d;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
+
+/* ── Edit Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal-box{background:#fff;border-radius:12px;width:100%;max-width:700px;box-shadow:0 8px 40px rgba(0,0,0,.15);overflow:hidden;margin:auto}
+.modal-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-header h2{font-size:14px;font-weight:600;flex:1}
+.modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:4px}
+.modal-close:hover{background:var(--bg)}
+.modal-body{padding:20px;max-height:70vh;overflow-y:auto}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:#fff}
+.ms-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.m-cycle-block{background:var(--bg);border-radius:8px;padding:12px;margin-bottom:10px}
+.m-cycle-label{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600}
+.m-field-row{display:flex;gap:8px;margin-bottom:6px}
+.m-field{display:flex;flex-direction:column;gap:3px;flex:1}
+.m-field-sm{max-width:110px}
+.m-field label{font-size:10px;color:var(--muted);font-weight:600}
+.m-field input,.m-field textarea{background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans);width:100%}
+.m-field input:focus,.m-field textarea:focus{outline:none;border-color:var(--accent)}
+.m-textarea{width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:12px;font-family:var(--sans);color:var(--text);resize:vertical;min-height:56px}
+.m-member-row{display:flex;align-items:flex-end;gap:10px;margin-bottom:10px}
+.m-member-name{font-size:12px;font-weight:600;width:52px;flex-shrink:0;padding-bottom:8px}
+.m-fn-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+.m-fn-row input{flex:1;background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans)}
+.m-fn-del{background:rgba(214,62,74,.08);color:var(--red);border:1px solid rgba(214,62,74,.2);border-radius:4px;padding:4px 8px;font-size:11px;cursor:pointer}
+.m-fn-add{background:rgba(59,111,212,.06);color:var(--accent);border:1px solid rgba(59,111,212,.2);border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;margin-top:4px}
+.btn-cancel{background:var(--bg);color:var(--textdim);border:1px solid var(--border);border-radius:6px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:var(--sans)}
+.btn-save{background:var(--accent2);color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.btn-save:hover{opacity:.9}
+
+/* KPI Collapsible */
+.kpi-collapsible{margin-bottom:8px}
+.kpi-sec-btn{width:100%;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;font-family:var(--sans);text-align:left;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.kpi-sec-btn:hover{border-color:var(--accent);background:rgba(59,111,212,.02)}
+.kpi-sec-body{padding:12px 0 4px}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  main{padding:16px 12px}
+  .title-block h1{font-size:20px}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .kpi-val{font-size:24px}
+  .cycles-grid{grid-template-columns:1fr}
+  .bottom-grid{grid-template-columns:1fr}
+  .sum-val{font-size:22px}
+  .bar-right{min-width:100px;font-size:10px}
+  .member-name{width:40px;font-size:11px}
+  .table-wrap{overflow-x:auto}
+  table{min-width:600px}
+  .modal-body{max-height:60vh}
+  .m-field-row{flex-wrap:wrap}
+  .m-field-sm{max-width:100%}
+  .topbar{padding:8px 12px;gap:8px}
+  .edit-hint{display:none}
+}
+
+@media(max-width:480px){
+  .kpi-row{grid-template-columns:1fr}
+  .kpi-val{font-size:28px}
+  .title-block h1{font-size:18px}
+  .legend-right{display:none}
+  .bar-right{min-width:80px;font-size:9px}
+  main{padding:12px 10px}
+}
+
+/* Member table ("รายคน") — Note gets the most space, other columns sized to fit content */
+.rc-header,.rc-row{display:grid;grid-template-columns:minmax(96px,1fr) minmax(150px,1.15fr) minmax(130px,2.3fr);gap:10px 14px;align-items:center}
+.rc-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
+.rc-row{padding:9px 4px;border-bottom:1px solid var(--border);transition:background .15s}
+.rc-row:last-of-type{border-bottom:none}
+.rc-row:hover{background:rgba(30,158,110,.03)}
+.rc-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.rc-name{display:flex;align-items:center;gap:8px;min-width:0}
+.rc-name span{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc-spwrap{display:flex;gap:10px}
+.rc-sp{flex:1;text-align:center;white-space:nowrap}
+.rc-sp b{font-size:13.5px;font-weight:700;font-family:var(--mono)}
+.rc-sp em{font-size:9.5px;font-style:normal;color:var(--muted);margin-left:2px}
+.rc-note{font-size:11.5px;color:var(--textdim);border:1px solid transparent;border-radius:6px;background:rgba(15,23,42,.025);padding:6px 10px;outline:none;cursor:text;min-height:30px;line-height:1.45;transition:background .15s,border-color .15s,box-shadow .15s;word-break:break-word}
+.rc-note:hover{background:rgba(15,23,42,.045)}
+.rc-note:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(91,141,238,.1)}
+.rc-note:empty:before{content:attr(placeholder);color:var(--muted);font-style:italic}
+.df-header,.df-row{display:grid;grid-template-columns:minmax(80px,.7fr) minmax(160px,2.3fr) minmax(110px,1.2fr) minmax(80px,.8fr);gap:10px 14px;align-items:center}
+.df-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
+.df-row{padding:9px 4px;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;transition:background .15s}
+.df-row:last-of-type{border-bottom:none}
+.df-row:hover{background:rgba(214,62,74,.03)}
+.df-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;background:rgba(102,71,240,.1);color:#6647f0}
+.df-name{font-size:12px;color:var(--text)}
+.df-sub{font-size:11px;color:var(--textdim)}
+@media(max-width:640px){
+  .rc-header{display:none}
+  .rc-row{grid-template-columns:1fr;gap:6px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
+  .rc-spwrap{gap:16px;margin:2px 0 4px 30px}
+  .rc-sp{text-align:left}
+  .df-header{display:none}
+  .df-row{grid-template-columns:1fr;gap:4px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar" style="background:#fff">
+  <span style="font-size:11px;font-weight:600;color:#8892b0;text-transform:uppercase;letter-spacing:.5px">EDIT</span>
+  <button class="edit-badge" id="edit-btn" onclick="toggleEdit()">📊 แก้ไขข้อมูล</button>
+  <span class="edit-hint" id="edit-hint">กด 'แก้ไขข้อมูล' เพื่อแก้ไขและบันทึกการเปลี่ยนแปลง</span>
+  <span class="date-badge" id="date-badge">—</span>
+</div>
+
+<main>
+  <div id="root"></div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════
+   CONFIG & DATA
+═══════════════════════════════════ */
+const SUPA_URL = 'https://qabbwvmazpdyjdjcvhrm.supabase.co';
+const SUPA_KEY = 'sb_publishable_18mSYWVH7Pcp5OaIwjQ7LQ_TtWWz_nj';
+
+const INIT_DATA = /* SPRINT_SCOUT_DATA_START */
+{
+  "_updated": "2026-09-04T09:21:00+07:00",
+  "subtitle": "Omni — Sprint 11 (8/5 - 9/4) · AI — Sprint 11 (8/5 - 9/4) · Commerce — Sprint 3 (8/5 - 9/4) · Final Retro draft for review · Dev Team: 8 คน",
+  "members": [
+    "Attachai",
+    "Puripat",
+    "Peerapat",
+    "Griang",
+    "Toy",
+    "Prem",
+    "Rutthee",
+    "Wet"
+  ],
+  "colors": {
+    "Attachai": "#3b6fd4",
+    "Puripat": "#7c5bde",
+    "Peerapat": "#0d9488",
+    "Griang": "#3ecf8e",
+    "Toy": "#f5a623",
+    "Prem": "#be185d",
+    "Rutthee": "#e07b00",
+    "Wet": "#4338ca"
+  },
+  "avatarBg": {
+    "Attachai": "rgba(59,111,212,.1)",
+    "Puripat": "rgba(96,64,184,.1)",
+    "Peerapat": "rgba(13,148,136,.1)",
+    "Griang": "rgba(30,158,110,.1)",
+    "Toy": "rgba(199,124,0,.1)",
+    "Prem": "rgba(190,24,93,.1)",
+    "Rutthee": "rgba(224,123,0,.1)",
+    "Wet": "rgba(67,56,202,.1)"
+  },
+  "notes": {
+    "Attachai": "Core dev",
+    "Puripat": "Core dev",
+    "Peerapat": "Core dev",
+    "Griang": "Core dev Omni",
+    "Toy": "Core dev Omni",
+    "Prem": "Core dev",
+    "Rutthee": "Core dev",
+    "Wet": "Core dev"
+  },
+  "cycles": [
+    {
+      "label": "รอบที่ 1",
+      "omni": {
+        "name": "Sprint 9 (7/6 - 7/17)",
+        "sp": 114,
+        "desc": "Broadcast + Rule Automation + RBAC",
+        "dates": "6 Jul 26 – 17 Jul 26"
+      },
+      "ai": {
+        "name": "Sprint 9 (7/6 - 7/17)",
+        "sp": 17.5,
+        "desc": "ACE baseline",
+        "dates": "6 Jul 26 – 17 Jul 26"
+      },
+      "commerce": {
+        "name": "Sprint 9 (7/6 - 7/17)",
+        "sp": 2,
+        "desc": "Project setup",
+        "dates": "6 Jul 26 – 17 Jul 26"
+      }
+    },
+    {
+      "label": "รอบที่ 2",
+      "omni": {
+        "name": "Sprint 10 (7/20 - 8/4)",
+        "sp": 105.5,
+        "desc": "Round-Robin + Landing + UI + Subscription",
+        "dates": "20 Jul 26 – 4 Aug 26"
+      },
+      "ai": {
+        "name": "Sprint 10 (7/20 - 7/31)",
+        "sp": 69,
+        "desc": "AI Reply + AI Engine",
+        "dates": "20 Jul 26 – 31 Jul 26"
+      },
+      "commerce": {
+        "name": "Sprint 10 (7/20 - 7/31)",
+        "sp": 3,
+        "desc": "Setup + Analyze",
+        "dates": "20 Jul 26 – 31 Jul 26"
+      }
+    },
+    {
+      "label": "รอบที่ 3",
+      "omni": {
+        "name": "Sprint 11 (8/5 - 9/4)",
+        "sp": 78.5,
+        "desc": "Analytics + Meta + refactor + Shopify carry-over",
+        "dates": "5 Aug 26 – 4 Sep 26"
+      },
+      "ai": {
+        "name": "Sprint 11 (8/5 - 9/4)",
+        "sp": 45,
+        "desc": "Guardrail + Multiple KBs + AI improvements",
+        "dates": "5 Aug 26 – 4 Sep 26"
+      },
+      "commerce": {
+        "name": "Sprint 3 (8/5 - 9/4)",
+        "sp": 1,
+        "desc": "Analyze done, research remains",
+        "dates": "5 Aug 26 – 4 Sep 26"
+      }
+    }
+  ],
+  "omni": {
+    "sprints": [
+      {
+        "name": "Sprint 9 (7/6 - 7/17)",
+        "sp": {
+          "Attachai": 12,
+          "Puripat": 8,
+          "Peerapat": 15.5,
+          "Griang": 12,
+          "Toy": 10.5,
+          "Prem": 56,
+          "Rutthee": 0,
+          "Wet": 0
+        }
+      },
+      {
+        "name": "Sprint 10 (7/20 - 8/4)",
+        "sp": {
+          "Attachai": 0,
+          "Puripat": 0,
+          "Peerapat": 12.5,
+          "Griang": 19,
+          "Toy": 14,
+          "Prem": 15,
+          "Rutthee": 25,
+          "Wet": 20
+        }
+      },
+      {
+        "name": "Sprint 11 (8/5 - 9/4)",
+        "sp": {
+          "Attachai": 6,
+          "Puripat": 0,
+          "Peerapat": 17.25,
+          "Griang": 10,
+          "Toy": 10,
+          "Prem": 4,
+          "Rutthee": 28.75,
+          "Wet": 0
+        }
+      }
+    ]
+  },
+  "ai": {
+    "sprints": [
+      {
+        "name": "Sprint 9 (7/6 - 7/17)",
+        "sp": {
+          "Attachai": 0,
+          "Puripat": 0,
+          "Peerapat": 0,
+          "Griang": 0,
+          "Toy": 0,
+          "Prem": 0,
+          "Rutthee": 11.5,
+          "Wet": 6
+        }
+      },
+      {
+        "name": "Sprint 10 (7/20 - 7/31)",
+        "sp": {
+          "Attachai": 40,
+          "Puripat": 29,
+          "Peerapat": 0,
+          "Griang": 0,
+          "Toy": 0,
+          "Prem": 0,
+          "Rutthee": 0,
+          "Wet": 0
+        }
+      },
+      {
+        "name": "Sprint 11 (8/5 - 9/4)",
+        "sp": {
+          "Attachai": 16,
+          "Puripat": 12.5,
+          "Peerapat": 0,
+          "Griang": 0,
+          "Toy": 0,
+          "Prem": 0,
+          "Rutthee": 0,
+          "Wet": 4
+        }
+      }
+    ]
+  },
+  "commerce": {
+    "sprints": [
+      {
+        "name": "Sprint 9 (7/6 - 7/17)",
+        "sp": {
+          "Attachai": 0,
+          "Puripat": 0,
+          "Peerapat": 0,
+          "Griang": 0,
+          "Toy": 0,
+          "Prem": 2,
+          "Rutthee": 0,
+          "Wet": 0
+        }
+      },
+      {
+        "name": "Sprint 10 (7/20 - 7/31)",
+        "sp": {
+          "Attachai": 0,
+          "Puripat": 0,
+          "Peerapat": 0,
+          "Griang": 0,
+          "Toy": 0,
+          "Prem": 3,
+          "Rutthee": 0,
+          "Wet": 0
+        }
+      },
+      {
+        "name": "Sprint 3 (8/5 - 9/4)",
+        "sp": {
+          "Attachai": 0,
+          "Puripat": 0,
+          "Peerapat": 0,
+          "Griang": 0,
+          "Toy": 0,
+          "Prem": 1,
+          "Rutthee": 0,
+          "Wet": 0
+        }
+      }
+    ]
+  },
+  "sprint_notes": {},
+  "sprint_member_notes": {
+    "Sprint 11 (8/5 - 9/4)": {
+      "Attachai": "AI improvements + Meta connector ปิดได้ครบในรอบนี้",
+      "Puripat": "Guardrail + prompt/summary improvements ปิดได้ดี",
+      "Peerapat": "ADB ปิดได้ แต่ยังมี Marketplace blocked 11pt",
+      "Griang": "Meta connector done และยังมี Marketplace blocked 5pt",
+      "Toy": "UI/refactor ปิดได้ครบในส่วนที่มี point",
+      "Prem": "Done น้อยเพราะ Shopify 31pt carry-over + SUB-12 blocked",
+      "Rutthee": "Analytics + refactor ปิดได้สูงสุดของ sprint นี้",
+      "Wet": "Multiple KBs 4pt และ defect flow active สูง"
+    }
+  },
+  "warnings": [
+    "Official Final Retro draft in DM only — waiting for the published link from Pornparawee before posting ACE-Team",
+    "Defect count in aligned Sprint 11 now = Omni 110 (109 tag defect + 1 [DEFECT]) / AI 6 / Commerce 0 — excluded from velocity ทั้งหมด",
+    "Sprint 9 baseline uses currently verified drilled list data where no separate official Sprint 9 retro asset was found in accessible scope",
+    "PM Tracking sprint-row comment สำหรับ Sprint 11 ยังหาไม่เจอใน run นี้ จึงปล่อย sprint_notes ว่างไว้"
+  ],
+  "footnotes": [
+    "Split SP เท่ากันเมื่อ task มีหลาย owner",
+    "Defect items แยกจาก velocity แม้อยู่ใน dev-done bucket",
+    "Carry-over ต้องยังไม่ dev-done และต้องไปอยู่ aligned next sprint list จริง",
+    "Dropped from Sprint 11 ในรอบนี้ = 39pt (Omni blocked 24pt + Commerce unfinished 15pt)",
+    "Weekly archive move under Archive task ทำไม่ได้ด้วย tool ชุดปัจจุบัน จึงยังไม่ได้ archive subtask เก่า"
+  ],
+  "omniAllTime": [
+    {
+      "name": "Sprint 7",
+      "sp": 56,
+      "desc": "Notification Center",
+      "dates": "8 Jun 26 – 19 Jun 26"
+    },
+    {
+      "name": "Sprint 8",
+      "sp": 38.5,
+      "desc": "Rule Automation + Mylogiz",
+      "dates": "22 Jun 26 – 3 Jul 26"
+    },
+    {
+      "name": "Sprint 9 (7/6 - 7/17)",
+      "sp": 114,
+      "desc": "Broadcast + Rule Automation + RBAC",
+      "dates": "6 Jul 26 – 17 Jul 26"
+    },
+    {
+      "name": "Sprint 10 (7/20 - 8/4)",
+      "sp": 105.5,
+      "desc": "Round-Robin + Landing + UI + Subscription",
+      "dates": "20 Jul 26 – 4 Aug 26"
+    },
+    {
+      "name": "Sprint 11 (8/5 - 9/4)",
+      "sp": 78.5,
+      "desc": "Analytics + Meta + refactor + Shopify carry-over",
+      "dates": "5 Aug 26 – 4 Sep 26"
+    }
+  ],
+  "aiAllTime": [
+    {
+      "name": "Sprint 7",
+      "sp": 36,
+      "desc": "KI baseline",
+      "dates": "8 Jun 26 – 19 Jun 26"
+    },
+    {
+      "name": "Sprint 8",
+      "sp": 0,
+      "desc": "No verified close data",
+      "dates": "22 Jun 26 – 3 Jul 26"
+    },
+    {
+      "name": "Sprint 9 (7/6 - 7/17)",
+      "sp": 17.5,
+      "desc": "ACE baseline",
+      "dates": "6 Jul 26 – 17 Jul 26"
+    },
+    {
+      "name": "Sprint 10 (7/20 - 7/31)",
+      "sp": 69,
+      "desc": "AI Reply + AI Engine",
+      "dates": "20 Jul 26 – 31 Jul 26"
+    },
+    {
+      "name": "Sprint 11 (8/5 - 9/4)",
+      "sp": 45,
+      "desc": "Guardrail + Multiple KBs + AI improvements",
+      "dates": "5 Aug 26 – 4 Sep 26"
+    }
+  ],
+  "commerceAllTime": [
+    {
+      "name": "Sprint 9 (7/6 - 7/17)",
+      "sp": 2,
+      "desc": "Project setup",
+      "dates": "6 Jul 26 – 17 Jul 26"
+    },
+    {
+      "name": "Sprint 10 (7/20 - 7/31)",
+      "sp": 3,
+      "desc": "Setup + Analyze",
+      "dates": "20 Jul 26 – 31 Jul 26"
+    },
+    {
+      "name": "Sprint 3 (8/5 - 9/4)",
+      "sp": 1,
+      "desc": "Analyze done, research remains",
+      "dates": "5 Aug 26 – 4 Sep 26"
+    }
+  ],
+  "defects": [
+    {
+      "id": "ACE-6242",
+      "name": "[broadcast] - รูปหายหลังส่ง เปลี่ยนไปเสิร์ฟผ่าน CDN (public bucket) แทน presigned URL",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Griang",
+      "url": "https://app.clickup.com/t/86d47vy75"
+    },
+    {
+      "id": "ACE-6236",
+      "name": "[AI Integrate] - แก้ไขกรณี SLA ค้างสถานะ disabled ถาวร เมื่อ AI ถูก Unassign และ Disconnect",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Attachai",
+      "url": "https://app.clickup.com/t/86d479znx"
+    },
+    {
+      "id": "ACE-6235",
+      "name": "[AI Integrate] - แก้ไขอัปเดตการแสดง SLA และ Assign AI Agent เมื่อ AI Agent รับแชท",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Attachai",
+      "url": "https://app.clickup.com/t/86d4793xr"
+    },
+    {
+      "id": "ACE-6239",
+      "name": "[Analytics] - แก้ไขการแสดงเวลา Backlog age ผิด",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Wet + Peerapat",
+      "url": "https://app.clickup.com/t/86d47t9bv"
+    },
+    {
+      "id": "ACE-6234",
+      "name": "[Analytics] - แก้ไขการแสดงแท็บของ Supervisor",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Wet + Peerapat",
+      "url": "https://app.clickup.com/t/86d47930r"
+    },
+    {
+      "id": "ACE-6230",
+      "name": "[Invite] รับคำเชิญด้วยบัญชีเดิม (sign_in ticket) แล้ว user/member ไม่ถูกสร้างใน DB",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Wet",
+      "url": "https://app.clickup.com/t/86d46wavy"
+    },
+    {
+      "id": "ACE-6143",
+      "name": "[Invitation] Re-design No active workspace",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Griang",
+      "url": "https://app.clickup.com/t/86d46cyny"
+    },
+    {
+      "id": "ACE-6121",
+      "name": "[Profile][Business Information] - แก้ไข Picture Profile และ Workspace",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Toy",
+      "url": "https://app.clickup.com/t/86d45fjhu"
+    },
+    {
+      "id": "ACE-6120",
+      "name": "[Broadcast] - แก้ไข date และ time ต้องพิมพ์ในช่อง input ได้",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Toy",
+      "url": "https://app.clickup.com/t/86d45dybu"
+    },
+    {
+      "id": "ACE-6129",
+      "name": "[Broadcast] - แก้ไข mouse hover บน Input",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Toy",
+      "url": "https://app.clickup.com/t/86d45u9yg"
+    },
+    {
+      "id": "ACE-6125",
+      "name": "[DEFECT][PROD] แก้ไข UI หน้า Landing Page",
+      "product": "Omni",
+      "ownerParent": "—",
+      "ownerDefect": "Peerapat",
+      "url": "https://app.clickup.com/t/86d45t7kc"
+    },
+    {
+      "id": "ACE-3251",
+      "name": "[defect] tag conversation ขา omni ส่ง inbound ถ้า summary ก่อน ai ยังทำ tag ไม่เสร็จ จะไม่ขึ้น tag",
+      "product": "AI",
+      "ownerParent": "—",
+      "ownerDefect": "Attachai",
+      "url": "https://app.clickup.com/t/86d3xkrwu"
+    },
+    {
+      "id": "ACE-5801",
+      "name": "[KB] agent ที่ผูกกับ KB collection เวลาลบ collection แล้วต้องไม่เจอ collection ที่ลบ",
+      "product": "AI",
+      "ownerParent": "—",
+      "ownerDefect": "Attachai",
+      "url": "https://app.clickup.com/t/86d42gjre"
+    },
+    {
+      "id": "ACE-5791",
+      "name": "[Agent] System Prompt แสดง workspace ไม่ตรง",
+      "product": "AI",
+      "ownerParent": "—",
+      "ownerDefect": "Puripat",
+      "url": "https://app.clickup.com/t/86d42g2v6"
+    },
+    {
+      "id": "ACE-5798",
+      "name": "[Agent] Fallback message ไม่ทำงาน",
+      "product": "AI",
+      "ownerParent": "—",
+      "ownerDefect": "Puripat",
+      "url": "https://app.clickup.com/t/86d42gc6r"
+    },
+    {
+      "id": "ACE-6102",
+      "name": "[Playground] Response contains a trailing newline character",
+      "product": "AI",
+      "ownerParent": "—",
+      "ownerDefect": "Puripat",
+      "url": "https://app.clickup.com/t/86d45274a"
+    },
+    {
+      "id": "ACE-5980",
+      "name": "[Agent] ถามเกี่ยวกับ docs ใน collection แล้วบางครั้งไม่ได้คำตอบ ระบบตอบกลับเป็น fallback แทน",
+      "product": "AI",
+      "ownerParent": "—",
+      "ownerDefect": "—",
+      "url": "https://app.clickup.com/t/86d42yhd9"
+    }
+  ],
+  "sprint_health": {
+    "status": "at_risk",
+    "committed_sp": 194.5,
+    "dev_done_sp": 124.5,
+    "dev_done_pct": 64.0,
+    "blocked_sp": 24,
+    "velocity_current": 124.5,
+    "velocity_baseline": 145.2,
+    "velocity_delta": -20.7,
+    "velocity_delta_pct": -14.2
+  },
+  "dev_done_by_member": {
+    "Attachai": {
+      "done_sp": 22,
+      "total_sp": 22,
+      "pct": 100
+    },
+    "Puripat": {
+      "done_sp": 12.5,
+      "total_sp": 12.5,
+      "pct": 100
+    },
+    "Peerapat": {
+      "done_sp": 17.25,
+      "total_sp": 28.25,
+      "pct": 61.1
+    },
+    "Griang": {
+      "done_sp": 10,
+      "total_sp": 15,
+      "pct": 66.7
+    },
+    "Toy": {
+      "done_sp": 10,
+      "total_sp": 10,
+      "pct": 100
+    },
+    "Prem": {
+      "done_sp": 5,
+      "total_sp": 48,
+      "pct": 10.4
+    },
+    "Rutthee": {
+      "done_sp": 28.75,
+      "total_sp": 31.75,
+      "pct": 90.6
+    },
+    "Wet": {
+      "done_sp": 4,
+      "total_sp": 4,
+      "pct": 100
+    }
+  },
+  "carry_over": [
+    {
+      "id": "ACE-2526",
+      "name": "SHP-02: Shopify Customer Sync & Contact Linking",
+      "pts": 5,
+      "status": "to do",
+      "assignee": "Prem",
+      "to_sprint": "Omni Sprint 12 (9/7 - 9/18)",
+      "url": "https://app.clickup.com/t/86d3ep5aj"
+    },
+    {
+      "id": "ACE-2034",
+      "name": "SHP-01: Shopify Auth Connection Flow",
+      "pts": 5,
+      "status": "to do",
+      "assignee": "Prem",
+      "to_sprint": "Omni Sprint 12 (9/7 - 9/18)",
+      "url": "https://app.clickup.com/t/86d2uw8g1"
+    },
+    {
+      "id": "ACE-2527",
+      "name": "SHP-03: Order Context Panel in Inbox",
+      "pts": 3,
+      "status": "to do",
+      "assignee": "Prem",
+      "to_sprint": "Omni Sprint 12 (9/7 - 9/18)",
+      "url": "https://app.clickup.com/t/86d3ep83a"
+    },
+    {
+      "id": "ACE-2528",
+      "name": "SHP-05: Shopify Webhook Event Handling",
+      "pts": 3,
+      "status": "to do",
+      "assignee": "Prem",
+      "to_sprint": "Omni Sprint 12 (9/7 - 9/18)",
+      "url": "https://app.clickup.com/t/86d3f493z"
+    },
+    {
+      "id": "ACE-2542",
+      "name": "SHP-06: Shopify Connection Health & Disconnect",
+      "pts": 2,
+      "status": "to do",
+      "assignee": "Prem",
+      "to_sprint": "Omni Sprint 12 (9/7 - 9/18)",
+      "url": "https://app.clickup.com/t/86d3f4y4y"
+    },
+    {
+      "id": "ACE-2556",
+      "name": "SHP-04: Product Catalog Search & Share in Chat",
+      "pts": 5,
+      "status": "to do",
+      "assignee": "Prem",
+      "to_sprint": "Omni Sprint 12 (9/7 - 9/18)",
+      "url": "https://app.clickup.com/t/86d3fdkwj"
+    },
+    {
+      "id": "ACE-2566",
+      "name": "SHP-07: Publish App to Shopify App Store",
+      "pts": 8,
+      "status": "to do",
+      "assignee": "Prem",
+      "to_sprint": "Omni Sprint 12 (9/7 - 9/18)",
+      "url": "https://app.clickup.com/t/86d3h3aea"
+    }
+  ],
+  "blocked_items": [
+    {
+      "id": "ACE-2878",
+      "name": "STORY-SUB-11: ที่นั่งผู้ใช้เพิ่ม (Add-on Seats)",
+      "pts": 3,
+      "assignee": "Rutthee",
+      "reason": "Subscription scope blocked",
+      "url": "https://app.clickup.com/t/86d3r4c67"
+    },
+    {
+      "id": "ACE-2879",
+      "name": "STORY-SUB-12: การเติมข้อความ AI (AI Auto-Reply Top-up)",
+      "pts": 5,
+      "assignee": "Prem",
+      "reason": "Subscription scope blocked",
+      "url": "https://app.clickup.com/t/86d3r4c7a"
+    },
+    {
+      "id": "ACE-706",
+      "name": "STORY-MKT-06: Marketplace Threading Rules v1 and Conversation Key Strategy",
+      "pts": 5,
+      "assignee": "Peerapat",
+      "reason": "Marketplace dependency / external connector",
+      "url": "https://app.clickup.com/t/86d2286qy"
+    },
+    {
+      "id": "ACE-704",
+      "name": "STORY-MKT-04: Shopee Connector Baseline v1 Ingest Chat Order References Fetch History and Outbound Reply",
+      "pts": 5,
+      "assignee": "Griang",
+      "reason": "Marketplace dependency / external connector",
+      "url": "https://app.clickup.com/t/86d2286g4"
+    },
+    {
+      "id": "ACE-703",
+      "name": "STORY-MKT-03: TikTok Connector Baseline v1 Ingest Chat Order References Fetch History and Outbound Reply",
+      "pts": 6,
+      "assignee": "Peerapat",
+      "reason": "Marketplace dependency / external connector",
+      "url": "https://app.clickup.com/t/86d2286ew"
+    }
+  ]
+}
+/* SPRINT_SCOUT_DATA_END */
+
+let DATA = JSON.parse(JSON.stringify(INIT_DATA));
+let editMode = false;
+// Toggle state — persistent across render()
+const kpiState = {
+  'kpi-last': true,   // SP sprint ล่าสุด — default open
+  'defects':  true,   // Defect ที่ถูกเอาเข้า SP — default open
+  'kpi-avg':  false,  // เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
+  'kpi-all':  false,  // SP รวมทั้งหมด
+  'workload': false,  // Workload
+  'detail':   false,   // ตารางละเอียด
+  'sprint-health': true,  // Sprint Health
+  'devdone':  false,      // Dev-done รายคน
+  'carryover': false,     // Carry-over
+  'blocked':  false       // Blocked
+};
+
+function toggleKpi(id){
+  kpiState[id] = !kpiState[id];
+  const el = document.getElementById(id+'-body');
+  const arrow = document.getElementById(id+'-arrow');
+  if(el) el.style.display = kpiState[id] ? 'block' : 'none';
+  if(arrow) arrow.style.transform = kpiState[id] ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+
+/* ── Supabase ── */
+async function loadData(){
+  try {
+    const r = await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current&select=data`,{
+      headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`}
+    });
+    if(r.ok){
+      const rows = await r.json();
+      if(rows.length && rows[0].data){
+        const saved = rows[0].data;
+
+        // Start fresh from INIT_DATA
+        DATA = JSON.parse(JSON.stringify(INIT_DATA));
+
+        // If Supabase sp_data is newer → use it for SP data
+        if(saved.sp_data && saved.sp_data._updated > INIT_DATA._updated){
+          Object.assign(DATA, saved.sp_data);
+          DATA._updated = saved.sp_data._updated;
+          if(saved.sp_data.sprint_health)      DATA.sprint_health      = saved.sp_data.sprint_health;
+          if(saved.sp_data.dev_done_by_member) DATA.dev_done_by_member = saved.sp_data.dev_done_by_member;
+          if(saved.sp_data.carry_over)         DATA.carry_over         = saved.sp_data.carry_over;
+          if(saved.sp_data.blocked_items)      DATA.blocked_items      = saved.sp_data.blocked_items;
+        }
+
+        // Always merge annotations
+        if(saved.annotations){
+          const ann = saved.annotations;
+          if(ann.notes)        DATA.notes        = Object.assign({}, INIT_DATA.notes, ann.notes);
+          if(ann.sprint_member_notes && Object.keys(ann.sprint_member_notes).length) DATA.sprint_member_notes = ann.sprint_member_notes;
+          if(ann.sprint_dates && Object.keys(ann.sprint_dates).length) DATA.sprint_dates = ann.sprint_dates;
+          if(ann.warnings && ann.warnings.length)  DATA.warnings     = ann.warnings;
+          if(ann.footnotes && ann.footnotes.length) DATA.footnotes   = ann.footnotes;
+        }
+
+        // Legacy flat structure support — override if INIT_DATA is newer
+        if(!saved.sp_data && !saved.annotations && saved.omni){
+          // DATA already set to INIT_DATA above — keep it if newer
+          // Only merge user annotations from legacy
+          if(saved.notes)     DATA.notes     = Object.assign({}, INIT_DATA.notes, saved.notes);
+          if(saved.warnings && saved.warnings.length)  DATA.warnings  = saved.warnings;
+          if(saved.footnotes && saved.footnotes.length) DATA.footnotes = saved.footnotes;
+          // If legacy _updated is newer than INIT_DATA → use legacy sp data
+          if(saved._updated && saved._updated > INIT_DATA._updated){
+            Object.assign(DATA, saved);
+            DATA.notes     = Object.assign({}, INIT_DATA.notes, saved.notes||{});
+            DATA.warnings  = saved.warnings  || INIT_DATA.warnings;
+            DATA.footnotes = saved.footnotes || INIT_DATA.footnotes;
+          }
+        }
+      }
+    }
+  } catch(e){ console.warn('loadData error:', e); }
+  try { render(); } catch(e){ console.error('render error:', e); }
+}
+
+async function saveData(){
+  const payload = {
+    sp_data: {
+      _updated: DATA._updated,
+      subtitle: DATA.subtitle,
+      members: DATA.members,
+      colors: DATA.colors,
+      avatarBg: DATA.avatarBg,
+      cycles: DATA.cycles,
+      omni: DATA.omni,
+      ai: DATA.ai,
+      commerce: DATA.commerce,
+      omniAllTime: DATA.omniAllTime,
+      aiAllTime: DATA.aiAllTime,
+      commerceAllTime: DATA.commerceAllTime,
+      defects: DATA.defects,
+      sprint_notes: DATA.sprint_notes || {},
+      sprint_health: DATA.sprint_health || {},
+      dev_done_by_member: DATA.dev_done_by_member || {},
+      carry_over: DATA.carry_over || [],
+      blocked_items: DATA.blocked_items || []
+    },
+    annotations: {
+      notes:        DATA.notes        || {},
+      sprint_member_notes: DATA.sprint_member_notes || {},
+      sprint_dates: DATA.sprint_dates || {},
+      warnings:     DATA.warnings     || [],
+      footnotes:    DATA.footnotes    || []
+    }
+  };
+  try {
+    await fetch(`${SUPA_URL}/rest/v1/sprint_report?id=eq.current`,{
+      method:'PATCH',
+      headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({data:payload})
+    });
+    showToast('💾 บันทึกแล้ว');
+  } catch(e){ showToast('❌ บันทึกไม่สำเร็จ'); }
+  try { render(); } catch(e){ console.error('render error:', e); }
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity=1;
+  setTimeout(()=>t.style.opacity=0,2200);
+}
+
+function toggleEdit(){
+  openEditModal();
+}
+
+function openEditModal(){
+  document.getElementById('edit-modal').style.display='flex';
+  renderModalForm();
+}
+function closeEditModal(){
+  document.getElementById('edit-modal').style.display='none';
+}
+function applyAndSave(){
+  const inputDate = document.getElementById('m-updated').value;
+  // ถ้า input ต่างจากค่าเดิม = หมวยแก้เอง → ใช้ค่านั้น
+  // ถ้าเหมือนเดิมหรือว่าง = auto set วันนี้
+  if(inputDate && inputDate !== DATA._updated){
+    DATA._updated = inputDate;
+  } else {
+    DATA._updated = new Date().toISOString().slice(0,10);
+  }
+  // warnings
+  const warnEl = document.getElementById('m-warning');
+  if(warnEl) DATA.warnings = warnEl.value.split('\n').filter(x=>x.trim());
+  closeEditModal();
+  saveData(); // saveData calls render() after save
+}
+
+function renderModalForm(){
+  const m = DATA;
+  let h = '';
+
+  // ── ZIMPLE OMNI — SPRINTS ──
+  h += `<div class="ms-section-title" style="color:var(--accent)">ZIMPLE OMNI — SPRINTS</div>`;
+  m.cycles.forEach((cy,i)=>{
+    const o = cy.omni;
+    if(!o) return;
+    h += `<div class="m-cycle-block">
+      <div class="m-cycle-label">${cy.label}</div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>ชื่อ Sprint</label>
+          <input value="${o.name||''}" oninput="DATA.cycles[${i}].omni.name=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>SP</label>
+          <input type="number" value="${o.sp||0}" oninput="DATA.cycles[${i}].omni.sp=+this.value">
+        </div>
+      </div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>Description</label>
+          <input value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันเริ่ม</label>
+          <input value="${(o.dates||'').split('–')[0].trim()}" oninput="DATA.cycles[${i}].omni.dates=this.value+' – '+(DATA.cycles[${i}].omni.dates||'').split('–').slice(1).join('–').trim()">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันจบ</label>
+          <input value="${(o.dates||'').split('–')[1]?.trim()||''}" oninput="DATA.cycles[${i}].omni.dates=(DATA.cycles[${i}].omni.dates||'').split('–')[0].trim()+' – '+this.value">
+        </div>
+      </div>
+    </div>`;
+  });
+
+  // ── ZIMPLE AI — SPRINTS ──
+  h += `<div class="ms-section-title" style="color:#7c35b8;margin-top:20px">ZIMPLE AI — SPRINTS</div>`;
+  m.cycles.forEach((cy,i)=>{
+    const a = cy.ai;
+    if(!a) return;
+    h += `<div class="m-cycle-block">
+      <div class="m-cycle-label">${cy.label}</div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>ชื่อ Sprint</label>
+          <input value="${a.name||''}" oninput="DATA.cycles[${i}].ai.name=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>SP</label>
+          <input type="number" value="${a.sp||0}" oninput="DATA.cycles[${i}].ai.sp=+this.value">
+        </div>
+      </div>
+      <div class="m-field-row">
+        <div class="m-field">
+          <label>Description</label>
+          <input value="${a.desc||''}" oninput="DATA.cycles[${i}].ai.desc=this.value">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันเริ่ม</label>
+          <input value="${(a.dates||'').split('–')[0].trim()}" oninput="DATA.cycles[${i}].ai.dates=this.value+' – '+(DATA.cycles[${i}].ai.dates||'').split('–').slice(1).join('–').trim()">
+        </div>
+        <div class="m-field m-field-sm">
+          <label>วันจบ</label>
+          <input value="${(a.dates||'').split('–')[1]?.trim()||''}" oninput="DATA.cycles[${i}].ai.dates=(DATA.cycles[${i}].ai.dates||'').split('–')[0].trim()+' – '+this.value">
+        </div>
+      </div>
+    </div>`;
+  });
+
+  // ── ZIMPLE COMMERCE — SPRINTS ──
+  h += `<div class="ms-section-title" style="color:var(--yellow);margin-top:20px">ZIMPLE COMMERCE — SPRINTS</div>
+  <p style="font-size:11px;color:var(--muted);font-style:italic;margin:4px 0 12px">ยังไม่มี sprint (จะแสดงเมื่อเพิ่มข้อมูล)</p>`;
+
+  // ── หมายเหตุรายคน ──
+  h += `<div class="ms-section-title" style="margin-top:20px">หมายเหตุรายคน</div>`;
+  const lastOmniM = m.omni.sprints[m.omni.sprints.length-1];
+  const lastSprintKeyM = lastOmniM ? lastOmniM.name : '';
+  const allMembers = [...(m.members||[])];
+  if(!allMembers.includes('Top')) allMembers.push('Top');
+  allMembers.forEach(mem=>{
+    h += `<div class="m-member-row">
+      <div class="m-member-name">${mem}</div>
+      <div class="m-field" style="flex:1">
+        <label>หมายเหตุ</label>
+        <input value="${(m.notes||{})[mem]||''}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${mem}']=this.value">
+      </div>
+      <div class="m-field" style="flex:1">
+        <label>Note sprint นี้ (${lastSprintKeyM||'-'})</label>
+        <input value="${((m.sprint_member_notes||{})[lastSprintKeyM]||{})[mem]||''}" oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['${lastSprintKeyM}'])DATA.sprint_member_notes['${lastSprintKeyM}']={};DATA.sprint_member_notes['${lastSprintKeyM}']['${mem}']=this.value">
+      </div>
+      <div class="m-field" style="flex:1">
+        <label>คำเตือน (สีแดง)</label>
+        <input value="${(m.warnings_member||{})[mem]||''}" oninput="if(!DATA.warnings_member)DATA.warnings_member={};DATA.warnings_member['${mem}']=this.value" style="border-color:rgba(214,62,74,.3)">
+      </div>
+    </div>`;
+  });
+
+  // ── ข้อความเตือน ──
+  h += `<div class="ms-section-title" style="margin-top:20px">ข้อความเตือน</div>
+  <textarea id="m-warning" class="m-textarea">${(m.warnings||[]).join('\n')}</textarea>`;
+
+  // ── Sprint Notes ──
+  h += `<div class="ms-section-title" style="margin-top:16px">SPRINT NOTES (Note จาก ClickUp — แก้ได้)</div>
+  <div id="m-sprint-notes">`;
+  Object.entries(m.sprint_notes||{}).forEach(([k,v],i)=>{
+    h += `<div class="m-fn-row" style="margin-bottom:6px">
+      <input value="${k}" placeholder="เช่น Omni : Sprint 8" oninput="
+        const keys=Object.keys(DATA.sprint_notes||{});
+        const vals=Object.values(DATA.sprint_notes||{});
+        keys[${i}]=this.value;
+        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
+      " style="flex:0 0 180px;font-weight:600">
+      <input value="${v}" placeholder="note..." oninput="
+        const keys=Object.keys(DATA.sprint_notes||{});
+        const vals=Object.values(DATA.sprint_notes||{});
+        vals[${i}]=this.value;
+        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
+      " style="flex:1">
+      <button class="m-fn-del" onclick="
+        const keys=Object.keys(DATA.sprint_notes||{});
+        const vals=Object.values(DATA.sprint_notes||{});
+        keys.splice(${i},1);vals.splice(${i},1);
+        DATA.sprint_notes=Object.fromEntries(keys.map((k,j)=>[k,vals[j]]));
+        renderModalForm()
+      ">ลบ</button>
+    </div>`;
+  });
+  h += `</div>
+  <button class="m-fn-add" onclick="if(!DATA.sprint_notes)DATA.sprint_notes={};const k='Product : Sprint ?';DATA.sprint_notes[k]='';renderModalForm()">+ เพิ่ม sprint note</button>`;
+
+  // ── Footnotes ──
+  h += `<div class="ms-section-title" style="margin-top:16px">FOOTNOTES (สูงสุด 5 บรรทัด)</div>`;
+  h += `<div id="m-footnotes">`;
+  (m.footnotes||[]).forEach((fn,i)=>{
+    h += `<div class="m-fn-row">
+      <input value="${fn}" oninput="DATA.footnotes[${i}]=this.value" style="flex:1">
+      <button class="m-fn-del" onclick="DATA.footnotes.splice(${i},1);renderModalForm()">ลบ</button>
+    </div>`;
+  });
+  h += `</div>
+  <button class="m-fn-add" onclick="if(!DATA.footnotes)DATA.footnotes=[];if(DATA.footnotes.length<5){DATA.footnotes.push('');renderModalForm()}">+ เพิ่ม footnote</button>`;
+
+  // ── วันที่อัปเดต ──
+  h += `<div class="ms-section-title" style="margin-top:16px">วันที่อัปเดต</div>
+  <input id="m-updated" value="${m._updated||''}" style="background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 10px;font-size:12px;width:200px">`;
+
+  document.getElementById('modal-body').innerHTML = h;
+}
+
+/* ══════════════════════════════════
+   COMPUTE
+══════════════════════════════════ */
+function compute(){
+  const members = DATA.members;
+  const omniTotals={}, aiTotals={};
+  members.forEach(m=>{ omniTotals[m]=0; aiTotals[m]=0; });
+
+  DATA.omni.sprints.forEach(s=>members.forEach(m=>{ omniTotals[m]+=(s.sp[m]||0); }));
+  DATA.ai.sprints.forEach(s=>members.forEach(m=>{ aiTotals[m]+=(s.sp[m]||0); }));
+
+  const omniAvg={}, aiAvg={};
+  members.forEach(m=>{ omniAvg[m]=Math.round(omniTotals[m]/3*100)/100; aiAvg[m]=Math.round(aiTotals[m]/3*100)/100; });
+
+  // All-time totals
+  const totalSP = {
+    omni: (DATA.omniAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0),
+    ai:   (DATA.aiAllTime||[]).reduce((a,s)=>a+(typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)),0),
+    commerce: ((DATA.commerce&&DATA.commerce.sprints)||[]).reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)
+  };
+  totalSP.all = totalSP.omni + totalSP.ai + totalSP.commerce;
+  // Max sprint SP (for reference)
+  const maxOmniSP = Math.max(...(DATA.omniAllTime||[]).map(s=>typeof s.sp==='number'?s.sp:Object.values(s.sp).reduce((x,y)=>x+y,0)));
+  const cycles = DATA.omni.sprints.length; // 3
+
+  const memberTotals={};
+  members.forEach(m=>{ memberTotals[m]={omni:omniTotals[m],ai:aiTotals[m],total:omniTotals[m]+aiTotals[m]}; });
+
+  return {members,omniTotals,aiTotals,omniAvg,aiAvg,totalSP,cycles,memberTotals};
+}
+
+/* ══════════════════════════════════
+   RENDER
+══════════════════════════════════ */
+function render(){
+  document.getElementById('date-badge').textContent = `อัปเดต ${DATA._updated||'—'}`;
+  const C = compute();
+  const {members,omniAvg,aiAvg,totalSP,memberTotals} = C;
+
+  // Compute all-member totals for bar scaling (includes Top)
+const _allSpMap = {};
+[...DATA.omni.sprints, ...DATA.ai.sprints].forEach(s=>Object.entries(s.sp).forEach(([m,v])=>{ _allSpMap[m]=(_allSpMap[m]||0)+v; }));
+const maxBar = Math.max(...Object.values(_allSpMap), 1);
+  const totalAll = members.reduce((a,m)=>a+memberTotals[m].total,0);
+
+  let h = `
+  <!-- Title -->
+  <div class="title-block">
+    <h1>Zimple <span>Solution</span> — Sprint Effort Summary</h1>
+    <div class="subtitle">${editMode?`<input style="background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 8px;font-size:13px;width:100%" value="${DATA.subtitle}" oninput="DATA.subtitle=this.value">`:DATA.subtitle}</div>
+    <div class="product-tags">
+      <span class="ptag ptag-omni">Zimple Omni</span>
+      <span class="ptag ptag-ai">Zimple AI</span>
+      <span class="ptag ptag-commerce">Zimple Commerce</span>
+      <span class="ptag ptag-team">Team: ${members.join(' · ')}</span>
+    </div>
+  </div>
+
+  <!-- KPI Sections — collapsible -->
+
+  <!-- Section 1: SP sprint ล่าสุด (default open) -->
+  ${(()=>{
+    const lastOmni = DATA.omni.sprints[DATA.omni.sprints.length-1];
+    const lastAi   = DATA.ai.sprints[DATA.ai.sprints.length-1];
+    const lastCommerce = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints[DATA.commerce.sprints.length-1] : null;
+    const omniSP   = lastOmni ? Object.values(lastOmni.sp).reduce((a,b)=>a+b,0) : 0;
+    const aiSP     = lastAi   ? Object.values(lastAi.sp).reduce((a,b)=>a+b,0)   : 0;
+    const commerceSP = lastCommerce ? Object.values(lastCommerce.sp).reduce((a,b)=>a+b,0) : 0;
+    const memberLastSP = {};
+    DATA.members.forEach(m=>{
+      const o = lastOmni ? (lastOmni.sp[m]||0) : 0;
+      const a = lastAi   ? (lastAi.sp[m]||0)   : 0;
+      const c = lastCommerce ? (lastCommerce.sp[m]||0) : 0;
+      memberLastSP[m] = o + a + c;
+    });
+    const lastSpCards = `
+      <div class="kpi-card">
+        <div class="kpi-label" style="color:var(--accent)">Omni — ${lastOmni?lastOmni.name:'—'}</div>
+        <div class="kpi-val" style="color:var(--accent)">${omniSP}</div>
+        <div class="kpi-sub">SP sprint ล่าสุด</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" style="color:#7c35b8">AI — ${lastAi?lastAi.name:'—'}</div>
+        <div class="kpi-val" style="color:#7c35b8">${aiSP}</div>
+        <div class="kpi-sub">SP sprint ล่าสุด</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" style="color:var(--yellow)">Commerce${lastCommerce?' — '+lastCommerce.name:''}</div>
+        <div class="kpi-val" style="color:var(--yellow)">${commerceSP}</div>
+        <div class="kpi-sub">${lastCommerce?'SP sprint ล่าสุด':'ยังไม่เริ่ม'}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">รวม sprint นี้</div>
+        <div class="kpi-val">${omniSP+aiSP+commerceSP}</div>
+        <div class="kpi-sub">Omni + AI + Commerce</div>
+      </div>`;
+    const memberAvg3 = {};
+    DATA.members.forEach(m => {
+      const omniSum = DATA.omni.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      const aiSum   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      const commerceSum = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints.reduce((a,s)=>a+(s.sp[m]||0),0) : 0;
+      memberAvg3[m] = Math.round((omniSum+aiSum+commerceSum)/DATA.omni.sprints.length*100)/100;
+    });
+    const lastSprintKey = lastOmni ? lastOmni.name : '';
+    const memberHeader = `<div class="rc-header">
+      <div class="rc-label">คน</div>
+      <div class="rc-spwrap"><div class="rc-label" style="flex:1;text-align:center">Sprint ล่าสุด</div><div class="rc-label" style="flex:1;text-align:center;color:#92400e">เฉลี่ย 3 Sprint</div></div>
+      <div class="rc-label">Note sprint นี้</div>
+    </div>`;
+    const memberCards = DATA.members.map(m=>`
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:${(DATA.avatarBg||{})[m]||'#eee'};color:${(DATA.colors||{})[m]||'#333'};width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">${m.substring(0,2)}</div>
+          <span>${m}</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:${(DATA.colors||{})[m]||'var(--text)'}">${memberLastSP[m]}</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">${memberAvg3[m]}</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['${lastSprintKey}'])DATA.sprint_member_notes['${lastSprintKey}']={};DATA.sprint_member_notes['${lastSprintKey}']['${m}']=this.innerText.trim();saveData()"
+        >${((DATA.sprint_member_notes||{})[lastSprintKey]||{})[m]||''}</div>
+      </div>`).join('');
+    return `
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-last')" style="border-left:4px solid #1e9e6e;background:rgba(30,158,110,.04)">
+        🏃 SP sprint ล่าสุด
+        <span id="kpi-last-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['kpi-last']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="kpi-last-body" class="kpi-sec-body" style="${kpiState['kpi-last']?'':' display:none'}">
+        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">${lastSpCards}</div>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px">รายคน</div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${memberHeader}${memberCards}</div>
+        ${(()=>{
+          let wf = '';
+          (DATA.warnings||[]).forEach(w=>{ wf += `<div class="warn-box" style="margin-top:10px">⚠️ ${w}</div>`; });
+          if((DATA.footnotes||[]).length){
+            wf += '<ul class="fn-list" style="margin-top:8px">';
+            DATA.footnotes.forEach(fn=>{ wf += `<li>${fn}</li>`; });
+            wf += '</ul>';
+          }
+          return wf;
+        })()}
+        ${(()=>{
+          const notes = Object.entries(DATA.sprint_notes||{});
+          if(!notes.length) return '';
+          return '<div style="margin-top:10px;padding:8px 12px;background:#fffbeb;border:0.5px solid #fde68a;border-radius:8px;font-size:11px;color:#92400e;line-height:1.7"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;color:#b45309">📝 Note จาก ClickUp</div>'
+          + notes.map(([k,v])=>'<div><span style="font-weight:600">'+k+':</span> '+v+'</div>').join('')
+          + '</div>';
+        })()}
+      </div>
+    </div>`;
+  })()}
+
+  <!-- Section: Defect ที่ถูกเอาเข้า SP (default open) -->
+  ${(()=>{
+    const defects = DATA.defects||[];
+    if(!defects.length) return '';
+    const lastOmniD = DATA.omni.sprints[DATA.omni.sprints.length-1];
+    const lastAiD   = DATA.ai.sprints[DATA.ai.sprints.length-1];
+    const lastCommerceD = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints[DATA.commerce.sprints.length-1] : null;
+    const sprintLabels = [
+      lastOmniD ? `Omni ${lastOmniD.name}` : null,
+      lastAiD ? `AI ${lastAiD.name}` : null,
+      lastCommerceD ? `Commerce ${lastCommerceD.name}` : null
+    ].filter(Boolean).join(' / ');
+    const header = `<div class="df-header">
+      <div class="rc-label">ACE Product</div>
+      <div class="rc-label">ชื่อ Task</div>
+      <div class="rc-label">Owner of Parent Task</div>
+      <div class="rc-label">Owner Defect Task</div>
+    </div>`;
+    const rows = defects.map(d=>`
+      <a class="df-row" href="${d.url}" target="_blank" rel="noopener">
+        <div><span class="df-tag">${d.product||'—'}</span></div>
+        <div class="df-name">${d.id?`<span style="color:var(--muted);font-family:var(--mono);font-size:10px">${d.id}</span> `:''}${d.name}</div>
+        <div class="df-sub">${d.ownerParent||'—'}</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">${d.ownerDefect||'—'}</div>
+      </a>`).join('');
+    return `
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('defects')" style="border-left:4px solid #d63e4a;background:rgba(214,62,74,.04)">
+        🐞 Defect ที่ถูกเอาเข้า SP ล่าสุด (${sprintLabels}) — ${defects.length} tasks
+        <span id="defects-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['defects']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="defects-body" class="kpi-sec-body" style="${kpiState['defects']?'':' display:none'}">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px">${header}${rows}</div>
+        <div style="font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.6">* ACE Product ของ defect เหล่านี้ยังไม่ได้ fill ใน ClickUp จริง — ใช้ Omni ตามที่ยืนยันไว้ชั่วคราว<br>* Owner of Parent Task ดึงจากลิงก์ REF ใน description (บาง task ไม่มีลิงก์ที่ใช้ได้ จึงระบุไม่ได้)</div>
+      </div>
+    </div>`;
+  })()}
+
+  <!-- Section 2: เฉลี่ย 3 sprint ล่าสุด + Sprint Overview (รวม section เดียว, default closed) -->
+  ${(()=>{
+    const omniAvgSP = Math.round(DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.omni.sprints.length*10)/10;
+    const aiAvgSP   = Math.round(DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)/DATA.ai.sprints.length*10)/10;
+    const commerceTotal = (DATA.commerce&&DATA.commerce.sprints) ? DATA.commerce.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0) : 0;
+    const combined  = Math.round((DATA.omni.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+DATA.ai.sprints.reduce((a,s)=>a+Object.values(s.sp).reduce((x,y)=>x+y,0),0)+commerceTotal)/DATA.omni.sprints.length*10)/10;
+
+    let cyclesHtml = `<div class="section-label" style="margin-top:16px">SPRINT OVERVIEW</div><div class="cycles-grid">`;
+    DATA.cycles.forEach((cy,i)=>{
+      cyclesHtml += `<div class="cycle-card"><div class="cycle-title">${cy.label}</div>`;
+      if(cy.omni){
+        const o=cy.omni;
+        cyclesHtml += `<div class="sprint-item">
+          <span class="sprint-name">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:600;width:140px" value="${o.name}" oninput="DATA.cycles[${i}].omni.name=this.value">`:o.name}</span>
+          <span class="sprint-sp omni">${editMode?`<input type="number" style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--accent);font-size:14px;font-weight:700;width:40px;text-align:right" value="${o.sp}" oninput="DATA.cycles[${i}].omni.sp=+this.value">`:o.sp} SP</span>
+          <div class="sprint-desc">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${o.desc||''}" oninput="DATA.cycles[${i}].omni.desc=this.value">`:o.desc||''}</div>
+          <div class="sprint-dates">${o.dates||''}</div>
+        </div>`;
+      }
+      if(cy.ai){
+        const a=cy.ai;
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:#7c35b8">${a.name}</span>
+          <span class="sprint-sp ai">${a.sp} SP</span>
+          <div class="sprint-desc">${a.desc||''}</div>
+          <div class="sprint-dates">${a.dates||''}</div>
+        </div>`;
+      } else if(i>0){
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-empty">— AI ยังไม่เริ่ม —</div>`;
+      }
+      if(cy.commerce){
+        const c=cy.commerce;
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:var(--yellow)">${c.name}</span>
+          <span class="sprint-sp" style="color:var(--yellow)">${c.sp} SP</span>
+          <div class="sprint-desc">${c.desc||''}</div>
+          <div class="sprint-dates">${c.dates||''}</div>
+        </div>`;
+      } else if(i>0){
+        cyclesHtml += `<hr class="sprint-divider"><div class="sprint-empty">— Commerce ยังไม่เริ่ม —</div>`;
+      }
+      cyclesHtml += `</div>`;
+    });
+    cyclesHtml += `</div>`;
+
+return `
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-avg')" style="border-left:4px solid #3b6fd4;background:rgba(59,111,212,.04)">
+        📈 เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
+        <span id="kpi-avg-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['kpi-avg']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="kpi-avg-body" class="kpi-sec-body" style="${kpiState['kpi-avg']?'':' display:none'}">
+        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">
+          <div class="kpi-card"><div class="kpi-label" style="color:var(--accent)">เฉลี่ย Omni / sprint</div><div class="kpi-val" style="color:var(--accent)">${omniAvgSP}</div><div class="kpi-sub">avg ${DATA.omni.sprints.length} sprints ล่าสุด</div></div>
+          <div class="kpi-card"><div class="kpi-label" style="color:#7c35b8">เฉลี่ย AI / sprint</div><div class="kpi-val" style="color:#7c35b8">${aiAvgSP}</div><div class="kpi-sub">avg ${DATA.ai.sprints.length} sprints ล่าสุด</div></div>
+          <div class="kpi-card"><div class="kpi-label" style="color:var(--yellow)">Commerce</div><div class="kpi-val" style="color:var(--yellow)">${commerceTotal}</div><div class="kpi-sub">${commerceTotal?('avg '+Math.round(commerceTotal/DATA.omni.sprints.length*10)/10+' /sprint'):'ยังไม่เริ่ม'}</div></div>
+          <div class="kpi-card"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val">${combined}</div><div class="kpi-sub">รวม Omni + AI + Commerce (${DATA.omni.sprints.length} sprints ล่าสุด)</div></div>
+        </div>
+        ${cyclesHtml}
+      </div>
+    </div>`;
+  })()}
+
+  <!-- Workload -->
+  <div class="workload-header">
+    <button class="collapse-btn" onclick="toggleKpi('workload')">WORKLOAD รายคน <span id="workload-arrow" style="font-size:.75rem;display:inline-block;transition:transform .2s;transform:${kpiState['workload']?'rotate(180deg)':'rotate(0deg)'}">▼</span></button>
+    <div class="legend-right">
+      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
+      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
+      <span style="margin-left:8px;color:var(--muted)">SP รวม | เฉลี่ย/cycle</span>
+    </div>
+  </div>`;
+
+  h += `<div id="workload-body" style="${kpiState['workload']?'':' display:none'}">`;
+  h += `<div class="workload-wrap">`;
+    // Show Top if they have any SP in current sprints
+    const allMembers = [...members];
+    const topOmni = DATA.omni.sprints.reduce((a,s)=>a+(s.sp['Top']||0),0);
+    const topAI   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp['Top']||0),0);
+    if((topOmni+topAI)>0 && !allMembers.includes('Top')) allMembers.push('Top');
+    allMembers.forEach(m=>{
+      const mOmni = DATA.omni.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      const mAI   = DATA.ai.sprints.reduce((a,s)=>a+(s.sp[m]||0),0);
+      const tot = mOmni + mAI;
+      if(!tot) return;
+      const omniW = maxBar ? mOmni/maxBar*100 : 0;
+      const aiW   = maxBar ? mAI/maxBar*100 : 0;
+      const avg   = Math.round(tot/3*100)/100;
+      const initials = m.slice(0,2);
+      h += `<div class="member-row">
+        <div class="member-avatar" style="background:${DATA.avatarBg[m]||'rgba(91,141,238,.15)'}">
+          <span style="color:${DATA.colors[m]||'var(--accent)'};">${initials}</span>
+        </div>
+        <div class="member-name">${m}</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            ${mOmni>0?`<div class="bar-omni" style="width:${omniW}%">${mOmni}</div>`:''}
+            ${mAI>0?`<div class="bar-ai" style="width:${aiW}%">${mAI}</div>`:''}
+          </div>
+        </div>
+        <div class="bar-right">${tot} SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">${avg} avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div>`;
+    });
+  h += `</div>`;
+  h += `</div>`;
+
+  // Detail table
+  h += `<div class="detail-header">
+    <button class="collapse-btn" onclick="toggleKpi('detail')">ตารางละเอียด <span id="detail-arrow" style="font-size:.75rem;display:inline-block;transition:transform .2s">▼</span></button>
+    <div class="legend-right">
+      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
+      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
+    </div>
+  </div>`;
+
+  h += `<div id="detail-body" style="${kpiState['detail']?'':' display:none'}">`;
+  {
+    const omniN = DATA.omni.sprints.length;
+    const aiN = DATA.ai.sprints.length;
+    h += `<div class="table-wrap"><table>
+      <thead><tr>
+        <th style="text-align:left">คน</th>
+        <th>OMNI SP<br><span style="font-weight:400">(${omniN}sp)</span></th>
+        <th>เฉลี่ย<br>OMNI/SP</th>
+        <th style="color:#7c35b8">AI SP<br><span style="font-weight:400">(${aiN}sp)</span></th>
+        <th style="color:#7c35b8">เฉลี่ย<br>AI/SP</th>
+        <th>COMMERCE SP<br><span style="font-weight:400">(0sp)</span></th>
+        <th>เฉลี่ย<br>COMMERCE/SP</th>
+        <th>รวม SP</th>
+        <th>เฉลี่ยรวม<br>/SP</th>
+        <th>%</th>
+        <th style="text-align:left">หมายเหตุ</th>
+      </tr></thead>
+      <tbody>`;
+
+    members.forEach(m=>{
+      const tot = memberTotals[m].total;
+      const pct = totalAll ? Math.round(tot/totalAll*1000)/10 : 0;
+      const note = (DATA.notes||{})[m]||'';
+      const noteWarn = (DATA.warnings_member||{})[m]||'';
+      h += `<tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:${DATA.avatarBg[m]||'rgba(91,141,238,.15)'}">
+            <span style="color:${DATA.colors[m]||'var(--accent)'}">${m.slice(0,2)}</span>
+          </div>
+          ${m}
+        </div></td>
+        <td class="num">${memberTotals[m].omni||0}</td>
+        <td class="avg-col">${omniAvg[m]||0}</td>
+        <td class="num" style="color:#7c35b8">${memberTotals[m].ai||0}</td>
+        <td class="avg-ai">${aiAvg[m]||0}</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">${tot}</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">${Math.round(tot/omniN*100)/100}</td>
+        <td class="pct-col">${pct}%</td>
+        <td class="note-col">${editMode?`<input style="background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--textdim);font-size:11px;width:100%" value="${note}" oninput="if(!DATA.notes)DATA.notes={};DATA.notes['${m}']=this.value">`:note}${noteWarn?`<div class="hi">${noteWarn}</div>`:''}</td>
+      </tr>`;
+    });
+
+    // Total row
+    const omniTotal = members.reduce((a,m)=>a+memberTotals[m].omni,0);
+    const aiTotal   = members.reduce((a,m)=>a+memberTotals[m].ai,0);
+    h += `<tr class="total-row">
+      <td>รวม</td>
+      <td class="num">${omniTotal}</td>
+      <td class="avg-col">${Math.round(omniTotal/omniN*100)/100}</td>
+      <td class="num" style="color:#7c35b8">${aiTotal}</td>
+      <td class="avg-ai">${Math.round(aiTotal/aiN*100)/100}</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="num">${totalAll}</td>
+      <td class="avg-col" style="color:#92400e;font-weight:600">${Math.round(totalAll/omniN*100)/100}</td>
+      <td class="pct-col">100%</td>
+      <td></td>
+    </tr>`;
+
+    h += `</tbody></table></div>`;
+  }
+
+  // Bottom summary — avg of last 3 sprints
+  const omniAvgTotal = Math.round(totalSP.omni/DATA.omni.sprints.length*100)/100;
+  const aiAvgTotal   = Math.round(totalSP.ai/DATA.ai.sprints.length*100)/100;
+  const grandAvg     = Math.round((omniAvgTotal+aiAvgTotal)*10)/10;
+  const coreOmni = members.filter(m=>memberTotals[m].omni>10).join('+');
+  const coreAI   = members.filter(m=>memberTotals[m].ai>10).join('+');
+
+  // bottom summary now in KPI section
+
+  h += `
+    <div class="kpi-collapsible" style="margin-bottom:20px">
+      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-all')" style="border-left:4px solid #8892b0;background:rgba(136,146,176,.04)">
+        📊 SP รวมทั้งหมดตั้งแต่เริ่มต้น
+        <span id="kpi-all-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['kpi-all']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="kpi-all-body" class="kpi-sec-body" style="${kpiState['kpi-all']?'':' display:none'}">
+        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--accent)">Omni รวม</div><div class="kpi-val" style="color:var(--accent);font-size:24px">${totalSP.omni}</div><div class="kpi-sub">${(DATA.omniAllTime||[]).length} sprints</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:#7c35b8">AI รวม</div><div class="kpi-val" style="color:#7c35b8;font-size:24px">${totalSP.ai}</div><div class="kpi-sub">${(DATA.aiAllTime||[]).length} sprints</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--yellow)">Commerce รวม</div><div class="kpi-val" style="color:var(--yellow);font-size:24px">${totalSP.commerce}</div><div class="kpi-sub">${(DATA.commerce&&DATA.commerce.sprints||[]).length} sprints</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val" style="font-size:24px">${Math.round(totalSP.all/(DATA.omniAllTime||[]).length*10)/10}</div><div class="kpi-sub">รวม ${totalSP.all} SP ÷ ${(DATA.omniAllTime||[]).length} sprints (อิงตามจำนวน sp ของ Omni)</div></div>
+        </div>
+      </div>
+    </div>`;
+
+
+  // ══════════════════════════════════════════
+  // NEW SECTIONS: Sprint Health, Velocity,
+  // Dev-done, Carry-over, Blocked
+  // ══════════════════════════════════════════
+  const sh = DATA.sprint_health || {};
+  const carryOver = DATA.carry_over || [];
+  const blocked = DATA.blocked_items || [];
+  const devDone = DATA.dev_done_by_member || {};
+
+  // ── Sprint Health ──
+  if(sh && (sh.committed_sp > 0 || sh.status)){
+    const statusLabel = {on_track:'🟢 On track', at_risk:'🟡 At risk', off_track:'🔴 Off track'}[sh.status||'on_track'] || '—';
+    const statusCls = 'health-' + (sh.status||'on_track');
+    const deltaPct = sh.velocity_delta_pct || 0;
+    const deltaSign = deltaPct > 0 ? '+' : '';
+    const deltaCls = deltaPct >= 0 ? 'hm-up' : 'hm-down';
+    const baselinePct = sh.velocity_baseline > 0 ? Math.min((sh.velocity_current/sh.velocity_baseline)*100, 100) : 0;
+
+    h += `
+    <div class="kpi-collapsible" style="margin-top:20px">
+      <button class="kpi-sec-btn" onclick="toggleKpi('sprint-health')" style="border-left:4px solid var(--green);background:rgba(30,158,110,.03)">
+        ⚡ Sprint Health & Velocity
+        <span id="sprint-health-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['sprint-health']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="sprint-health-body" class="kpi-sec-body" style="${kpiState['sprint-health']?'':' display:none'}">
+        <div class="health-card">
+          <div class="health-status ${statusCls}">${statusLabel}</div>
+          <div class="health-metrics">
+            <div class="hm-item">
+              <div class="hm-val">${sh.committed_sp||0}</div>
+              <div class="hm-label">Committed SP</div>
+            </div>
+            <div class="hm-item">
+              <div class="hm-val" style="color:var(--green)">${sh.dev_done_sp||0}</div>
+              <div class="hm-label">Dev Done SP</div>
+              <div class="hm-delta" style="color:var(--muted)">${sh.dev_done_pct||0}%</div>
+            </div>
+            <div class="hm-item">
+              <div class="hm-val" style="color:var(--red)">${sh.blocked_sp||0}</div>
+              <div class="hm-label">Blocked SP</div>
+            </div>
+            <div class="hm-item">
+              <div class="hm-val">${sh.velocity_current||0}</div>
+              <div class="hm-label">Velocity</div>
+              <div class="hm-delta ${deltaCls}">${deltaSign}${sh.velocity_delta||0}pt (${deltaSign}${deltaPct.toFixed(1)}%)</div>
+            </div>
+          </div>
+          <div class="velocity-bar" style="margin-top:16px">
+            <div class="vbar-label">
+              <span>Velocity current: <strong>${sh.velocity_current||0}pt</strong></span>
+              <span>Baseline (avg 3 sprints): <strong>${sh.velocity_baseline||0}pt</strong></span>
+            </div>
+            <div style="position:relative">
+              <div class="vbar-track">
+                <div class="vbar-fill" style="width:${baselinePct}%"></div>
+              </div>
+              ${sh.velocity_baseline > 0 ? `<div class="vbar-baseline"><div class="vbar-baseline-line" style="left:100%"></div></div>` : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    kpiState['sprint-health'] = kpiState['sprint-health'] !== undefined ? kpiState['sprint-health'] : true;
+  }
+
+  // ── Dev-done รายคน ──
+  const devDoneEntries = Object.entries(devDone);
+  if(devDoneEntries.length > 0){
+    const devDoneRows = devDoneEntries.map(([m, dd])=>{
+      const pct = dd.pct || 0;
+      const color = pct >= 80 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
+      const bg = (DATA.avatarBg||{})[m] || 'rgba(136,146,176,.1)';
+      const col = (DATA.colors||{})[m] || '#8892b0';
+      return `<div class="devdone-row">
+        <div class="m-avatar" style="background:${bg};color:${col};width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">${m.substring(0,2)}</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">${m}</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+        <div class="devdone-pct" style="color:${color}">${pct}%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">${dd.done_sp||0}/${dd.total_sp||0} SP</div>
+      </div>`;
+    }).join('');
+
+    h += `
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('devdone')" style="border-left:4px solid #0d9488;background:rgba(13,148,136,.03)">
+        ✅ Dev-done รายคน (% ของ SP ที่ assigned)
+        <span id="devdone-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['devdone']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="devdone-body" class="kpi-sec-body" style="${kpiState['devdone']?'':' display:none'}">
+        <div class="devdone-wrap">${devDoneRows}</div>
+      </div>
+    </div>`;
+  }
+
+  // ── Carry-over ──
+  h += `
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('carryover')" style="border-left:4px solid var(--yellow);background:rgba(199,124,0,.03)">
+        🔄 Carry-over → Sprint ถัดไป (${carryOver.length} tasks)
+        <span id="carryover-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['carryover']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="carryover-body" class="kpi-sec-body" style="${kpiState['carryover']?'':' display:none'}">`;
+
+  if(carryOver.length === 0){
+    h += `<div class="empty-state">ไม่มี carry-over tasks ✨</div>`;
+  } else {
+    h += `<div class="carry-table-wrap"><table class="carry-table">
+      <tr><th>Task ID</th><th>Task</th><th>SP</th><th>Status</th><th>Assignee</th><th>ย้ายไป</th></tr>
+      ${carryOver.map(t=>`<tr>
+        <td><a href="${t.url||'#'}" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">${t.id||'—'}</a></td>
+        <td>${t.name||'—'}</td>
+        <td><span class="pts-badge">${t.pts||0}pt</span></td>
+        <td><span class="badge-todo">${t.status||'to do'}</span></td>
+        <td>${t.assignee||'—'}</td>
+        <td style="color:var(--muted);font-size:11px">${t.to_sprint||'—'}</td>
+      </tr>`).join('')}
+    </table></div>`;
+  }
+  h += `</div></div>`;
+
+  // ── Blocked ──
+  h += `
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('blocked')" style="border-left:4px solid var(--red);background:rgba(214,62,74,.03)">
+        🚫 Blocked Items (${blocked.length} tasks · ${blocked.reduce((s,t)=>s+(t.pts||0),0)}pt)
+        <span id="blocked-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:${kpiState['blocked']?'rotate(180deg)':'rotate(0deg)'}">▼</span>
+      </button>
+      <div id="blocked-body" class="kpi-sec-body" style="${kpiState['blocked']?'':' display:none'}">`;
+
+  if(blocked.length === 0){
+    h += `<div class="empty-state">ไม่มี blocked tasks ✨</div>`;
+  } else {
+    h += `<div class="carry-table-wrap"><table class="carry-table">
+      <tr><th>Task ID</th><th>Task</th><th>SP</th><th>Assignee</th><th>เหตุผล</th></tr>
+      ${blocked.map(t=>`<tr>
+        <td><a href="${t.url||'#'}" target="_blank" style="color:var(--red);text-decoration:none;font-family:var(--mono);font-size:11px">${t.id||'—'}</a></td>
+        <td>${t.name||'—'}</td>
+        <td><span class="pts-badge">${t.pts||0}pt</span></td>
+        <td>${t.assignee||'—'}</td>
+        <td style="color:var(--muted);font-size:11px">${t.reason||'—'}</td>
+      </tr>`).join('')}
+    </table></div>`;
+  }
+  h += `</div></div>`;
+
+  document.getElementById('root').innerHTML = h;
+}
+
+loadData();
+</script>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="edit-modal" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>📊</span>
+      <h2>แก้ไขข้อมูล Report</h2>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeEditModal()">ยกเลิก</button>
+      <button class="btn-save" onclick="applyAndSave()">✓ บันทึกและ Render ใหม่</button>
+    </div>
+  </div>
+</div>
+
+
+
+</body></html>
