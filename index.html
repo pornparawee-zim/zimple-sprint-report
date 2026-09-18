@@ -1,135 +1,1091 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ACE Velocity — Sprint 12 Final</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg:#0b1020; --surface:#131a2e; --border:#27304a; --accent:#6ea8fe; --purple:#9b7bff; --amber:#ffcb6b;
-      --green:#37d67a; --red:#ff6b6b; --muted:#93a0bd; --text:#eef3ff; --mono:'IBM Plex Mono', monospace;
-      --sans:'IBM Plex Sans Thai', system-ui, sans-serif; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.28);
-    }
-    *{box-sizing:border-box} body{margin:0;font-family:var(--sans);background:linear-gradient(180deg,#0a0f1e 0%,#10182d 100%);color:var(--text)}
-    .topbar{position:sticky;top:0;z-index:10;display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;padding:14px 24px;background:rgba(11,16,32,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
-    .brand{font-weight:700}.gen{justify-self:end;color:var(--muted);font-size:12px}.date-badge{padding:8px 14px;border:1px solid rgba(110,168,254,.35);border-radius:999px;background:rgba(110,168,254,.12);font-size:12px;color:#dbe8ff}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 56px}.title-block h1{margin:0 0 8px;font-size:38px;line-height:1.05}.title-block h1 span{color:var(--accent)}
-    .title-block p{margin:0;color:var(--muted)} .product-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.tag{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.04);font-size:13px}
-    .sec-title{display:flex;align-items:center;gap:10px;margin:28px 0 14px;font-size:22px;font-weight:700}.sec-title.warn{color:#ffd58a}.kpi-row,.bottom-grid,.cycles-grid{display:grid;gap:16px}.kpi-row{grid-template-columns:repeat(2,minmax(0,1fr))}.bottom-grid,.cycles-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .card,.cycle-card,.sum-card,.warn-box,.detail-wrap,.carry-wrap{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .card,.sum-card,.cycle-card,.warn-box{padding:18px}.eyebrow{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.big{font-size:42px;font-weight:700;margin:6px 0 8px}.sub{color:var(--muted);font-size:14px}.health{display:flex;align-items:center;gap:10px;font-size:28px;font-weight:700;margin:8px 0}.dot{width:12px;height:12px;border-radius:999px;background:var(--red);box-shadow:0 0 18px rgba(255,107,107,.8)}
-    .sprint-item{padding:10px 12px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.03);margin-bottom:10px}.sprint-item:last-child{margin-bottom:0}.sprint-item .name{font-weight:600}.sprint-item .desc{color:var(--muted);font-size:13px;margin-top:4px}
-    .detail-wrap,.carry-wrap{overflow:hidden}.detail-table,.carry-table{width:100%;border-collapse:collapse}.detail-table th,.detail-table td,.carry-table th,.carry-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.07);text-align:left;vertical-align:top}.detail-table th,.carry-table th{background:rgba(255,255,255,.05);font-size:13px;color:#dbe5ff}.detail-row.total td{font-weight:700;background:rgba(255,255,255,.04)}
-    .warn-box ul,.fn-list{margin:0;padding-left:20px}.warn-box li,.fn-list li{margin:6px 0}.sum-card h4{margin:6px 0 4px;font-size:20px}.sum-card p{margin:0;color:var(--muted);font-size:14px}
-    @media (max-width:900px){.topbar{grid-template-columns:1fr}.gen{justify-self:start}.kpi-row,.bottom-grid,.cycles-grid{grid-template-columns:1fr}.title-block h1{font-size:30px}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zimple Sprint Effort Summary</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+:root{--bg:#f4f6fb;--surface:#ffffff;--card:#f8fafc;--border:#dde3f0;--accent:#3b6fd4;--accent2:#6040b8;--green:#1e9e6e;--yellow:#c77c00;--red:#d63e4a;--orange:#c26000;--muted:#8892b0;--textdim:#4a5568;--text:#1a1f36;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans Thai',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh}
+/* Header */
+.topbar{background:#ffffff;border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.06);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.edit-badge{background:var(--accent2);color:#fff;border-radius:5px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:500;border:none;font-family:var(--sans)}
+.edit-hint{font-size:10px;color:#8892b0;margin-left:auto}
+/* Date badge */
+.date-badge{background:rgba(91,141,238,.12);color:var(--accent);border:1px solid rgba(91,141,238,.2);border-radius:5px;padding:3px 10px;font-size:11px;font-family:var(--mono)}
+/* Main */
+main{max-width:980px;margin:0 auto;padding:28px 20px}
+/* Title */
+.title-block{margin-bottom:20px}
+.title-block h1{font-size:26px;font-weight:600;margin-bottom:6px}
+.title-block h1 span{color:var(--accent)}
+.title-block .subtitle{font-size:13px;color:var(--textdim);margin-bottom:10px}
+.product-tags{display:flex;gap:8px;flex-wrap:wrap}
+.ptag{border:1px solid;border-radius:5px;padding:3px 10px;font-size:11px}
+.ptag-omni{border-color:rgba(91,141,238,.4);color:var(--accent)}
+.ptag-ai{border-color:rgba(232,121,249,.4);color:#7c35b8}
+.ptag-commerce{border-color:rgba(245,166,35,.4);color:var(--yellow)}
+.ptag-team{border-color:var(--border);color:var(--textdim)}
+/* KPI cards */
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.kpi-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:18px 20px}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px}
+.kpi-val{font-size:32px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.kpi-sub{font-size:11px;color:var(--textdim)}
+/* Sprint overview */
+.section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px}
+.cycles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.cycle-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:14px}
+.cycle-title{font-size:10px;color:var(--muted);margin-bottom:8px}
+.sprint-item{margin-bottom:8px}
+.sprint-name{font-size:14px;font-weight:600;color:var(--accent)}
+.sprint-sp{font-family:var(--mono);font-size:14px;font-weight:700;float:right}
+.sprint-sp.ai{color:#7c35b8}
+.sprint-sp.omni{color:var(--accent)}
+.sprint-desc{font-size:11px;color:var(--textdim);margin-top:2px;clear:both}
+.sprint-dates{font-size:10px;color:var(--muted);margin-top:2px}
+.sprint-empty{font-size:11px;color:var(--muted);font-style:italic;margin-top:6px}
+.sprint-divider{border:none;border-top:1px solid var(--border);margin:8px 0}
+/* Workload section */
+.workload-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.collapse-btn{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer;color:var(--textdim);font-family:var(--sans)}
+.legend-right{margin-left:auto;display:flex;gap:12px;font-size:10px;color:var(--textdim);align-items:center}
+.leg-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+/* Workload bars */
+.workload-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;padding:16px;margin-bottom:20px}
+.member-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.member-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
+.member-name{width:52px;font-size:12px;flex-shrink:0}
+.bar-wrap{flex:1;position:relative}
+.bar-bg{height:20px;border-radius:4px;overflow:hidden;display:flex}
+.bar-omni{background:var(--accent);height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
+.bar-ai{background:#8b44cc;height:100%;display:flex;align-items:center;padding:0 6px;font-size:10px;color:rgba(255,255,255,.95);font-family:var(--mono);white-space:nowrap;min-width:0}
+.bar-right{font-size:11px;color:var(--textdim);white-space:nowrap;font-family:var(--mono);min-width:140px;text-align:right}
+/* Detail table */
+.detail-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.table-wrap{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);border-radius:10px;overflow:hidden;margin-bottom:20px}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(59,111,212,.06);padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+th,td{text-align:right}
+th:first-child,td:first-child{text-align:left}
+td{padding:9px 12px;border-bottom:1px solid rgba(42,48,72,.35);font-size:12px}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono)}
+.avg-col{color:var(--accent);font-weight:600;font-family:var(--mono)}
+.avg-ai{color:#7c35b8}
+.member-cell{display:flex;align-items:center;gap:8px}
+.m-avatar{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
+.pct-col{color:var(--textdim);font-family:var(--mono)}
+.note-col{font-size:11px;color:var(--textdim)}
+.note-col .hi{color:var(--red);font-size:10px}
+.total-row td{background:rgba(59,111,212,.08);font-weight:700;border-top:2px solid var(--border)!important}
+/* Bottom summary */
+.bottom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.sum-card{background:#ffffff;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:10px;padding:16px 18px}
+.sum-label{font-size:11px;color:var(--muted);margin-bottom:6px}
+.sum-val{font-size:28px;font-weight:700;font-family:var(--mono);margin-bottom:4px}
+.sum-val.omni{color:var(--accent)}
+.sum-val.ai{color:#7c35b8}
+.sum-val.total{color:var(--text)}
+.sum-sub{font-size:11px;color:var(--textdim)}
+/* Warning box */
+.warn-box{background:rgba(199,124,0,.05);border:1px solid rgba(199,124,0,.2);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:11px;color:var(--textdim)}
+.warn-box strong{color:var(--yellow)}
+/* Footnotes */
+.fn-list{list-style:none;padding:0;font-size:10px;color:var(--muted)}
+.fn-list li::before{content:'* '}
+
+/* ── Velocity / Sprint Health ── */
+.health-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:16px}
+.health-status{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:12px}
+.health-on_track{background:rgba(30,158,110,.1);color:#1e9e6e;border:1px solid rgba(30,158,110,.25)}
+.health-at_risk{background:rgba(199,124,0,.1);color:#c77c00;border:1px solid rgba(199,124,0,.25)}
+.health-off_track{background:rgba(214,62,74,.1);color:#d63e4a;border:1px solid rgba(214,62,74,.25)}
+.health-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hm-item{text-align:center;padding:10px;background:var(--bg);border-radius:8px}
+.hm-val{font-size:22px;font-weight:700;font-family:var(--mono);line-height:1}
+.hm-label{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.4px}
+.hm-delta{font-size:11px;font-weight:600;margin-top:3px}
+.hm-up{color:var(--green)}.hm-down{color:var(--red)}.hm-neutral{color:var(--muted)}
+.velocity-bar{margin-top:14px}
+.vbar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.vbar-track{height:8px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.vbar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .3s}
+.vbar-baseline{position:relative;height:0}
+.vbar-baseline-line{position:absolute;top:-8px;width:2px;background:var(--yellow);height:8px;border-radius:1px}
+
+/* ── Carry-over / Blocked table ── */
+.carry-table-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.carry-table{width:100%;border-collapse:collapse}
+.carry-table th{background:rgba(59,111,212,.06);padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:1px solid var(--border);text-align:left}
+.carry-table td{padding:9px 12px;border-bottom:1px solid rgba(42,48,72,.07);font-size:12px;text-align:left}
+.carry-table tr:last-child td{border-bottom:none}
+.carry-table tr:hover td{background:rgba(59,111,212,.02)}
+.badge-todo{background:rgba(136,146,176,.1);color:var(--muted);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600}
+.badge-blocked{background:rgba(214,62,74,.1);color:var(--red);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600}
+.badge-inprog{background:rgba(59,111,212,.1);color:var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:600}
+.pts-badge{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--text)}
+.empty-state{padding:20px;text-align:center;color:var(--muted);font-size:12px;font-style:italic}
+
+/* ── Dev-done bars ── */
+.devdone-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.devdone-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.devdone-row:last-child{margin-bottom:0}
+.devdone-track{flex:1;height:16px;background:var(--bg);border-radius:4px;overflow:hidden;position:relative;border:1px solid var(--border)}
+.devdone-fill{height:100%;border-radius:4px;transition:width .3s}
+.devdone-pct{font-size:11px;font-weight:600;font-family:var(--mono);min-width:42px;text-align:right}
+@media(max-width:768px){.health-metrics{grid-template-columns:repeat(2,1fr)}}
+/* Toast */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--green);color:#0a1f0d;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
+
+/* ── Edit Modal ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal-box{background:#fff;border-radius:12px;width:100%;max-width:700px;box-shadow:0 8px 40px rgba(0,0,0,.15);overflow:hidden;margin:auto}
+.modal-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-header h2{font-size:14px;font-weight:600;flex:1}
+.modal-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:4px}
+.modal-close:hover{background:var(--bg)}
+.modal-body{padding:20px;max-height:70vh;overflow-y:auto}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px;background:#fff}
+.ms-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.m-cycle-block{background:var(--bg);border-radius:8px;padding:12px;margin-bottom:10px}
+.m-cycle-label{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600}
+.m-field-row{display:flex;gap:8px;margin-bottom:6px}
+.m-field{display:flex;flex-direction:column;gap:3px;flex:1}
+.m-field-sm{max-width:110px}
+.m-field label{font-size:10px;color:var(--muted);font-weight:600}
+.m-field input,.m-field textarea{background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans);width:100%}
+.m-field input:focus,.m-field textarea:focus{outline:none;border-color:var(--accent)}
+.m-textarea{width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:12px;font-family:var(--sans);color:var(--text);resize:vertical;min-height:56px}
+.m-member-row{display:flex;align-items:flex-end;gap:10px;margin-bottom:10px}
+.m-member-name{font-size:12px;font-weight:600;width:52px;flex-shrink:0;padding-bottom:8px}
+.m-fn-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+.m-fn-row input{flex:1;background:#fff;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:5px 8px;font-size:12px;font-family:var(--sans)}
+.m-fn-del{background:rgba(214,62,74,.08);color:var(--red);border:1px solid rgba(214,62,74,.2);border-radius:4px;padding:4px 8px;font-size:11px;cursor:pointer}
+.m-fn-add{background:rgba(59,111,212,.06);color:var(--accent);border:1px solid rgba(59,111,212,.2);border-radius:5px;padding:5px 12px;font-size:11px;cursor:pointer;margin-top:4px}
+.btn-cancel{background:var(--bg);color:var(--textdim);border:1px solid var(--border);border-radius:6px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:var(--sans)}
+.btn-save{background:var(--accent2);color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.btn-save:hover{opacity:.9}
+
+/* KPI Collapsible */
+.kpi-collapsible{margin-bottom:8px}
+.kpi-sec-btn{width:100%;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;font-family:var(--sans);text-align:left;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.kpi-sec-btn:hover{border-color:var(--accent);background:rgba(59,111,212,.02)}
+.kpi-sec-body{padding:12px 0 4px}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  main{padding:16px 12px}
+  .title-block h1{font-size:20px}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .kpi-val{font-size:24px}
+  .cycles-grid{grid-template-columns:1fr}
+  .bottom-grid{grid-template-columns:1fr}
+  .sum-val{font-size:22px}
+  .bar-right{min-width:100px;font-size:10px}
+  .member-name{width:40px;font-size:11px}
+  .table-wrap{overflow-x:auto}
+  table{min-width:600px}
+  .modal-body{max-height:60vh}
+  .m-field-row{flex-wrap:wrap}
+  .m-field-sm{max-width:100%}
+  .topbar{padding:8px 12px;gap:8px}
+  .edit-hint{display:none}
+}
+
+@media(max-width:480px){
+  .kpi-row{grid-template-columns:1fr}
+  .kpi-val{font-size:28px}
+  .title-block h1{font-size:18px}
+  .legend-right{display:none}
+  .bar-right{min-width:80px;font-size:9px}
+  main{padding:12px 10px}
+}
+
+/* Member table ("รายคน") — Note gets the most space, other columns sized to fit content */
+.rc-header,.rc-row{display:grid;grid-template-columns:minmax(96px,1fr) minmax(150px,1.15fr) minmax(130px,2.3fr);gap:10px 14px;align-items:center}
+.rc-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
+.rc-row{padding:9px 4px;border-bottom:1px solid var(--border);transition:background .15s}
+.rc-row:last-of-type{border-bottom:none}
+.rc-row:hover{background:rgba(30,158,110,.03)}
+.rc-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.rc-name{display:flex;align-items:center;gap:8px;min-width:0}
+.rc-name span{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc-spwrap{display:flex;gap:10px}
+.rc-sp{flex:1;text-align:center;white-space:nowrap}
+.rc-sp b{font-size:13.5px;font-weight:700;font-family:var(--mono)}
+.rc-sp em{font-size:9.5px;font-style:normal;color:var(--muted);margin-left:2px}
+.rc-note{font-size:11.5px;color:var(--textdim);border:1px solid transparent;border-radius:6px;background:rgba(15,23,42,.025);padding:6px 10px;outline:none;cursor:text;min-height:30px;line-height:1.45;transition:background .15s,border-color .15s,box-shadow .15s;word-break:break-word}
+.rc-note:hover{background:rgba(15,23,42,.045)}
+.rc-note:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(91,141,238,.1)}
+.rc-note:empty:before{content:attr(placeholder);color:var(--muted);font-style:italic}
+.df-header,.df-row{display:grid;grid-template-columns:minmax(80px,.7fr) minmax(160px,2.3fr) minmax(110px,1.2fr) minmax(80px,.8fr);gap:10px 14px;align-items:center}
+.df-header{padding:5px 4px 9px;border-bottom:2px solid var(--border);margin-bottom:2px}
+.df-row{padding:9px 4px;border-bottom:1px solid var(--border);text-decoration:none;color:inherit;transition:background .15s}
+.df-row:last-of-type{border-bottom:none}
+.df-row:hover{background:rgba(214,62,74,.03)}
+.df-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;background:rgba(102,71,240,.1);color:#6647f0}
+.df-name{font-size:12px;color:var(--text)}
+.df-sub{font-size:11px;color:var(--textdim)}
+@media(max-width:640px){
+  .rc-header{display:none}
+  .rc-row{grid-template-columns:1fr;gap:6px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
+  .rc-spwrap{gap:16px;margin:2px 0 4px 30px}
+  .rc-sp{text-align:left}
+  .df-header{display:none}
+  .df-row{grid-template-columns:1fr;gap:4px;padding:10px 8px;background:rgba(15,23,42,.012);border-radius:8px;margin-bottom:6px;border-bottom:none}
+}
+</style>
 </head>
 <body>
-  <div class="topbar">
-    <div class="brand">ACE Velocity</div>
-    <div class="date-badge">Sprint 12 FINAL (9/7 – 9/18) · Drilled · Partial</div>
-    <div class="gen">Generated: Fri Sep 18, 2026 · Leaf-level calculation</div>
+
+<div class="topbar" style="background:#fff">
+  <span style="font-size:11px;font-weight:600;color:#8892b0;text-transform:uppercase;letter-spacing:.5px">EDIT</span>
+  <button class="edit-badge" id="edit-btn" onclick="toggleEdit()">📊 แก้ไขข้อมูล</button>
+  <span class="edit-hint" id="edit-hint">กด 'แก้ไขข้อมูล' เพื่อแก้ไขและบันทึกการเปลี่ยนแปลง</span>
+  <span class="date-badge" id="date-badge">อัปเดต 2026-09-18T10:57:00+07:00</span>
+</div>
+
+<main>
+  <div id="root">
+  <!-- Title -->
+  <div class="title-block">
+    <h1>Zimple <span>Solution</span> — Sprint Effort Summary</h1>
+    <div class="subtitle">Omni — Sprint 12 (9/7 - 9/18) · AI — Sprint 12 (9/7 - 9/18) · Commerce — Sprint 12 (9/7 - 9/18) · Dev Team: 8 คน</div>
+    <div class="product-tags">
+      <span class="ptag ptag-omni">Zimple Omni</span>
+      <span class="ptag ptag-ai">Zimple AI</span>
+      <span class="ptag ptag-commerce">Zimple Commerce</span>
+      <span class="ptag ptag-team">Team: Attachai · Puripat · Peerapat · Griang · Toy · Prem · Rutthee · Wet</span>
+    </div>
   </div>
-  <main>
-    <section class="title-block">
-      <h1>ACE <span>Velocity</span> Dashboard</h1>
-      <p>Sprint 12 Final · Leaf subtask drill · Dev Team: 8 คน · current review version ยังเป็น partial final เพราะ carry-over / dropped → Sprint 13 ยัง verify ไม่ครบ</p>
-      <div class="product-tags">
-        <div class="tag">Omni verified</div>
-        <div class="tag">AI verified via list + task anchors</div>
-        <div class="tag">Commerce verified 0 task / 0pt</div>
-        <div class="tag">Carry-over pending</div>
-      </div>
-    </section>
 
-    <div class="sec-title">📊 ภาพรวม</div>
-    <section class="kpi-row">
-      <div class="card">
-        <div class="eyebrow">Velocity S12 (leaf dev-done)</div>
-        <div class="big">55pt</div>
-        <div class="sub">เทียบ avg 3 sprint ล่าสุด 119.0pt → ต่ำกว่า 64.0pt (-53.8%)</div>
-      </div>
-      <div class="card">
-        <div class="eyebrow">Sprint Health (at close)</div>
-        <div class="health"><span class="dot"></span> 🔴 Behind</div>
-        <div class="sub">ทำได้ 55 / 152pt = 36.2% และยังมี blocked 5pt</div>
-        <div class="sub">ก้อนใหญ่ที่ยังค้างคือ AI TCA-02 20pt และ Omni unallocated parent อีก 33pt</div>
-      </div>
-    </section>
+  <!-- KPI Sections — collapsible -->
 
-    <div class="sec-title">รอบ Sprint (3 รอบล่าสุด)</div>
-    <section class="cycles-grid">
-      <div class="cycle-card">
-        <h3>S10 FINAL</h3>
-        <div class="sprint-item"><div class="name">Omni — 105.5pt</div><div class="desc">Round-Robin + Landing + UI ปิดงานได้เยอะ</div></div>
-        <div class="sprint-item"><div class="name">AI — 69pt</div><div class="desc">100% close ใน official retro</div></div>
-        <div class="sprint-item"><div class="name">Commerce — 3pt</div><div class="desc">scope เล็กแต่ปิดครบ</div></div>
+  <!-- Section 1: SP sprint ล่าสุด (default open) -->
+  
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-last')" style="border-left:4px solid #1e9e6e;background:rgba(30,158,110,.04)">
+        🏃 SP sprint ล่าสุด
+        <span id="kpi-last-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(180deg)">▼</span>
+      </button>
+      <div id="kpi-last-body" class="kpi-sec-body" style="">
+        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">
+      <div class="kpi-card">
+        <div class="kpi-label" style="color:var(--accent)">Omni — Sprint 12 (9/7 - 9/18)</div>
+        <div class="kpi-val" style="color:var(--accent)">31</div>
+        <div class="kpi-sub">SP sprint ล่าสุด</div>
       </div>
-      <div class="cycle-card">
-        <h3>S11 FINAL</h3>
-        <div class="sprint-item"><div class="name">Omni — 78.5pt</div><div class="desc">ยังเป็นตัวแบก velocity หลัก</div></div>
-        <div class="sprint-item"><div class="name">AI — 45pt</div><div class="desc">ช่วยดันยอดรวมอย่างชัดเจน</div></div>
-        <div class="sprint-item"><div class="name">Commerce — 1pt</div><div class="desc">carry-over สูงกว่า done</div></div>
+      <div class="kpi-card">
+        <div class="kpi-label" style="color:#7c35b8">AI — Sprint 12 (9/7 - 9/18)</div>
+        <div class="kpi-val" style="color:#7c35b8">14.5</div>
+        <div class="kpi-sub">SP sprint ล่าสุด</div>
       </div>
-      <div class="cycle-card">
-        <h3>S12 FINAL ★</h3>
-        <div class="sprint-item"><div class="name">Omni — 39pt</div><div class="desc">Shopify stream + SLA-V2-01 ขยับเข้า dev-done</div></div>
-        <div class="sprint-item"><div class="name">AI — 16pt</div><div class="desc">TCA-01 13pt + System Prompt Templates 3pt</div></div>
-        <div class="sprint-item"><div class="name">Commerce — 0pt</div><div class="desc">list verified แต่ไม่พบ task</div></div>
+      <div class="kpi-card">
+        <div class="kpi-label" style="color:var(--yellow)">Commerce — Sprint 12 (9/7 - 9/18)</div>
+        <div class="kpi-val" style="color:var(--yellow)">0</div>
+        <div class="kpi-sub">SP sprint ล่าสุด</div>
       </div>
-    </section>
+      <div class="kpi-card">
+        <div class="kpi-label">รวม sprint นี้</div>
+        <div class="kpi-val">45.5</div>
+        <div class="kpi-sub">Omni + AI + Commerce</div>
+      </div></div>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px">รายคน</div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px"><div class="rc-header">
+      <div class="rc-label">คน</div>
+      <div class="rc-spwrap"><div class="rc-label" style="flex:1;text-align:center">Sprint ล่าสุด</div><div class="rc-label" style="flex:1;text-align:center;color:#92400e">เฉลี่ย 3 Sprint</div></div>
+      <div class="rc-label">Note sprint นี้</div>
+    </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(59,111,212,.1);color:#3b6fd4;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">At</div>
+          <span>Attachai</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#3b6fd4">6.5</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">22.83</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Attachai']=this.innerText.trim();saveData()"
+        >TCA-01 ปิดเข้า dev testing; TCA-03 carry ไป Sprint 13</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(96,64,184,.1);color:#7c5bde;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Pu</div>
+          <span>Puripat</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#7c5bde">8</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">16.83</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Puripat']=this.innerText.trim();saveData()"
+        >System Prompt Templates done; TCA-02 carry ต่อ</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(13,148,136,.1);color:#0d9488;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Pe</div>
+          <span>Peerapat</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#0d9488">0</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">9.92</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Peerapat']=this.innerText.trim();saveData()"
+        >ยังไม่มี point-bearing done item ใน allocated scope</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(30,158,110,.1);color:#3ecf8e;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Gr</div>
+          <span>Griang</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#3ecf8e">8</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">12.33</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Griang']=this.innerText.trim();saveData()"
+        >SLA-V2-01 เข้า dev testing ปิด 8pt</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(199,124,0,.1);color:#f5a623;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">To</div>
+          <span>Toy</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#f5a623">0</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">8</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Toy']=this.innerText.trim();saveData()"
+        >ไม่มี point-bearing done item ใน scope นี้</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(190,24,93,.1);color:#be185d;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Pr</div>
+          <span>Prem</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#be185d">11.5</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">10.83</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Prem']=this.innerText.trim();saveData()"
+        >Shopify done 11.5pt; ยัง carry SHP-07</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(224,123,0,.1);color:#e07b00;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Ru</div>
+          <span>Rutthee</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#e07b00">11.5</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">18.42</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Rutthee']=this.innerText.trim();saveData()"
+        >Shopify done 11.5pt; AII 3 ใบ carry ต่อ</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-name">
+          <div class="m-avatar" style="background:rgba(67,56,202,.1);color:#4338ca;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">We</div>
+          <span>Wet</span>
+        </div>
+        <div class="rc-spwrap">
+          <div class="rc-sp"><b style="color:#4338ca">0</b><em>SP</em></div>
+          <div class="rc-sp"><b style="color:#92400e">8.33</b><em>SP</em></div>
+        </div>
+        <div
+          class="rc-note"
+          contenteditable="true"
+          oninput="if(!DATA.sprint_member_notes)DATA.sprint_member_notes={};if(!DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)'])DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']={};DATA.sprint_member_notes['Sprint 12 (9/7 - 9/18)']['Wet']=this.innerText.trim();saveData()"
+        >ไม่มี allocated done point; Voice AI ยัง carry</div>
+      </div></div>
+        <div class="warn-box" style="margin-top:10px">⚠️ Defect ถูกแยกรายงานออกจาก velocity / carry-over / dropped</div><div class="warn-box" style="margin-top:10px">⚠️ Unallocated parent points 61pt ไม่ได้อยู่ใน per-person allocated totals</div><div class="warn-box" style="margin-top:10px">⚠️ Current carry-over อิงการอยู่ใน Sprint 13 lists ที่ verify ได้แล้ว</div><ul class="fn-list" style="margin-top:8px"><li>tasks ที่มีหลาย owner: split SP เท่ากันทุกคน</li><li>dev_done = dev testing / reviewing / [sit] ready to qa test / qa testing / [prod] ready to release / done</li><li>carry_over = ยังไม่ dev-done ตอนปิด Sprint 12 และตอนนี้อยู่ใน Sprint 13 list</li><li>dropped = ยังไม่ dev-done ตอนปิด Sprint 12 และไม่พบใน Sprint 13 list ที่ verify แล้ว</li></ul>
+        
+      </div>
+    </div>
 
-    <div class="sec-title">รายคน — Velocity 3 Sprints (leaf dev-done)</div>
-    <section class="detail-wrap">
-      <table class="detail-table">
-        <tr><th>Name</th><th>S10</th><th>S11</th><th>S12</th><th>Avg.</th></tr>
-        <tr class="detail-row"><td>Attachai</td><td>40</td><td>22</td><td>6.5</td><td>22.8</td></tr>
-        <tr class="detail-row"><td>Puripat</td><td>30</td><td>12.5</td><td>8</td><td>16.8</td></tr>
-        <tr class="detail-row"><td>Peerapat</td><td>12.5</td><td>17.25</td><td>0</td><td>9.9</td></tr>
-        <tr class="detail-row"><td>Griangsak</td><td>19</td><td>10</td><td>8</td><td>12.3</td></tr>
-        <tr class="detail-row"><td>Tanawin</td><td>14</td><td>10</td><td>0</td><td>8.0</td></tr>
-        <tr class="detail-row"><td>Prem</td><td>16</td><td>5</td><td>11.5</td><td>10.8</td></tr>
-        <tr class="detail-row"><td>Rutthee</td><td>15</td><td>28.75</td><td>11.5</td><td>18.4</td></tr>
-        <tr class="detail-row"><td>Wetchayan</td><td>20</td><td>4</td><td>0</td><td>8.0</td></tr>
-        <tr class="detail-row.total"><td>Total</td><td>177.5</td><td>124.5</td><td>55</td><td>119.0</td></tr>
-      </table>
-    </section>
+  <!-- Section: Defect ที่ถูกเอาเข้า SP (default open) -->
+  
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('defects')" style="border-left:4px solid #d63e4a;background:rgba(214,62,74,.04)">
+        🐞 Defect ที่ถูกเอาเข้า SP ล่าสุด (Omni Sprint 12 (9/7 - 9/18) / AI Sprint 12 (9/7 - 9/18) / Commerce Sprint 12 (9/7 - 9/18)) — 15 tasks
+        <span id="defects-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(180deg)">▼</span>
+      </button>
+      <div id="defects-body" class="kpi-sec-body" style="">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px"><div class="df-header">
+      <div class="rc-label">ACE Product</div>
+      <div class="rc-label">ชื่อ Task</div>
+      <div class="rc-label">Owner of Parent Task</div>
+      <div class="rc-label">Owner Defect Task</div>
+    </div>
+      <a class="df-row" href="https://app.clickup.com/t/86d4avy5u" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6379</span> [Members & roles] - แก้ไขการ invite เข้า Workspace เมลเดียวกันไม่ควรอยู่ได้ 2 Workspace</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Prem / Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4ab8ee" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6348</span> [AI Engine] [Inbox] - Connect Channel Website Mode Autopilot แล้ว แต่ไม่มีการ Assign AI agent และไม่มีการตอบกลับ</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet / Peerapat</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d47wdkv" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6244</span> [Analytics] - แก้ไข channel website ไม่มี Auto reply</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Peerapat</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d47u3gy" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6241</span> [Analytics] - แก้ไข Channel comparison ไม่แสดงข้อมูล</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Peerapat</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a45mk" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6304</span> [Channels][Facebook] - FB Page token ไม่มี page permission ที่จำเป็น</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a45q3" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6306</span> [Channels] - credential expires_at = NULL ทำให้ monitor token หมดอายุตาบอด</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a45p4" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6305</span> [Inbox][Contact] - avatar_url บางแถวถูกเก็บเป็น ciphertext แต่ไม่มี code ถอดรหัส</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a46ma" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6309</span> [Inbox] - enrichMetaProfile ไม่ log error, ไม่มี HTTP timeout และ leak response body</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a46gb" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6308</span> [Inbox] - enrich profile ทำเฉพาะข้อความ inbound ทำให้ contact ที่ไม่เคยทักเข้ามาไม่มีชื่อ/รูป</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a46yj" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6310</span> [Inbox] LINE - แชทกลุ่มใช้ endpoint ดึง profile ผิด (ใช้ของ 1:1) ทำให้ enrich พลาด</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a46zp" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6311</span> [Inbox] LINE - ไม่เก็บ groupId ของแชทกลุ่ม แยกกลุ่มไม่ออก</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4a463e" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6307</span> [Channels][Inbox] - รูป avatar ของ Meta หมดอายุ (signed CDN URL) 8/34 เพจ FB + 2/5 IG ตายแล้ว</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">Wet</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d49v3uk" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6292</span> [Contact Merge] - แก้ไข Plactholder ในช่อง Search เข้าใจง่าย</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">—</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d47wfc3" target="_blank" rel="noopener">
+        <div><span class="df-tag">Omni</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6246</span> [AI Integrate] - แก้ไขให้มีปุ่ม Assign AI Agent ใน Conversation ด้วย</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">—</div>
+      </a>
+      <a class="df-row" href="https://app.clickup.com/t/86d4bc40y" target="_blank" rel="noopener">
+        <div><span class="df-tag">AI</span></div>
+        <div class="df-name"><span style="color:var(--muted);font-family:var(--mono);font-size:10px">ACE-6448</span> [defect] update prompt agent (erase all prompt)</div>
+        <div class="df-sub">—</div>
+        <div class="df-sub" style="font-weight:600;color:var(--text)">—</div>
+      </a></div>
+        <div style="font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.6">* ACE Product ของ defect เหล่านี้ยังไม่ได้ fill ใน ClickUp จริง — ใช้ Omni ตามที่ยืนยันไว้ชั่วคราว<br>* Owner of Parent Task ดึงจากลิงก์ REF ใน description (บาง task ไม่มีลิงก์ที่ใช้ได้ จึงระบุไม่ได้)</div>
+      </div>
+    </div>
 
-    <div class="sec-title">สรุป Velocity เฉลี่ย per Product</div>
-    <section class="bottom-grid">
-      <div class="sum-card"><div class="eyebrow">Omni</div><h4>74.3pt avg</h4><p>S10 105.5 · S11 78.5 · S12 39</p></div>
-      <div class="sum-card"><div class="eyebrow">AI</div><h4>43.3pt avg</h4><p>S10 69 · S11 45 · S12 16</p></div>
-      <div class="sum-card"><div class="eyebrow">Commerce</div><h4>1.3pt avg</h4><p>S10 3 · S11 1 · S12 0</p></div>
-    </section>
+  <!-- Section 2: เฉลี่ย 3 sprint ล่าสุด + Sprint Overview (รวม section เดียว, default closed) -->
+  
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-avg')" style="border-left:4px solid #3b6fd4;background:rgba(59,111,212,.04)">
+        📈 เฉลี่ย 3 sprint ล่าสุด + Sprint Overview
+        <span id="kpi-avg-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(0deg)">▼</span>
+      </button>
+      <div id="kpi-avg-body" class="kpi-sec-body" style=" display:none">
+        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:12px">
+          <div class="kpi-card"><div class="kpi-label" style="color:var(--accent)">เฉลี่ย Omni / sprint</div><div class="kpi-val" style="color:var(--accent)">63.3</div><div class="kpi-sub">avg 3 sprints ล่าสุด</div></div>
+          <div class="kpi-card"><div class="kpi-label" style="color:#7c35b8">เฉลี่ย AI / sprint</div><div class="kpi-val" style="color:#7c35b8">42.8</div><div class="kpi-sub">avg 3 sprints ล่าสุด</div></div>
+          <div class="kpi-card"><div class="kpi-label" style="color:var(--yellow)">Commerce</div><div class="kpi-val" style="color:var(--yellow)">4</div><div class="kpi-sub">avg 1.3 /sprint</div></div>
+          <div class="kpi-card"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val">107.5</div><div class="kpi-sub">รวม Omni + AI + Commerce (3 sprints ล่าสุด)</div></div>
+        </div>
+        <div class="section-label" style="margin-top:16px">SPRINT OVERVIEW</div><div class="cycles-grid"><div class="cycle-card"><div class="cycle-title">รอบที่ 1</div><div class="sprint-item">
+          <span class="sprint-name">Sprint 10 (7/20 - 8/4)</span>
+          <span class="sprint-sp omni">105.5 SP</span>
+          <div class="sprint-desc">Round-Robin + Landing + UI</div>
+          <div class="sprint-dates">20 Jul 26 – 4 Aug 26</div>
+        </div><hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:#7c35b8">Sprint 10 (7/20 - 7/31)</span>
+          <span class="sprint-sp ai">69 SP</span>
+          <div class="sprint-desc">AI engine stories close 100%</div>
+          <div class="sprint-dates">20 Jul 26 – 31 Jul 26</div>
+        </div><hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:var(--yellow)">Sprint 2 (7/20 - 7/31)</span>
+          <span class="sprint-sp" style="color:var(--yellow)">3 SP</span>
+          <div class="sprint-desc">Setup + Analyze done</div>
+          <div class="sprint-dates">20 Jul 26 – 31 Jul 26</div>
+        </div></div><div class="cycle-card"><div class="cycle-title">รอบที่ 2</div><div class="sprint-item">
+          <span class="sprint-name">Sprint 11 (8/5 - 9/4)</span>
+          <span class="sprint-sp omni">78.5 SP</span>
+          <div class="sprint-desc">Meta / Analytics / Shopify carry</div>
+          <div class="sprint-dates">5 Aug 26 – 4 Sep 26</div>
+        </div><hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:#7c35b8">Sprint 8 (8/5 - 9/4)</span>
+          <span class="sprint-sp ai">45 SP</span>
+          <div class="sprint-desc">AI sprint moved velocity up</div>
+          <div class="sprint-dates">5 Aug 26 – 4 Sep 26</div>
+        </div><hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:var(--yellow)">Sprint 3 (8/5 - 9/4)</span>
+          <span class="sprint-sp" style="color:var(--yellow)">1 SP</span>
+          <div class="sprint-desc">Low done, high carry-over</div>
+          <div class="sprint-dates">5 Aug 26 – 4 Sep 26</div>
+        </div></div><div class="cycle-card"><div class="cycle-title">รอบที่ 3</div><div class="sprint-item">
+          <span class="sprint-name">Sprint 12 (9/7 - 9/18)</span>
+          <span class="sprint-sp omni">39 SP</span>
+          <div class="sprint-desc">Shopify stream + SLA-V2-01</div>
+          <div class="sprint-dates">7 Sep 26 – 18 Sep 26</div>
+        </div><hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:#7c35b8">Sprint 12 (9/7 - 9/18)</span>
+          <span class="sprint-sp ai">16 SP</span>
+          <div class="sprint-desc">TCA-01 + System Prompt Templates</div>
+          <div class="sprint-dates">7 Sep 26 – 18 Sep 26</div>
+        </div><hr class="sprint-divider"><div class="sprint-item">
+          <span class="sprint-name" style="color:var(--yellow)">Sprint 12 (9/7 - 9/18)</span>
+          <span class="sprint-sp" style="color:var(--yellow)">0 SP</span>
+          <div class="sprint-desc">ไม่มี task ใน aligned list</div>
+          <div class="sprint-dates">7 Sep 26 – 18 Sep 26</div>
+        </div></div></div>
+      </div>
+    </div>
 
-    <div class="sec-title warn">Carry-over → Sprint 13</div>
-    <section class="carry-wrap">
-      <table class="carry-table">
-        <tr><th>Task</th><th>Pts</th><th>Status</th><th>Assignee</th></tr>
-        <tr><td colspan="4">ยังไม่สามารถ verify carry-over → Sprint 13 ครบทุก product ใน run นี้</td></tr>
-        <tr><td>SLA-V2-03: AI Takeover</td><td>5</td><td>blocked</td><td>Prem</td></tr>
-      </table>
-    </section>
+  <!-- Workload -->
+  <div class="workload-header">
+    <button class="collapse-btn" onclick="toggleKpi('workload')">WORKLOAD รายคน <span id="workload-arrow" style="font-size:.75rem;display:inline-block;transition:transform .2s;transform:rotate(0deg)">▼</span></button>
+    <div class="legend-right">
+      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
+      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
+      <span style="margin-left:8px;color:var(--muted)">SP รวม | เฉลี่ย/cycle</span>
+    </div>
+  </div><div id="workload-body" style=" display:none"><div class="workload-wrap"><div class="member-row">
+        <div class="member-avatar" style="background:rgba(59,111,212,.1)">
+          <span style="color:#3b6fd4;">At</span>
+        </div>
+        <div class="member-name">Attachai</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            <div class="bar-omni" style="width:1.4598540145985401%">1</div>
+            <div class="bar-ai" style="width:98.54014598540147%">67.5</div>
+          </div>
+        </div>
+        <div class="bar-right">68.5 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">22.83 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div><div class="member-row">
+        <div class="member-avatar" style="background:rgba(96,64,184,.1)">
+          <span style="color:#7c5bde;">Pu</span>
+        </div>
+        <div class="member-name">Puripat</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            
+            <div class="bar-ai" style="width:73.72262773722628%">50.5</div>
+          </div>
+        </div>
+        <div class="bar-right">50.5 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">16.83 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div><div class="member-row">
+        <div class="member-avatar" style="background:rgba(13,148,136,.1)">
+          <span style="color:#0d9488;">Pe</span>
+        </div>
+        <div class="member-name">Peerapat</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            <div class="bar-omni" style="width:43.43065693430657%">29.75</div>
+            
+          </div>
+        </div>
+        <div class="bar-right">29.75 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">9.92 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div><div class="member-row">
+        <div class="member-avatar" style="background:rgba(30,158,110,.1)">
+          <span style="color:#3ecf8e;">Gr</span>
+        </div>
+        <div class="member-name">Griang</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            <div class="bar-omni" style="width:54.01459854014598%">37</div>
+            
+          </div>
+        </div>
+        <div class="bar-right">37 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">12.33 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div><div class="member-row">
+        <div class="member-avatar" style="background:rgba(199,124,0,.1)">
+          <span style="color:#f5a623;">To</span>
+        </div>
+        <div class="member-name">Toy</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            <div class="bar-omni" style="width:35.03649635036496%">24</div>
+            
+          </div>
+        </div>
+        <div class="bar-right">24 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">8 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div><div class="member-row">
+        <div class="member-avatar" style="background:rgba(190,24,93,.1)">
+          <span style="color:#be185d;">Pr</span>
+        </div>
+        <div class="member-name">Prem</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            <div class="bar-omni" style="width:43.06569343065693%">29.5</div>
+            
+          </div>
+        </div>
+        <div class="bar-right">29.5 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">9.83 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div><div class="member-row">
+        <div class="member-avatar" style="background:rgba(224,123,0,.1)">
+          <span style="color:#e07b00;">Ru</span>
+        </div>
+        <div class="member-name">Rutthee</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            <div class="bar-omni" style="width:71.16788321167883%">48.75</div>
+            <div class="bar-ai" style="width:9.48905109489051%">6.5</div>
+          </div>
+        </div>
+        <div class="bar-right">55.25 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">18.42 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div><div class="member-row">
+        <div class="member-avatar" style="background:rgba(67,56,202,.1)">
+          <span style="color:#4338ca;">We</span>
+        </div>
+        <div class="member-name">Wet</div>
+        <div class="bar-wrap">
+          <div class="bar-bg">
+            <div class="bar-omni" style="width:29.1970802919708%">20</div>
+            <div class="bar-ai" style="width:5.839416058394161%">4</div>
+          </div>
+        </div>
+        <div class="bar-right">24 SP &nbsp;|&nbsp; <span style="color:#92400e;font-weight:600">8 avg SP/sprint <span style="font-weight:400;font-size:10px">(÷3)</span></span></div>
+      </div></div></div><div class="detail-header">
+    <button class="collapse-btn" onclick="toggleKpi('detail')">ตารางละเอียด <span id="detail-arrow" style="font-size:.75rem;display:inline-block;transition:transform .2s">▼</span></button>
+    <div class="legend-right">
+      <span><span class="leg-dot" style="background:var(--accent)"></span>Omni</span>
+      <span><span class="leg-dot" style="background:#8b44cc"></span>AI</span>
+    </div>
+  </div><div id="detail-body" style=" display:none"><div class="table-wrap"><table>
+      <thead><tr>
+        <th style="text-align:left">คน</th>
+        <th>OMNI SP<br><span style="font-weight:400">(3sp)</span></th>
+        <th>เฉลี่ย<br>OMNI/SP</th>
+        <th style="color:#7c35b8">AI SP<br><span style="font-weight:400">(3sp)</span></th>
+        <th style="color:#7c35b8">เฉลี่ย<br>AI/SP</th>
+        <th>COMMERCE SP<br><span style="font-weight:400">(0sp)</span></th>
+        <th>เฉลี่ย<br>COMMERCE/SP</th>
+        <th>รวม SP</th>
+        <th>เฉลี่ยรวม<br>/SP</th>
+        <th>%</th>
+        <th style="text-align:left">หมายเหตุ</th>
+      </tr></thead>
+      <tbody><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(59,111,212,.1)">
+            <span style="color:#3b6fd4">At</span>
+          </div>
+          Attachai
+        </div></td>
+        <td class="num">1</td>
+        <td class="avg-col">0.33</td>
+        <td class="num" style="color:#7c35b8">67.5</td>
+        <td class="avg-ai">22.5</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">68.5</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">22.83</td>
+        <td class="pct-col">21.5%</td>
+        <td class="note-col">TCA / tool flow</td>
+      </tr><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(96,64,184,.1)">
+            <span style="color:#7c5bde">Pu</span>
+          </div>
+          Puripat
+        </div></td>
+        <td class="num">0</td>
+        <td class="avg-col">0</td>
+        <td class="num" style="color:#7c35b8">50.5</td>
+        <td class="avg-ai">16.83</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">50.5</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">16.83</td>
+        <td class="pct-col">15.9%</td>
+        <td class="note-col">AI core / prompts</td>
+      </tr><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(13,148,136,.1)">
+            <span style="color:#0d9488">Pe</span>
+          </div>
+          Peerapat
+        </div></td>
+        <td class="num">29.75</td>
+        <td class="avg-col">9.92</td>
+        <td class="num" style="color:#7c35b8">0</td>
+        <td class="avg-ai">0</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">29.75</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">9.92</td>
+        <td class="pct-col">9.3%</td>
+        <td class="note-col">Analytics / FE</td>
+      </tr><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(30,158,110,.1)">
+            <span style="color:#3ecf8e">Gr</span>
+          </div>
+          Griang
+        </div></td>
+        <td class="num">37</td>
+        <td class="avg-col">12.33</td>
+        <td class="num" style="color:#7c35b8">0</td>
+        <td class="avg-ai">0</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">37</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">12.33</td>
+        <td class="pct-col">11.6%</td>
+        <td class="note-col">SLA / Omni</td>
+      </tr><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(199,124,0,.1)">
+            <span style="color:#f5a623">To</span>
+          </div>
+          Toy
+        </div></td>
+        <td class="num">24</td>
+        <td class="avg-col">8</td>
+        <td class="num" style="color:#7c35b8">0</td>
+        <td class="avg-ai">0</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">24</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">8</td>
+        <td class="pct-col">7.5%</td>
+        <td class="note-col">Omni UI</td>
+      </tr><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(190,24,93,.1)">
+            <span style="color:#be185d">Pr</span>
+          </div>
+          Prem
+        </div></td>
+        <td class="num">29.5</td>
+        <td class="avg-col">9.83</td>
+        <td class="num" style="color:#7c35b8">0</td>
+        <td class="avg-ai">0</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">29.5</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">9.83</td>
+        <td class="pct-col">9.3%</td>
+        <td class="note-col">Shopify / SLA</td>
+      </tr><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(224,123,0,.1)">
+            <span style="color:#e07b00">Ru</span>
+          </div>
+          Rutthee
+        </div></td>
+        <td class="num">48.75</td>
+        <td class="avg-col">16.25</td>
+        <td class="num" style="color:#7c35b8">6.5</td>
+        <td class="avg-ai">2.17</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">55.25</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">18.42</td>
+        <td class="pct-col">17.3%</td>
+        <td class="note-col">Shopify + AII</td>
+      </tr><tr>
+        <td><div class="member-cell">
+          <div class="m-avatar" style="background:rgba(67,56,202,.1)">
+            <span style="color:#4338ca">We</span>
+          </div>
+          Wet
+        </div></td>
+        <td class="num">20</td>
+        <td class="avg-col">6.67</td>
+        <td class="num" style="color:#7c35b8">4</td>
+        <td class="avg-ai">1.33</td>
+        <td class="num">0</td>
+        <td class="num" style="color:var(--muted)">0</td>
+        <td class="num" style="font-weight:700">24</td>
+        <td class="avg-col" style="color:#92400e;font-weight:600">8</td>
+        <td class="pct-col">7.5%</td>
+        <td class="note-col">Voice / platform</td>
+      </tr><tr class="total-row">
+      <td>รวม</td>
+      <td class="num">190</td>
+      <td class="avg-col">63.33</td>
+      <td class="num" style="color:#7c35b8">128.5</td>
+      <td class="avg-ai">42.83</td>
+      <td class="num">0</td>
+      <td class="num">0</td>
+      <td class="num">318.5</td>
+      <td class="avg-col" style="color:#92400e;font-weight:600">106.17</td>
+      <td class="pct-col">100%</td>
+      <td></td>
+    </tr></tbody></table></div>
+    <div class="kpi-collapsible" style="margin-bottom:20px">
+      <button class="kpi-sec-btn" onclick="toggleKpi('kpi-all')" style="border-left:4px solid #8892b0;background:rgba(136,146,176,.04)">
+        📊 SP รวมทั้งหมดตั้งแต่เริ่มต้น
+        <span id="kpi-all-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(0deg)">▼</span>
+      </button>
+      <div id="kpi-all-body" class="kpi-sec-body" style=" display:none">
+        <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--accent)">Omni รวม</div><div class="kpi-val" style="color:var(--accent);font-size:24px">223</div><div class="kpi-sub">3 sprints</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:#7c35b8">AI รวม</div><div class="kpi-val" style="color:#7c35b8;font-size:24px">130</div><div class="kpi-sub">3 sprints</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label" style="color:var(--yellow)">Commerce รวม</div><div class="kpi-val" style="color:var(--yellow);font-size:24px">4</div><div class="kpi-sub">3 sprints</div></div>
+          <div class="kpi-card" style="background:var(--bg)"><div class="kpi-label">เฉลี่ยรวม / sprint</div><div class="kpi-val" style="font-size:24px">119</div><div class="kpi-sub">รวม 357 SP ÷ 3 sprints (อิงตามจำนวน sp ของ Omni)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="kpi-collapsible" style="margin-top:20px">
+      <button class="kpi-sec-btn" onclick="toggleKpi('sprint-health')" style="border-left:4px solid var(--green);background:rgba(30,158,110,.03)">
+        ⚡ Sprint Health & Velocity
+        <span id="sprint-health-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(180deg)">▼</span>
+      </button>
+      <div id="sprint-health-body" class="kpi-sec-body" style="">
+        <div class="health-card">
+          <div class="health-status health-off_track">🔴 Off track</div>
+          <div class="health-metrics">
+            <div class="hm-item">
+              <div class="hm-val">152</div>
+              <div class="hm-label">Committed SP</div>
+            </div>
+            <div class="hm-item">
+              <div class="hm-val" style="color:var(--green)">55</div>
+              <div class="hm-label">Dev Done SP</div>
+              <div class="hm-delta" style="color:var(--muted)">36.2%</div>
+            </div>
+            <div class="hm-item">
+              <div class="hm-val" style="color:var(--red)">5</div>
+              <div class="hm-label">Blocked SP</div>
+            </div>
+            <div class="hm-item">
+              <div class="hm-val">55</div>
+              <div class="hm-label">Velocity</div>
+              <div class="hm-delta hm-down">-64pt (-53.8%)</div>
+            </div>
+          </div>
+          <div class="velocity-bar" style="margin-top:16px">
+            <div class="vbar-label">
+              <span>Velocity current: <strong>55pt</strong></span>
+              <span>Baseline (avg 3 sprints): <strong>119pt</strong></span>
+            </div>
+            <div style="position:relative">
+              <div class="vbar-track">
+                <div class="vbar-fill" style="width:46.21848739495798%"></div>
+              </div>
+              <div class="vbar-baseline"><div class="vbar-baseline-line" style="left:100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('devdone')" style="border-left:4px solid #0d9488;background:rgba(13,148,136,.03)">
+        ✅ Dev-done รายคน (% ของ SP ที่ assigned)
+        <span id="devdone-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(0deg)">▼</span>
+      </button>
+      <div id="devdone-body" class="kpi-sec-body" style=" display:none">
+        <div class="devdone-wrap"><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(59,111,212,.1);color:#3b6fd4;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">At</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Attachai</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:33.3%;background:var(--red)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--red)">33.3%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">6.5/19.5 SP</div>
+      </div><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(96,64,184,.1);color:#7c5bde;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Pu</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Puripat</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:100%;background:var(--green)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--green)">100%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">8/8 SP</div>
+      </div><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(13,148,136,.1);color:#0d9488;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Pe</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Peerapat</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:0%;background:var(--red)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--red)">0%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">0/0 SP</div>
+      </div><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(30,158,110,.1);color:#3ecf8e;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Gr</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Griang</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:100%;background:var(--green)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--green)">100%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">8/8 SP</div>
+      </div><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(199,124,0,.1);color:#f5a623;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">To</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Toy</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:0%;background:var(--red)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--red)">0%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">0/0 SP</div>
+      </div><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(190,24,93,.1);color:#be185d;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Pr</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Prem</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:56.1%;background:var(--yellow)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--yellow)">56.1%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">11.5/20.5 SP</div>
+      </div><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(224,123,0,.1);color:#e07b00;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">Ru</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Rutthee</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:34.3%;background:var(--red)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--red)">34.3%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">11.5/33.5 SP</div>
+      </div><div class="devdone-row">
+        <div class="m-avatar" style="background:rgba(67,56,202,.1);color:#4338ca;width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0">We</div>
+        <div style="font-size:12px;font-weight:500;min-width:72px">Wet</div>
+        <div class="devdone-track">
+          <div class="devdone-fill" style="width:0%;background:var(--red)"></div>
+        </div>
+        <div class="devdone-pct" style="color:var(--red)">0%</div>
+        <div style="font-size:11px;color:var(--muted);min-width:80px;text-align:right">0/0 SP</div>
+      </div></div>
+      </div>
+    </div>
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('carryover')" style="border-left:4px solid var(--yellow);background:rgba(199,124,0,.03)">
+        🔄 Carry-over → Sprint ถัดไป (9 tasks)
+        <span id="carryover-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(0deg)">▼</span>
+      </button>
+      <div id="carryover-body" class="kpi-sec-body" style=" display:none"><div class="carry-table-wrap"><table class="carry-table">
+      <tr><th>Task ID</th><th>Task</th><th>SP</th><th>Status</th><th>Assignee</th><th>ย้ายไป</th></tr>
+      <tr>
+        <td><a href="https://app.clickup.com/t/86d3h3aea" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-2566</a></td>
+        <td>SHP-07: Publish App to Shopify App Store</td>
+        <td><span class="pts-badge">8pt</span></td>
+        <td><span class="badge-todo">to do</span></td>
+        <td>Prem / Rutthee</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (Omni aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d4b3ckc" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-6398</a></td>
+        <td>STORY-AII-01: SSO / Token Exchange จาก Omnichat ไป AI Control Plane พร้อม role mapping</td>
+        <td><span class="pts-badge">8pt</span></td>
+        <td><span class="badge-todo">in progress</span></td>
+        <td>Rutthee</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (Omni aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d4b3ct2" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-6399</a></td>
+        <td>STORY-AII-02: Auto-provision AI tenant และ default workspace เมื่อสร้าง Omnichat organization</td>
+        <td><span class="pts-badge">5pt</span></td>
+        <td><span class="badge-todo">in progress</span></td>
+        <td>Rutthee</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (Omni aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d4b3cvj" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-6400</a></td>
+        <td>STORY-AII-03: Contextual deep link จากจุดที่เกี่ยวข้องใน Omnichat ไปยังหน้าที่ถูกต้องใน AI Control Plane</td>
+        <td><span class="pts-badge">5pt</span></td>
+        <td><span class="badge-todo">in progress</span></td>
+        <td>Rutthee</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (Omni aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d46pgh5" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-6159</a></td>
+        <td>STORY-ADB-09: Dashboard Export</td>
+        <td><span class="pts-badge">5pt</span></td>
+        <td><span class="badge-todo">in progress</span></td>
+        <td>Unallocated parent points</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (Omni aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d41ud16" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-4991</a></td>
+        <td>EPIC-B2.1: Voice AI Call Center — Discovery Spike (Phase 1: Inbound)</td>
+        <td><span class="pts-badge">20pt</span></td>
+        <td><span class="badge-todo">to do</span></td>
+        <td>Unallocated parent points</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (Omni aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d465pty" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-6137</a></td>
+        <td>SLA-V2-02: SLA Alerts and Auto-reassign</td>
+        <td><span class="pts-badge">8pt</span></td>
+        <td><span class="badge-todo">in progress</span></td>
+        <td>Unallocated parent points</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (Omni aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d41wqwf" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-5004</a></td>
+        <td>STORY-TCA-02: Tool Execution & Orchestration</td>
+        <td><span class="pts-badge">20pt</span></td>
+        <td><span class="badge-todo">in progress</span></td>
+        <td>Unallocated parent points</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (AI aligned)</td>
+      </tr><tr>
+        <td><a href="https://app.clickup.com/t/86d41wqz1" target="_blank" style="color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-5005</a></td>
+        <td>STORY-TCA-03: Tool Security & Write Guardrails</td>
+        <td><span class="pts-badge">13pt</span></td>
+        <td><span class="badge-todo">in progress</span></td>
+        <td>Attachai</td>
+        <td style="color:var(--muted);font-size:11px">Sprint 13 (AI aligned)</td>
+      </tr>
+    </table></div></div></div>
+    <div class="kpi-collapsible">
+      <button class="kpi-sec-btn" onclick="toggleKpi('blocked')" style="border-left:4px solid var(--red);background:rgba(214,62,74,.03)">
+        🚫 Blocked Items (1 tasks · 5pt)
+        <span id="blocked-arrow" style="margin-left:auto;font-size:.75rem;transition:transform .2s;display:inline-block;transform:rotate(0deg)">▼</span>
+      </button>
+      <div id="blocked-body" class="kpi-sec-body" style=" display:none"><div class="carry-table-wrap"><table class="carry-table">
+      <tr><th>Task ID</th><th>Task</th><th>SP</th><th>Assignee</th><th>เหตุผล</th></tr>
+      <tr>
+        <td><a href="https://app.clickup.com/t/86d465puh" target="_blank" style="color:var(--red);text-decoration:none;font-family:var(--mono);font-size:11px">ACE-6138</a></td>
+        <td>SLA-V2-03: AI Takeover</td>
+        <td><span class="pts-badge">5pt</span></td>
+        <td>Prem</td>
+        <td style="color:var(--muted);font-size:11px">status blocked at sprint close; not moved to Sprint 13</td>
+      </tr>
+    </table></div></div></div></div>
+</main>
 
-    <div class="sec-title">หมายเหตุ</div>
-    <section class="warn-box"><ul>
-        <li>รอบนี้เป็น <strong>partial final</strong> — current sprint numbers refresh แล้ว แต่ carry-over / dropped ยังไม่ครบ</li>
-        <li>Blocked 5pt มาจาก SLA-V2-03 และไม่ถูกรวมใน velocity</li>
-        <li>Defect ถูกแยกรายงานออกจาก velocity ทั้งหมด</li>
-        <li>Unallocated parent points รวม 53pt = Omni 33 + AI 20</li>
-        <li>Non-team share 1.5pt มาจาก System Prompt Templates ซึ่งมีผู้ร่วมทำที่อยู่นอก 8 devs</li>
-        <li>Omni unallocated หลัก: ADB-08 8pt, ADB-09 5pt, Voice AI Call Center 20pt</li>
-        <li>AI unallocated หลัก: TCA-02 20pt</li>
-      </ul><ul class="fn-list">
-        <li>Leaf definition: ถ้ามี child leaf ที่มี points จะนับ leaf เท่านั้น</li>
-        <li>Exception: parent มี points แต่ child leaves ไม่มี points → split ตาม distinct assignees บน child ถ้ามี, ไม่งั้นเป็น Unallocated parent points</li>
-        <li>Dev-done bucket: dev testing, reviewing, [sit] ready to qa test, qa testing, [prod] ready to release, done</li>
-        <li>3-sprint baseline ใช้ Sprint 10, Sprint 11, Sprint 12</li>
-      </ul>
-    </section>
-  </main>
 </body>
 </html>
